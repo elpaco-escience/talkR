@@ -1,15 +1,24 @@
 Package: convplot
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Plotting conversation data
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Authors@R: c(
+  person("Mark", "Dingemanse", email = "mark.dingemanse@ru.nl", role = c("aut", "cre")),
+  person("Barbara", "Vreede", email = "b.vreede@esciencecenter.nl", role = "aut"),
+  person("Eva", "Viviani", email = "e.viviani@esciencecenter.nl", role = "aut"),
+  person("Andreas", "Liesenfeld", email = "andreas.liesenfeld@ru.nl", role = "ctb"),
+  person("Netherlands eScience Center", role = c("cph", "fnd"))
+  )
+Description: Functions to plot elements of conversations.
+License: Apache License (>= 2)
 Encoding: UTF-8
 LazyData: true
 Suggests: 
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+RoxygenNote: 7.2.1
+Imports: 
+    dplyr,
+    ggplot2,
+    tidyr
