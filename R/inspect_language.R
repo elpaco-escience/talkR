@@ -22,7 +22,17 @@ inspect_language <- function(data,
   pC <- plot_turn_duration(data=dp)
   pD <- plot_top_turn_types(data=dp)
 
+  # combine the plots -- this should probably be removed
+  top_row <- cowplot::plot_grid(pA,pB,labels=c("A","B"),rel_widths = c(1,1),nrow=1)
+  bottom_row <- cowplot::plot_grid(pC,pD,labels=c("C","D"),rel_widths = c(1,1),nrow=1)
+  panel <- cowplot::plot_grid(top_row,bottom_row,ncol=1)
+  #print(panel)
+  cat("\n")
 
+  if(saveplot) {
+    filename <- paste0('qc-panel-',lang,'.png')
+    ggsave(filename,bg="white",width=2400,height=1200,units="px")
+  }
 
   return(list(pA, pB, pC, pD))
 }
@@ -50,29 +60,9 @@ inspect_tokens <- function(data,
 
 #
   #
-  # top_row <- plot_grid(pA,pB,pC,labels=c("A","B","C"),rel_widths = c(1,1,1),nrow=1)
-  # bottom_row <- plot_grid(pD,pE,labels=c("D","E"),rel_widths = c(1,1),nrow=1)
-  # panel <- plot_grid(top_row,bottom_row,ncol=1)
-  # print(panel)
-  # cat("\n")
+
   #
-  # if(saveplot) {
-  #   filename <- paste0('qc-panel-',lang,'.png')
-  #   ggsave(filename,bg="white",width=2400,height=1200,units="px")
-  # }
-  #
-  # bysource <- dp |> group_by(source) |>
-  #   mutate(translation = ifelse(is.na(translation),0,1)) |>
-  #   summarize(start=min.na(begin),finish=max.na(end),
-  #             turns=n_distinct(uid),
-  #             translated=round(sum(translation)/turns,2),
-  #             words=sum(nwords,na.rm=T),
-  #             people=n_distinct(participant),
-  #             talktime = sum(duration),
-  #             totaltime = finish - start,
-  #             talkprop = round(talktime / totaltime,1),
-  #             minutes = round((totaltime/1000 / 60),1),
-  #             hours = round((totaltime/1000) / 3600,2))
+
   #
   # bylanguage <- bysource |>
   #   summarize(turns = sum(turns),
@@ -249,5 +239,28 @@ plot_token_rank <- function(data, nwords){
                             direction="y",nudge_y = -0.2,size=3,
                             max.overlaps=Inf)
   return(p)
+}
+
+#' Summarize the data for a specific language
+#'
+#' @param data dataset
+#' @param lang language
+#'
+#' @export
+summarize_language_data <- function(data, lang){
+  data |>
+    dplyr::filter(language == lang) |>
+    dplyr::group_by(source) |>
+    dplyr::mutate(translation = ifelse(is.na(translation),0,1)) |>
+    dplyr::summarize(start=min.na(begin),finish=max.na(end),
+              turns=dplyr::n_distinct(uid),
+              translated=round(sum(translation)/turns,2),
+              words=sum(nwords,na.rm=T),
+              people=dplyr::n_distinct(participant),
+              talktime = sum(duration),
+              totaltime = finish - start,
+              talkprop = round(talktime / totaltime,1),
+              minutes = round((totaltime/1000 / 60),1),
+              hours = round((totaltime/1000) / 3600,2))
 }
 
