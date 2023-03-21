@@ -20,12 +20,11 @@ inspect_language <- function(data,
   pA <- plot_transitions(data=dp, nturns=nturns)
   pB <- plot_FTO(data=dp)
   pC <- plot_turn_duration(data=dp)
-
-  turntypes <- dplyr::n_distinct(dp$utterance_stripped)
-
+  pD <- plot_top_turn_types(data=dp)
 
 
-  return(list(pA, pB, pC))
+
+  return(list(pA, pB, pC, pD))
 }
 
 
@@ -211,4 +210,27 @@ plot_turn_duration <- function(data){
     ggplot2::geom_density(na.rm=T)
   return(p)
 }
+
+plot_top_turn_types <- function(data){
+  turntypes <- dplyr::n_distinct(dp$utterance_stripped)
+  p <- data |>
+    dplyr::arrange(dplyr::desc(n)) |>
+    dplyr::group_by(rank) |>
+    dplyr::slice(1) |>
+    ggplot2::ggplot(ggplot2::aes(rank,n)) +
+    ggthemes::theme_tufte() + ggplot2::theme(legend.position="none") +
+    ggplot2::ggtitle(paste0('Top turn types (of ',turntypes,')')) +
+    ggplot2::scale_x_log10() +
+    ggplot2::scale_y_log10() +
+    ggplot2::geom_line(na.rm=T,alpha=0.5,) + #linewidth=1
+    ggplot2::geom_point(alpha=0.5,na.rm=T,size=1.2) +
+    ggrepel::geom_text_repel(data = . %>% dplyr::ungroup() %>% dplyr::slice(1:10),
+                             ggplot2::aes(label=utterance_stripped),
+                             segment.alpha=0.2,
+                             direction="y",nudge_y = -0.2,size=3,
+                             max.overlaps=Inf)
+  return(p)
+}
+
+
 
