@@ -28,39 +28,27 @@ inspect_language <- function(data,
 }
 
 
-  # pD <- dp |>
-  #   arrange(desc(n)) |>
-  #   group_by(rank) |>
-  #   slice(1) |>
-  #   ggplot(aes(rank,n)) +
-  #   theme_tufte() + theme(legend.position="none") +
-  #   ggtitle(paste0('Top turn types (of ',turntypes,')')) +
-  #   scale_x_log10() +
-  #   scale_y_log10() +
-  #   geom_line(na.rm=T,alpha=0.5,linewidth=1) +
-  #   geom_point(alpha=0.5,na.rm=T,size=1.2) +
-  #   geom_text_repel(data = . |> ungroup() |> slice(1:10),
-  #                   aes(label=utterance_stripped),
-  #                   segment.alpha=0.2,
-  #                   direction="y",nudge_y = -0.2,size=3,
-  #                   max.overlaps=Inf)
-  #
-  # dt <- d.tokens |> filter(language==lang)
-  # nwords <- dt$total[1]
-  #
-  # pE <- dt |>
-  #   ggplot(aes(rank,n)) +
-  #   theme_tufte() + theme(legend.position="none") +
-  #   ggtitle(paste0('Token rank & frequency (',nwords,' words)')) +
-  #   scale_x_log10() +
-  #   scale_y_log10() +
-  #   geom_line(na.rm=T,alpha=0.5,size=1) +
-  #   geom_text_repel(data = . |> ungroup() |> slice(1:10),
-  #                   aes(label=word),
-  #                   segment.alpha=0.2,
-  #                   direction="y",nudge_y = -0.2,size=3,
-  #                   max.overlaps=Inf)
-  #
+#' Inspect tokens
+#'
+#' @param data dataset
+#' @param lang language
+#' @param saveplot should the plot be saved
+#' @param allsources all sources
+#'
+#' @export
+inspect_tokens <- function(data,
+                             lang=NULL,
+                             saveplot=FALSE,
+                             allsources=FALSE) {
+  dt <- data |> dplyr::filter(language==lang)
+  nwords <- dt$total[1]
+
+  pE <- plot_token_rank(dt, nwords)
+
+  return(pE)
+}
+
+#
   #
   # top_row <- plot_grid(pA,pB,pC,labels=c("A","B","C"),rel_widths = c(1,1,1),nrow=1)
   # bottom_row <- plot_grid(pD,pE,labels=c("D","E"),rel_widths = c(1,1),nrow=1)
@@ -245,5 +233,21 @@ group_and_slice <- function(data) {
   data <- data |>
     dplyr::ungroup() |> dplyr::slice(1:10)
   return(data)
+}
+
+plot_token_rank <- function(data, nwords){
+  p <- data |>
+    ggplot2::ggplot(ggplot2::aes(rank,n)) +
+    ggthemes::theme_tufte() + ggplot2::theme(legend.position="none") +
+    ggplot2::ggtitle(paste0('Token rank & frequency (',nwords,' words)')) +
+    ggplot2::scale_x_log10() +
+    ggplot2::scale_y_log10() +
+    ggplot2::geom_line(na.rm=T,alpha=0.5,size=1) +
+    ggrepel::geom_text_repel(data=group_and_slice(data),
+                             ggplot2::aes(label=word),
+                            segment.alpha=0.2,
+                            direction="y",nudge_y = -0.2,size=3,
+                            max.overlaps=Inf)
+  return(p)
 }
 
