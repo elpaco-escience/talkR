@@ -212,11 +212,11 @@ plot_turn_duration <- function(data){
 }
 
 plot_top_turn_types <- function(data){
-  turntypes <- dplyr::n_distinct(dp$utterance_stripped)
+  turntypes <- dplyr::n_distinct(data$utterance_stripped)
+
+  data <- process_for_plot(data)
+
   p <- data |>
-    dplyr::arrange(dplyr::desc(n)) |>
-    dplyr::group_by(rank) |>
-    dplyr::slice(1) |>
     ggplot2::ggplot(ggplot2::aes(rank,n)) +
     ggthemes::theme_tufte() + ggplot2::theme(legend.position="none") +
     ggplot2::ggtitle(paste0('Top turn types (of ',turntypes,')')) +
@@ -224,7 +224,7 @@ plot_top_turn_types <- function(data){
     ggplot2::scale_y_log10() +
     ggplot2::geom_line(na.rm=T,alpha=0.5,) + #linewidth=1
     ggplot2::geom_point(alpha=0.5,na.rm=T,size=1.2) +
-    ggrepel::geom_text_repel(data = . %>% dplyr::ungroup() %>% dplyr::slice(1:10),
+    ggrepel::geom_text_repel(data=group_and_slice(data),
                              ggplot2::aes(label=utterance_stripped),
                              segment.alpha=0.2,
                              direction="y",nudge_y = -0.2,size=3,
@@ -232,5 +232,18 @@ plot_top_turn_types <- function(data){
   return(p)
 }
 
+process_for_plot <- function(data){
+  data <- data |>
+    dplyr::arrange(dplyr::desc(n)) |>
+    dplyr::group_by(rank) |>
+    dplyr::slice(1)
+  return(data)
+}
 
+group_and_slice <- function(data) {
+  data <- process_for_plot(data)
+  data <- data |>
+    dplyr::ungroup() |> dplyr::slice(1:10)
+  return(data)
+}
 
