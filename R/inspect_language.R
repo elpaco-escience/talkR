@@ -203,7 +203,7 @@ summarize_language_data <- function(data, lang){
 #' @export
 summarize_source_data <- function(data, lang){
   data |>
-    summarize_language_data(lang=lang) |>
+    summarize_language_data(lang=lang) |> #TODO this uses another function?
     dplyr::summarize(turns = sum(turns),
                      translated=round(mean.na(translated),2),
                      words = sum(words),
@@ -225,7 +225,7 @@ summarize_source_data <- function(data, lang){
 #' @import dplyr
 #' @import ggplot2
 #' @import ggthemes
-dontknow <- function(data, lang) {
+summarize_all_data <- function(data, lang) {
   if(max.na(data$participants) > 1) {
 
     uids <- sample(data[data$participants=="2",]$uid,7)
