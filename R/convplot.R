@@ -22,9 +22,7 @@
 #'
 #' @export
 #'
-#' @import dplyr
 #' @import ggplot2
-#' @import tidyr
 #' @import viridis
 convplot <- function(data, uids=NULL,lang=NULL,n_uid=10,
                      window=NULL,before=10000,after=10000,
@@ -58,9 +56,9 @@ convplot <- function(data, uids=NULL,lang=NULL,n_uid=10,
   # create slim df
   extracts <- data[data$source %in% theseuids$source,]
   extracts <- extracts |>
-    arrange(source,begin) |>
-    group_by(source) |>
-    mutate(focus = ifelse(uid %in% uids,"focus",NA),
+    dplyr::arrange(source,begin) |>
+    dplyr::group_by(source) |>
+    dplyr::mutate(focus = ifelse(uid %in% uids,"focus",NA),
            scope = NA)
 
   # set scope (= the uid for which the other turns form the sequential context)
@@ -72,15 +70,15 @@ convplot <- function(data, uids=NULL,lang=NULL,n_uid=10,
 
   # drop turns outside scope, add useful metadata, compute relative times for each scope
   extracts <- extracts |>
-    drop_na(scope) |>
-    group_by(scope) |>
-    mutate(participant_int = as.integer(as.factor(participant))) |>
-    mutate(begin0 = begin - min(begin),
+    tidyr::drop_na(scope) |>
+    dplyr::group_by(scope) |>
+    dplyr::mutate(participant_int = as.integer(as.factor(participant))) |>
+    dplyr::mutate(begin0 = begin - min(begin),
            end0 = end - min(begin),
            participation = ifelse(n_distinct(participant) < 3,"dyadic","multiparty"))
   nconv <- length(unique(extracts$scope))
 
-  extracts.dyadic <- extracts |> filter(participation == "dyadic")
+  extracts.dyadic <- extracts |> dplyr::filter(participation == "dyadic")
   ndyads <- length(unique(extracts.dyadic$scope))
 
   if(verbose) {
@@ -105,7 +103,7 @@ convplot <- function(data, uids=NULL,lang=NULL,n_uid=10,
     if(dyads) { extracts <- extracts.dyadic }
 
     p <- extracts |>
-      mutate(striplength = case_when(duration < 300 ~ 3,
+      dplyr::mutate(striplength = case_when(duration < 300 ~ 3,
                                      duration >= 300 ~ round(duration/90)),
              uttshort = ifelse(nchar <= striplength | nchar <= 4,
                                utterance,
