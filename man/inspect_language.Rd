@@ -15,7 +15,7 @@ inspect_language(
 \arguments{
 \item{data_conv}{conversation dataset}
 
-\item{data_tokens}{tokens}
+\item{data_tokens}{tokens dataset}
 
 \item{lang}{language}
 

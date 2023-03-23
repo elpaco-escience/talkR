@@ -1,9 +1,37 @@
-#' Summarize the data for a specific language
+#' Report summaries on data
 #'
 #' @param data dataset
 #' @param lang language
 #'
 #' @export
+report_summaries <- function(data, lang){
+  bysource <- summarize_language_data(data, lang)
+  bylanguage <- summarize_source_data(data, lang)
+
+  nhours <- round(bylanguage$hours,1)
+  nature <- data |>
+    dplyr::group_by(nature) |>
+    dplyr::summarise(n=dplyr::n())
+
+  # To command line
+  cat("\n")
+  cat("\n")
+  nhours <- round(bylanguage$hours,1)
+  cat("### ",nhours,"hours")
+  print(knitr::kable(bylanguage,label=lang))
+
+  cat("\n")
+  cat("\n")
+  cat("### nature")
+  print(knitr::kable(nature))
+
+  cat("\n")
+  cat("### samples")
+  cat("\n")
+}
+
+
+
 summarize_language_data <- function(data, lang){
   data |>
     dplyr::filter(language == lang) |>
@@ -22,12 +50,6 @@ summarize_language_data <- function(data, lang){
 }
 
 
-#' Summarize source data
-#'
-#' @param data dataset
-#' @param lang language
-#'
-#' @export
 summarize_source_data <- function(data, lang){
   data |>
     summarize_language_data(lang=lang) |> #TODO this uses another function?

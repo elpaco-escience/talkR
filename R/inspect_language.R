@@ -40,33 +40,12 @@ inspect_language <- function(data_conv,
     filename <- paste0('qc-panel-',lang,'.png')
     ggplot2::ggsave(filename,bg="white",width=2400,height=1200,units="px")
   }
+
+  report_summaries(data_conv, lang)
+
 }
 
 
-
-
-
-  #
-  #
-  # cat("\n")
-  # cat("\n")
-  # nhours <- round(bylanguage$hours,1)
-  # cat("### ",nhours,"hours")
-  # print(kable(bylanguage,label=lang))
-  #
-  # cat("\n")
-  # cat("\n")
-  # nature <- dp |> group_by(nature) |> summarise(n=n())
-  # cat("### nature")
-  # print(kable(nature))
-  #
-  # cat("\n")
-  # cat("### samples")
-  # cat("\n")
-  #
-
-
-#}
 
 
 
@@ -87,6 +66,8 @@ inspect_language <- function(data_conv,
 #' @import ggplot2
 #' @import ggthemes
 summarize_all_data <- function(data, lang) {
+  data <- dplyr::filter(data, language==lang)
+
   if(max.na(data$participants) > 1) {
 
     uids <- sample(data[data$participants=="2",]$uid,7)
@@ -101,25 +82,7 @@ summarize_all_data <- function(data, lang) {
 
     }
 
-    pconv <- pconv |>
-      mutate(striplength = case_when(duration < 300 ~ 3,
-                                     duration >= 300 ~ round(duration/90)),
-             uttshort = ifelse(nchar <= striplength | nchar <= 4,
-                               utterance,
-                               paste0(stringx::strtrim(utterance,striplength),'~'))) |>
-      ggplot(aes(y=participant_int)) +
-      theme_tufte() + ylab("") + xlab("time (ms)") +
-      theme(axis.ticks.y = element_blank(),
-            strip.placement = "outside",
-            strip.text.x = element_text(hjust = 0)) +
-      scale_fill_viridis(option="plasma",direction=1) +
-      scale_y_continuous(breaks=c(1:2),
-                         labels=rev(LETTERS[1:2])) +
-      geom_rect(aes(xmin=begin0,xmax=end0,ymin=participant_int-0.4,ymax=participant_int+0.4),
-                linewidth=1,fill="grey90",color="white") +
-      geom_text(aes(label=uttshort,x=begin0+60),
-                color="black",hjust=0,size=3,na.rm=T) +
-      facet_wrap(~ scope, ncol=1)
+    pconv <- plot_conversation(pconv)
 
     print(pconv)
     cat("\n")
@@ -129,21 +92,21 @@ summarize_all_data <- function(data, lang) {
     #   cat("\n")
   }
 
-  cat("\n")
-  nsources <- length(unique(bysource$source))
-  cat("### ",nsources,"sources")
-
-  if(allsources) {
-    print(kable(bysource |> select(-start,-finish,-talktime,-totaltime)))
-  } else {
-    if(nsources > 10) {
-      cat("\n")
-      cat("Showing only the first 10 sources; use `allsources=T` to show all")
-    }
-    print(kable(bysource |> select(-start,-finish,-talktime,-totaltime) |> slice(1:10)))
-  }
-
-
-  cat("\n")
+  # cat("\n")
+  # nsources <- length(unique(bysource$source))
+  # cat("### ",nsources,"sources")
+  #
+  # if(allsources) {
+  #   print(kable(bysource |> select(-start,-finish,-talktime,-totaltime)))
+  # } else {
+  #   if(nsources > 10) {
+  #     cat("\n")
+  #     cat("Showing only the first 10 sources; use `allsources=T` to show all")
+  #   }
+  #   print(kable(bysource |> select(-start,-finish,-talktime,-totaltime) |> slice(1:10)))
+  # }
+  #
+  #
+  # cat("\n")
 }
 

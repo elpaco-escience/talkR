@@ -71,6 +71,32 @@ plot_FTO <- function(data){
   return(p)
 }
 
+plot_conversation <- function(data){
+  p <- data |>
+    dplyr::mutate(
+      striplength = dplyr::case_when(
+        duration < 300 ~ 3,
+        duration >= 300 ~ round(duration/90)),
+      uttshort = ifelse(nchar <= striplength | nchar <= 4,
+                        utterance,
+                        paste0(stringx::strtrim(utterance,striplength),'~'))) |>
+    ggplot2::ggplot(ggplot2::aes(y=participant_int)) +
+    ggthemes::theme_tufte() + ylab("") + xlab("time (ms)") +
+    ggplot2::theme(axis.ticks.y = element_blank(),
+          strip.placement = "outside",
+          strip.text.x = element_text(hjust = 0)) +
+    viridis::scale_fill_viridis(option="plasma",direction=1) +
+    ggplot2::scale_y_continuous(breaks=c(1:2),
+                       labels=rev(LETTERS[1:2])) +
+    ggplot2::geom_rect(ggplot2::aes(xmin=begin0,xmax=end0,ymin=participant_int-0.4,ymax=participant_int+0.4),
+              #linewidth=1,
+              fill="grey90",color="white") +
+    ggplot2::geom_text(ggplot2::aes(label=uttshort,x=begin0+60),
+              color="black",hjust=0,size=3,na.rm=T) +
+    ggplot2::facet_wrap(~ scope, ncol=1)
+  return(p)
+}
+
 # plotting helpers
 process_for_plot <- function(data){
   data <- data |>
