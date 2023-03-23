@@ -1,9 +1,9 @@
 #' Find UID
 #'
-#' @param string a string
 #' @param data a dataframe
+#' @param string a string
 #'
 #' @export
-finduid <- function(string, data) {
+finduid <- function(data, string) {
   data[data$uid %in% string,names(data) %in% c("uid","source","begin","end")]
 }

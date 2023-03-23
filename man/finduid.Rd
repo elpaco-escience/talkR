@@ -4,12 +4,12 @@
 \alias{finduid}
 \title{Find UID}
 \usage{
-finduid(string, data)
+finduid(data, string)
 }
 \arguments{
-\item{string}{a string}
-
 \item{data}{a dataframe}
+
+\item{string}{a string}
 }
 \description{
 Find UID
