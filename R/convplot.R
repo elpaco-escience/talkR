@@ -50,13 +50,10 @@ convplot <- function(data, uids=NULL,lang=NULL,n_uid=10,
 
 
   # print uids when asked
-  if(printuids) { dput(sort(uids)) }
+  if(printuids) { dput(sort(uids)) } #TODO what is happening here??
 
   # get uid metadata and filter uids that fall in the same window
-  theseuids <- finduid(data, uids) |> arrange(source,begin)
-  theseuids |> group_by(source) |>
-    mutate(distance = begin - lag(begin)) |>
-    filter(is.na(distance) | distance > before + after)
+  theseuids <- get_uid_metadata(data, uids, before, after)
 
   # create slim df
   extracts <- data[data$source %in% theseuids$source,]
@@ -87,7 +84,7 @@ convplot <- function(data, uids=NULL,lang=NULL,n_uid=10,
   ndyads <- length(unique(extracts.dyadic$scope))
 
   if(verbose) {
-    print(paste('seeing',ndyads,'dyads in ',n,'non-overlapping extracts'))
+    print(paste('seeing',ndyads,'dyads in ',n_uid,'non-overlapping extracts'))
   }
 
   if (debug) {
@@ -122,13 +119,15 @@ convplot <- function(data, uids=NULL,lang=NULL,n_uid=10,
                          labels=rev(LETTERS[1:max(extracts$participant_int)])) +
       theme(axis.ticks.y = element_blank()) +
       geom_rect(aes(xmin=begin0,xmax=end0,ymin=participant_int-0.4,ymax=participant_int+0.4),
-                linewidth=1,fill="grey90",color="white")
+                #linewidth=1,
+                fill="grey90",color="white")
 
     if(highlight) {
       p <- p + geom_rect(data=extracts |> filter(focus == "focus"),
                          aes(xmin=begin0,xmax=end0,
                              ymin=participant_int-0.4,ymax=participant_int+0.4),
-                         linewidth=1,fill="red",color="white")
+                         #linewidth=1,
+                         fill="red",color="white")
     }
     if(content) {
       p <- p + geom_text(aes(label=uttshort,x=begin0+60),
@@ -151,7 +150,12 @@ get_uids <- function(data, lang=NULL, n_uids=10){
   return(uids)
 }
 
-
-finduid <- function(data, string) {
-  data[data$uid %in% string,names(data) %in% c("uid","source","begin","end")]
+get_uid_metadata <- function(data, uids, before, after){
+  uid_data <- data[data$uid %in% uids , names(data) %in% c("uid","source","begin","end")]
+  uid_data <- uid_data |>
+    dplyr::arrange(source, begin) |>
+    dplyr::group_by(source) |>
+    dplyr::mutate(distance = begin - dplyr::lag(begin)) |> #TODO what lag function is meant here?
+    dplyr::filter(is.na(distance) | distance > before + after)
+  return(uid_data)
 }
