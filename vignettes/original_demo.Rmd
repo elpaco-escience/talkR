@@ -14,7 +14,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
 library(convplot)
 
 
@@ -63,4 +62,3 @@ inspect_corpus(lang="siwu")
 
 convplot(n=10,content=T,dyads=T)
 
-```

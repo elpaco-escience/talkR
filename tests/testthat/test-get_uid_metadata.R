@@ -1,0 +1,9 @@
+test_that("uid selection works", {
+  load("data.rda")
+  load("uids.rda")
+  uids <- get_uid_metadata(data, uids, before=10000, after=10000)
+  expect_equal(dim(uids), c(10, 5))
+  expect_equal(class(uids)[2], "tbl_df")
+  expect_equal(uids$begin[3], 62688)
+  expect_equal(uids$distance[2], 273110)
+})
