@@ -41,72 +41,16 @@ inspect_language <- function(data_conv,
     ggplot2::ggsave(filename,bg="white",width=2400,height=1200,units="px")
   }
 
-  report_summaries(data_conv, lang)
+  # sample conversation
+  data_convplot <- prepare_convplot(data_conv, lang)
+  pconv <- plot_conversation(data_convplot)
+  print(pconv)
 
+  # print summary stats
+  report_summaries(data_conv, lang, allsources)
 }
 
 
 
 
-
-
-
-
-
-
-
-#' Summarize all data
-#'
-#' @param data dataset
-#' @param lang language
-#'
-#' @export
-#'
-#' @import dplyr
-#' @import ggplot2
-#' @import ggthemes
-summarize_all_data <- function(data, lang) {
-  data <- dplyr::filter(data, language==lang)
-
-  if(max.na(data$participants) > 1) {
-
-    uids <- sample(data[data$participants=="2",]$uid,7)
-
-    if (sum(is.na(uids)) == length(uids)) {
-      cat("\n","Random sample didn't catch dyads; perhaps check if moving window averages are present.")
-      pconv <- convplot(data, lang=lang,before=10000,after=0,verbose=F,printuids=F,datamode=T,dyads=T)
-
-    } else {
-
-      pconv <- convplot(data, uids,before=10000,after=0,verbose=F,printuids=F,datamode=T,dyads=T)
-
-    }
-
-    pconv <- plot_conversation(pconv)
-
-    print(pconv)
-    cat("\n")
-
-    # } else {
-    #   cat("Sample did not yield enough conversations with >1 participants in this language.")
-    #   cat("\n")
-  }
-
-  # cat("\n")
-  # nsources <- length(unique(bysource$source))
-  # cat("### ",nsources,"sources")
-  #
-  # if(allsources) {
-  #   print(kable(bysource |> select(-start,-finish,-talktime,-totaltime)))
-  # } else {
-  #   if(nsources > 10) {
-  #     cat("\n")
-  #     cat("Showing only the first 10 sources; use `allsources=T` to show all")
-  #   }
-  #   print(kable(bysource |> select(-start,-finish,-talktime,-totaltime) |> slice(1:10)))
-  # }
-  #
-  #
-  # cat("\n")
-}
 

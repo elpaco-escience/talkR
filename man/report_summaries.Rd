@@ -4,12 +4,14 @@
 \alias{report_summaries}
 \title{Report summaries on data}
 \usage{
-report_summaries(data, lang)
+report_summaries(data, lang, allsources)
 }
 \arguments{
 \item{data}{dataset}
 
 \item{lang}{language}
+
+\item{allsources}{print all sources}
 }
 \description{
 Report summaries on data

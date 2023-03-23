@@ -2,11 +2,8 @@
 
 export(convplot)
 export(inspect_language)
-export(summarize_all_data)
-export(summarize_language_data)
-export(summarize_source_data)
+export(report_summaries)
 import(dplyr)
 import(ggplot2)
-import(ggthemes)
 import(tidyr)
 import(viridis)

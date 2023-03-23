@@ -50,7 +50,7 @@ convplot <- function(data, uids=NULL,lang=NULL,n_uid=10,
 
 
   # print uids when asked
-  if(printuids) { dput(sort(uids)) } #TODO what is happening here??
+  if(printuids) { dput(sort(uids)) } #TODO why not print?
 
   # get uid metadata and filter uids that fall in the same window
   theseuids <- get_uid_metadata(data, uids, before, after)
@@ -151,7 +151,7 @@ get_uids <- function(data, lang=NULL, n_uids=10){
 }
 
 get_uid_metadata <- function(data, uids, before, after){
-  uid_data <- data[data$uid %in% uids , names(data) %in% c("uid","source","begin","end")]
+  uid_data <- data[data$uid %in% uids, names(data) %in% c("uid","source","begin","end")]
   uid_data <- uid_data |>
     dplyr::arrange(source, begin) |>
     dplyr::group_by(source) |>

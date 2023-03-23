@@ -112,3 +112,23 @@ group_and_slice <- function(data) {
     dplyr::ungroup() |> dplyr::slice(1:10)
   return(data)
 }
+
+
+prepare_convplot <- function(data, lang) {
+  data <- dplyr::filter(data, language==lang) # this is already done when the function is used in workflow
+
+  if(max.na(data$participants) > 1) {
+    uids <- sample(data[data$participants=="2",]$uid,7)
+    if (sum(is.na(uids)) == length(uids)) {
+      cat("\n","Random sample didn't catch dyads; perhaps check if moving window averages are present.")
+      pconv <- convplot(data, lang=lang,before=10000,after=0,verbose=F,printuids=F,datamode=T,dyads=T)
+    } else {
+      pconv <- convplot(data, uids,before=10000,after=0,verbose=F,printuids=F,datamode=T,dyads=T)
+    }
+  } else {
+    cat("Sample did not yield enough conversations with >1 participants in this language.")
+    cat("\n")
+  }
+  return(pconv)
+}
+

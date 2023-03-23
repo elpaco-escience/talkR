@@ -2,9 +2,10 @@
 #'
 #' @param data dataset
 #' @param lang language
+#' @param allsources print all sources
 #'
 #' @export
-report_summaries <- function(data, lang){
+report_summaries <- function(data, lang, allsources){
   bysource <- summarize_language_data(data, lang)
   bylanguage <- summarize_source_data(data, lang)
 
@@ -26,8 +27,21 @@ report_summaries <- function(data, lang){
   print(knitr::kable(nature))
 
   cat("\n")
-  cat("### samples")
-  cat("\n")
+  nsources <- length(unique(bysource$source))
+  cat("### ",nsources,"sources")
+
+  if(allsources) {
+    print(knitr::kable(bysource |>
+                         dplyr::select(-start,-finish,-talktime,-totaltime)))
+  } else {
+    if(nsources > 10) {
+      cat("\n")
+      cat("Showing only the first 10 sources; use `allsources=T` to show all")
+    }
+    print(knitr::kable(bysource |>
+                         dplyr::select(-start,-finish,-talktime,-totaltime) |>
+                         dplyr::slice(1:10)))
+  }
 }
 
 
