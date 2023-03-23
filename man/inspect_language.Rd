@@ -4,10 +4,18 @@
 \alias{inspect_language}
 \title{Inspect language}
 \usage{
-inspect_language(data, lang = NULL, saveplot = FALSE, allsources = FALSE)
+inspect_language(
+  data_conv,
+  data_tokens,
+  lang,
+  saveplot = FALSE,
+  allsources = FALSE
+)
 }
 \arguments{
-\item{data}{dataset}
+\item{data_conv}{conversation dataset}
+
+\item{data_tokens}{tokens}
 
 \item{lang}{language}
 

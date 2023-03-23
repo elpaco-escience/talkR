@@ -1,18 +1,19 @@
 #' Inspect language
 #'
-#' @param data dataset
+#' @param data_conv conversation dataset
+#' @param data_tokens tokens dataset
 #' @param lang language
 #' @param saveplot should the plot be saved
 #' @param allsources all sources
 #'
 #' @export
-inspect_language <- function(data,
-                             lang=NULL,
+inspect_language <- function(data_conv,
+                             data_tokens,
+                             lang,
                              saveplot=FALSE,
                              allsources=FALSE) {
-  d <- data
-
-  dp <- d |>
+  # conversation data
+  dp <- data_conv |>
     dplyr::filter(language == lang)
 
   nturns <- sum(!is.na(dp$FTO)) # QUESTION: does this make sense?
@@ -22,41 +23,25 @@ inspect_language <- function(data,
   pC <- plot_turn_duration(data=dp)
   pD <- plot_top_turn_types(data=dp)
 
-  # combine the plots -- this should probably be removed
-  top_row <- cowplot::plot_grid(pA,pB,labels=c("A","B"),rel_widths = c(1,1),nrow=1)
-  bottom_row <- cowplot::plot_grid(pC,pD,labels=c("C","D"),rel_widths = c(1,1),nrow=1)
+  # token data
+  dt <- data_tokens |>
+    dplyr::filter(language==lang)
+  nwords <- dt$total[1]
+
+  pE <- plot_token_rank(data=dt, nwords)
+
+  # combine the plots
+  top_row <- cowplot::plot_grid(pA,pB,pC,labels=c("A","B","C"),rel_widths = c(1,1,1),nrow=1)
+  bottom_row <- cowplot::plot_grid(pD,pE,labels=c("D","E"),rel_widths = c(1,1),nrow=1)
   panel <- cowplot::plot_grid(top_row,bottom_row,ncol=1)
-  #print(panel)
-  cat("\n")
+  print(panel)
 
   if(saveplot) {
     filename <- paste0('qc-panel-',lang,'.png')
-    ggsave(filename,bg="white",width=2400,height=1200,units="px")
+    ggplot2::ggsave(filename,bg="white",width=2400,height=1200,units="px")
   }
-
-  return(list(pA, pB, pC, pD))
 }
 
-
-#' Inspect tokens
-#'
-#' @param data dataset
-#' @param lang language
-#' @param saveplot should the plot be saved
-#' @param allsources all sources
-#'
-#' @export
-inspect_tokens <- function(data,
-                             lang=NULL,
-                             saveplot=FALSE,
-                             allsources=FALSE) {
-  dt <- data |> dplyr::filter(language==lang)
-  nwords <- dt$total[1]
-
-  pE <- plot_token_rank(dt, nwords)
-
-  return(pE)
-}
 
 
 
@@ -84,136 +69,12 @@ inspect_tokens <- function(data,
 #}
 
 
-plot_transitions <- function(data, nturns){
-  p <- data |>
-    ggplot2::ggplot(ggplot2::aes(FTO)) +
-    ggthemes::theme_tufte() +
-    ggplot2::ggtitle(paste0(nturns,' transitions')) +
-    ggplot2::geom_density(na.rm=T) +
-    #  xlim(-5000,5000) +
-    ggplot2::geom_vline(xintercept = 0,colour="#cccccc")
-
-  return(p)
-}
 
 
-plot_FTO <- function(data){
-  p <- data |>
-    ggplot2::ggplot(ggplot2::aes(FTO,duration)) +
-    ggthemes::theme_tufte() +
-    ggplot2::ggtitle('FTO by turn duration') +
-    ggplot2::geom_point(alpha=0.1,na.rm=T) +
-    #  ylim(0,20000) +
-    #  xlim(-20000,20000) +
-    ggplot2::geom_vline(xintercept = 0,colour="#cccccc")
-
-  return(p)
-}
-
-plot_turn_duration <- function(data){
-  p <- data |>
-    ggplot2::ggplot(ggplot2::aes(duration)) +
-    ggthemes::theme_tufte() +
-    ggplot2::ggtitle('Turn duration') +
-    ggplot2::geom_density(na.rm=T)
-  return(p)
-}
-
-plot_top_turn_types <- function(data){
-  turntypes <- dplyr::n_distinct(data$utterance_stripped)
-
-  data <- process_for_plot(data)
-
-  p <- data |>
-    ggplot2::ggplot(ggplot2::aes(rank,n)) +
-    ggthemes::theme_tufte() + ggplot2::theme(legend.position="none") +
-    ggplot2::ggtitle(paste0('Top turn types (of ',turntypes,')')) +
-    ggplot2::scale_x_log10() +
-    ggplot2::scale_y_log10() +
-    ggplot2::geom_line(na.rm=T,alpha=0.5,) + #linewidth=1
-    ggplot2::geom_point(alpha=0.5,na.rm=T,size=1.2) +
-    ggrepel::geom_text_repel(data=group_and_slice(data),
-                             ggplot2::aes(label=utterance_stripped),
-                             segment.alpha=0.2,
-                             direction="y",nudge_y = -0.2,size=3,
-                             max.overlaps=Inf)
-  return(p)
-}
-
-process_for_plot <- function(data){
-  data <- data |>
-    dplyr::arrange(dplyr::desc(n)) |>
-    dplyr::group_by(rank) |>
-    dplyr::slice(1)
-  return(data)
-}
-
-group_and_slice <- function(data) {
-  data <- process_for_plot(data)
-  data <- data |>
-    dplyr::ungroup() |> dplyr::slice(1:10)
-  return(data)
-}
-
-plot_token_rank <- function(data, nwords){
-  p <- data |>
-    ggplot2::ggplot(ggplot2::aes(rank,n)) +
-    ggthemes::theme_tufte() + ggplot2::theme(legend.position="none") +
-    ggplot2::ggtitle(paste0('Token rank & frequency (',nwords,' words)')) +
-    ggplot2::scale_x_log10() +
-    ggplot2::scale_y_log10() +
-    ggplot2::geom_line(na.rm=T,alpha=0.5,size=1) +
-    ggrepel::geom_text_repel(data=group_and_slice(data),
-                             ggplot2::aes(label=word),
-                            segment.alpha=0.2,
-                            direction="y",nudge_y = -0.2,size=3,
-                            max.overlaps=Inf)
-  return(p)
-}
-
-#' Summarize the data for a specific language
-#'
-#' @param data dataset
-#' @param lang language
-#'
-#' @export
-summarize_language_data <- function(data, lang){
-  data |>
-    dplyr::filter(language == lang) |>
-    dplyr::group_by(source) |>
-    dplyr::mutate(translation = ifelse(is.na(translation),0,1)) |>
-    dplyr::summarize(start=min.na(begin),finish=max.na(end),
-              turns=dplyr::n_distinct(uid),
-              translated=round(sum(translation)/turns,2),
-              words=sum(nwords,na.rm=T),
-              people=dplyr::n_distinct(participant),
-              talktime = sum(duration),
-              totaltime = finish - start,
-              talkprop = round(talktime / totaltime,1),
-              minutes = round((totaltime/1000 / 60),1),
-              hours = round((totaltime/1000) / 3600,2))
-}
 
 
-#' Summarize source data
-#'
-#' @param data dataset
-#' @param lang language
-#'
-#' @export
-summarize_source_data <- function(data, lang){
-  data |>
-    summarize_language_data(lang=lang) |> #TODO this uses another function?
-    dplyr::summarize(turns = sum(turns),
-                     translated=round(mean.na(translated),2),
-                     words = sum(words),
-                     turnduration=round(mean.na(sum(talktime)/turns)),
-                     talkprop = round(mean.na(talkprop),2),
-                     people = dplyr::n_distinct(data$participant),
-                     hours = round(sum(hours),2),
-                     turns_per_h = round(turns/hours)) |>
-    dplyr::arrange(desc(hours))
-}
+
+
 
 #' Summarize all data
 #'

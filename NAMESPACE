@@ -2,7 +2,6 @@
 
 export(convplot)
 export(inspect_language)
-export(inspect_tokens)
 export(summarize_all_data)
 export(summarize_language_data)
 export(summarize_source_data)
