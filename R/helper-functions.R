@@ -1,28 +1,28 @@
-# ElPaCo conversation & visualization functions
+#' Inspect corpus
+#'
+#' A function that gives us a quick and rich impression of a language or
+#' corpus.
+#'
+#' @param d dataset
+#' @param d.tokens tokens dataset
+#' @param lang language
+#' @param saveplot should the plot be saved
+#' @param allsources should all sources be shown
+#'
+#' @export
+#'
+#' @import dplyr
+#' @import ggplot2
+#' @import ggthemes
+#' @import viridis
+#' @import tidyr
+#' @import ggrepel
+#' @import magrittr
+#' @import cowplot
+#' @import knitr
+inspect_corpus <- function(d, d.tokens, lang=NULL,saveplot=F,allsources=F) {
 
-
-
-
-# helper functions
-
-
-# Inspect corpus ----------------------------------------------------------
-
-# A function that gives us a quick and rich impression of a language or
-# corpus.
-
-
-
-
-
-# Inspect corpus ----------------------------------------------------------
-
-# A function that gives us a quick and rich impression of a language or
-# corpus.
-
-inspect_corpus <- function(lang=NULL,saveplot=F,allsources=F) {
-
-  dp <- d |> filter(language == lang)
+  dp <- d |> dplyr::filter(language == lang)
   ntransitions <- dp |> drop_na(FTO) |> ungroup() |> summarize(n=n()) |> as.integer()
 
   if(ntransitions > 1) {
@@ -56,7 +56,7 @@ inspect_corpus <- function(lang=NULL,saveplot=F,allsources=F) {
     geom_point(alpha=0.1,na.rm=T) +
     geom_vline(xintercept = 0,colour="#cccccc")
 
-  dt <- d.tokens |> filter(language==lang)
+  dt <- d.tokens |> dplyr::filter(language==lang)
   nwords <- dt$total[1]
 
   pC <- dt |>
@@ -66,7 +66,7 @@ inspect_corpus <- function(lang=NULL,saveplot=F,allsources=F) {
     scale_x_log10() +
     scale_y_log10() +
     geom_line(na.rm=T,alpha=0.5,linewidth=1) +
-    geom_text_repel(data = . |> ungroup() |> slice(1:10),
+    geom_text_repel(data = . %>% ungroup() %>% slice(1:10),
                     aes(label=word),
                     segment.alpha=0.2,
                     direction="y",nudge_y = -0.2,size=3,
@@ -130,16 +130,16 @@ inspect_corpus <- function(lang=NULL,saveplot=F,allsources=F) {
 
   if(max.na(dp$participants) > 1) {
 
-    dp <- dp |> filter(source %notin% useless_sources)
-    uids <- sample(dp[dp$participants=="2",]$uid,3)
+    dp <- dp |> dplyr::filter(source %notin% useless_sources)
+    uids <- NA #sample(dp[dp$participants=="2",]$uid,3) # removed this because of error
 
     if (sum(is.na(uids)) == length(uids)) {
       cat("\n","Random sample didn't catch dyads; perhaps check if moving window averages are present.")
-      pconv <- convplot(lang=lang,before=10000,after=0,verbose=F,printuids=F,datamode=T,dyads=T)
+      pconv <- convplot(data=dp, lang=lang,before=10000,after=0,verbose=F,printuids=F,datamode=T,dyads=T)
 
     } else {
 
-      pconv <- convplot(uids,before=10000,after=0,verbose=F,printuids=F,datamode=T,dyads=T)
+      pconv <- convplot(data=dp, uids,before=10000,after=0,verbose=F,printuids=F,datamode=T,dyads=T)
 
     }
 
@@ -190,151 +190,3 @@ inspect_corpus <- function(lang=NULL,saveplot=F,allsources=F) {
 
 }
 
-
-# # convplot ----------------------------------------------------------------
-#
-# # Note: slightly more up to date forks in convplot-dev repository
-# # https://github.com/mdingemanse/convoplot-dev
-#
-# # options:
-#
-# # uids        set of uids to plot (optional; if omitted, n uids are sampled)
-# # lang        language from which to sample uids (if not supplied)
-# # n           number of uids to sample
-# # window      time window in ms (optional; if supplied, window will be split into before and after)
-# # before      stretch to include before selected turn (default: 10000ms, unless `window` is supplied)
-# # after       stretch to include after selected turn (default: 0, unless `window` is supplied)
-#
-# # printuids=T print the sampled uids
-# # verbose=T   print language and information about selected uids
-#
-# # dyads=F     if TRUE, select only dyadic interactions for display
-# # content=F   if TRUE, render annotation content (EXPERIMENTAL)
-# # highlight=F if TRUE, highlight the uid in focus in the plot
-# # center=F    if TRUE, center the plot around the uid in focus
-#
-# # datamode=F  if TRUE, outputs dataframe instead of plot, for more advanced plotting
-# # alldata=F   if TRUE, output all data, not just the selected dyads
-# # debug=F     if TRUE, print the selected data and some other diagnostics
-# convplot <- function(uids=NULL,lang=NULL,n=10,
-#                      window=NULL,before=10000,after=10000,
-#                      printuids=T,verbose=T,
-#                      dyads=F,content=F,highlight=F,center=F,
-#                      datamode=F,alldata=F,debug=F) {
-#
-#   if(!is.null(window)) {
-#     before <- window / 2
-#     after <- window / 2
-#   }
-#
-#   if(!is.null(uids)) {
-#     n <- length(uids)
-#   } else {
-#     if(verbose) {
-#       print(paste('No uids given, sampling',n,'random ones'))
-#     }
-#     if(!is.null(lang)) {
-#       if(verbose) {
-#         print(paste('...from',lang))
-#       }
-#       d.lg <- d |> filter(language %in% lang)
-#       uids <- sample(unique(d.lg$uid),n)
-#
-#     } else {
-#       uids <- sample(unique(d$uid),n)
-#     }
-#
-#   }
-#
-#   # print uids when asked
-#   if(printuids) { dput(sort(uids)) }
-#
-#   # get uid metadata and filter uids that fall in the same window
-#   theseuids <- finduid(uids) |> arrange(source,begin)
-#   theseuids |> group_by(source) |>
-#     mutate(distance = begin - lag(begin)) |>
-#     filter(is.na(distance) | distance > before + after)
-#
-#   # create slim df
-#   extracts <- d[d$source %in% theseuids$source,]
-#   extracts <- extracts |>
-#     arrange(source,begin) |>
-#     group_by(source) |>
-#     mutate(focus = ifelse(uid %in% uids,"focus",NA),
-#            scope = NA)
-#
-#   # set scope (= the uid for which the other turns form the sequential context)
-#   for (thisuid in theseuids$uid) {
-#     extracts$scope <- ifelse(extracts$source %in% theseuids[theseuids$uid == thisuid,]$source &
-#                                extracts$begin >= theseuids[theseuids$uid == thisuid,]$begin - before &
-#                                extracts$end < theseuids[theseuids$uid == thisuid,]$end + after,thisuid,extracts$scope)
-#   }
-#
-#   # drop turns outside scope, add useful metadata, compute relative times for each scope
-#   extracts <- extracts |>
-#     drop_na(scope) |>
-#     group_by(scope) |>
-#     mutate(participant_int = as.integer(as.factor(participant))) |>
-#     mutate(begin0 = begin - min(begin),
-#            end0 = end - min(begin),
-#            participation = ifelse(n_distinct(participant) < 3,"dyadic","multiparty"))
-#   nconv <- length(unique(extracts$scope))
-#
-#   extracts.dyadic <- extracts |> filter(participation == "dyadic")
-#   ndyads <- length(unique(extracts.dyadic$scope))
-#
-#   if(verbose) {
-#     print(paste('seeing',ndyads,'dyads in ',n,'non-overlapping extracts'))
-#   }
-#
-#   if (debug) {
-#
-#     #print(dyads)
-#     dput(uids)
-#     return(extracts)
-#   }
-#
-#   if (datamode) {
-#
-#     if(alldata) { return(extracts) }
-#
-#     return(extracts.dyadic)
-#
-#   } else {
-#
-#     if(dyads) { extracts <- extracts.dyadic }
-#
-#     p <- extracts |>
-#       mutate(striplength = case_when(duration < 300 ~ 3,
-#                                      duration >= 300 ~ round(duration/90)),
-#              uttshort = ifelse(nchar <= striplength | nchar <= 4,
-#                                utterance,
-#                                paste0(stringx::strtrim(utterance,striplength),'~'))) |>
-#       ggplot(aes(y=participant_int)) +
-#       theme_tufte() + theme(legend.position = "none",
-#                             strip.placement = "outside",
-#                             strip.text = element_text(hjust=0,color="grey50")) +
-#       ylab("") + xlab("time (ms)") +
-#       scale_y_continuous(breaks=c(1:max(extracts$participant_int)),
-#                          labels=rev(LETTERS[1:max(extracts$participant_int)])) +
-#       theme(axis.ticks.y = element_blank()) +
-#       geom_rect(aes(xmin=begin0,xmax=end0,ymin=participant_int-0.4,ymax=participant_int+0.4),
-#                 linewidth=1,fill="grey90",color="white")
-#
-#     if(highlight) {
-#       p <- p + geom_rect(data=extracts |> filter(focus == "focus"),
-#                          aes(xmin=begin0,xmax=end0,
-#                              ymin=participant_int-0.4,ymax=participant_int+0.4),
-#                          linewidth=1,fill="red",color="white")
-#     }
-#     if(content) {
-#       p <- p + geom_text(aes(label=uttshort,x=begin0+60),
-#                          color="black",hjust=0,size=3)
-#     }
-#
-#     p <- p + facet_wrap(~ scope, ncol=1)
-#
-#     return(p)
-#
-#   }
-# }
