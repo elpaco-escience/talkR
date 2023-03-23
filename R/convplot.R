@@ -150,3 +150,8 @@ get_uids <- function(data, lang=NULL, n_uids=10){
   uids <- sample(unique(data$uid),n_uids)
   return(uids)
 }
+
+
+finduid <- function(data, string) {
+  data[data$uid %in% string,names(data) %in% c("uid","source","begin","end")]
+}
