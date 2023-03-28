@@ -1,4 +1,4 @@
-Package: convplot
+Package: talkR
 Type: Package
 Title: Plotting conversation data
 Version: 0.1.0
