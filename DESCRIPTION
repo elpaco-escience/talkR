@@ -10,7 +10,7 @@ Authors@R: c(
   person("Netherlands eScience Center", role = c("cph", "fnd"))
   )
 Description: Functions to plot elements of conversations.
-License: Apache License (>= 2)
+License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
 Suggests: 
