@@ -75,7 +75,7 @@ convplot <- function(data, uids=NULL,lang=NULL,n_uid=10,
     dplyr::mutate(participant_int = as.integer(as.factor(participant))) |>
     dplyr::mutate(begin0 = begin - min(begin),
            end0 = end - min(begin),
-           participation = ifelse(n_distinct(participant) < 3,"dyadic","multiparty"))
+           participation = ifelse(dplyr::n_distinct(participant) < 3,"dyadic","multiparty"))
   nconv <- length(unique(extracts$scope))
 
   extracts.dyadic <- extracts |> dplyr::filter(participation == "dyadic")
