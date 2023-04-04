@@ -5,3 +5,5 @@
 inst/doc
 *.rda
 *.Rbuildignore
+*sample_test.csv
+*.DS_Store
