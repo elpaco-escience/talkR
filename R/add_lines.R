@@ -1,4 +1,8 @@
-#' Add lines
+#' Add information for line-by-line visualization
+#'
+#' This function adds columns to the dataset that adds a line ID, and a `begin0` and
+#' `end0` column for timestamps relative to the beginning of the line, so data can
+#' be visualized line-by-line.
 #'
 #' @param data dataset to divide into lines
 #' @param extract_length total length of extract in ms
