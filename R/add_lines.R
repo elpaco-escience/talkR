@@ -8,7 +8,7 @@
 #' @param extract_length total length of extract in ms
 #' @param window_size length of line in ms
 #'
-#' @return data set with 'line' column added
+#' @return data set with added columns `line`, `begin0`, `end0`
 #' @export
 #'
 add_lines <- function(data,extract_length=600000,window_size=60000) {
