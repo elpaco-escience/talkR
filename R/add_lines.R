@@ -1,28 +1,33 @@
 #' Add information for line-by-line visualization
 #'
-#' This function adds columns to the dataset that adds a line ID, and a `begin0` and
-#' `end0` column for timestamps relative to the beginning of the line, so data can
+#' This function adds columns to the dataset that adds a line ID, and a `begin_line` and
+#' `end_line` column for timestamps relative to the beginning of the line, so data can
 #' be visualized line-by-line.
 #'
 #' @param data dataset to divide into lines
-#' @param extract_length total length of extract in ms
 #' @param window_size length of line in ms
 #'
-#' @return data set with added columns `line`, `begin0`, `end0`
+#' @return data set with added columns `line`, `begin_line`, `end_line`
 #' @export
 #'
-add_lines <- function(data,extract_length=600000,window_size=60000) {
+add_lines <- function(data,line_duration=60000) {
+  
+  # total length of the selected data
+  extract_begin <- min(data$begin,na.rm=T)
+  extract_end <- end(data$end,na.rm=T) 
+  extract_length <- extract_end - extract_begin
 
-  window_breaks <- as.integer(c(0:round(extract_length/window_size)) * window_size)
+  # define line breaks as a range of multiples of line_duration that starts from extract_begin
+  line_breaks <- as.integer(c(extract_begin:round(extract_length/line_duration)) * line_duration)
 
+  # add line numbers
   data <- data |>
-    dplyr::mutate(end = end - min(begin), # reset timestamps to start from 0
-           begin = begin - min(begin),
-           line = cut(begin,window_breaks,right=F,labels=F)) |>
-    tidyr::drop_na(line) |>
+    dplyr::mutate(line = cut(begin,line_breaks,right=F,labels=F)) |>
+    tidyr::drop_na(line) |> # TODO: do we need this and why?
+    #group by line and reset timestamps to start at 0 for each new line
     dplyr::group_by(line) |>
-    dplyr::mutate(begin0 = begin - min(begin), # reset timestamps to 0 for each new line
-           end0 = end - min(begin)) |>
+    dplyr::mutate(begin_line = begin - min(begin),
+           end_line = end - min(begin)) |>
     dplyr::ungroup()
 
   return(data)
