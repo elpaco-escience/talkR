@@ -2,13 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
-.Rbuildignore
 inst/doc
 *.rda
-*.Rbuildignore
-*sample_test.csv
-*.DS_Store
-*NAMESPACE
-*DESCRIPTION
-*test-get_uid_metadata.R
-*try.R
