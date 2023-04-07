@@ -1,4 +1,4 @@
-#' Title
+#' Show turn-taking in visualized conversations
 #'
 #' @param mapping
 #' @param data
