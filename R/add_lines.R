@@ -5,7 +5,7 @@
 #' be visualized line-by-line.
 #'
 #' @param data dataset to divide into lines
-#' @param window_size length of line in ms
+#' @param line_duration length of line in ms
 #'
 #' @return data set with added columns `line`, `begin_line`, `end_line`
 #' @export
