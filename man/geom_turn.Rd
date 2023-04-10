@@ -2,7 +2,7 @@
 % Please edit documentation in R/geom_turn.R
 \name{geom_turn}
 \alias{geom_turn}
-\title{Title}
+\title{Show turn-taking in visualized conversations}
 \usage{
 geom_turn(
   mapping = NULL,
@@ -16,8 +16,22 @@ geom_turn(
 )
 }
 \arguments{
-\item{...}{}
+\item{mapping}{Set of aesthetic mappings created by aes(). If specified and inherit.aes = TRUE (the default), it is combined with the default mapping at the top level of the plot. You must supply mapping if there is no plot mapping.}
+
+\item{data}{The data to be displayed in this layer. There are three options: If NULL, the default, the data is inherited from the plot data as specified in the call to ggplot().}
+
+\item{stat}{The statistical transformation to use on the data for this layer, either as a ggproto Geom subclass or as a string naming the stat stripped of the stat_ prefix (e.g. "count" rather than "stat_count")}
+
+\item{position}{Position adjustment, either as a string naming the adjustment (e.g. "jitter" to use position_jitter), or the result of a call to a position adjustment function. Use the latter if you need to change the settings of the adjustment.}
+
+\item{...}{Other arguments passed on to layer(). These are often aesthetics, used to set an aesthetic to a fixed value, like colour = "red" or size = 3. They may also be parameters to the paired geom/stat.}
+
+\item{na.rm}{If FALSE, the default, missing values are removed with a warning. If TRUE, missing values are silently removed.}
+
+\item{show.legend}{logical. Should this layer be included in the legends? NA, the default, includes if any aesthetics are mapped. FALSE never includes, and TRUE always includes. It can also be a named logical vector to finely select the aesthetics to display.}
+
+\item{inherit.aes}{If FALSE, overrides the default aesthetics, rather than combining with them. This is most useful for helper functions that define both data and aesthetics and shouldn't inherit behaviour from the default plot specification, e.g. borders().}
 }
 \description{
-Title
+Show turn-taking in visualized conversations
 }
