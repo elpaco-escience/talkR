@@ -2,20 +2,20 @@
 % Please edit documentation in R/add_lines.R
 \name{add_lines}
 \alias{add_lines}
-\title{Add lines}
+\title{Add information for line-by-line visualization}
 \usage{
-add_lines(data, extract_length = 6e+05, window_size = 60000)
+add_lines(data, line_duration = 60000)
 }
 \arguments{
 \item{data}{dataset to divide into lines}
 
-\item{extract_length}{total length of extract in ms}
-
-\item{window_size}{length of line in ms}
+\item{line_duration}{length of line in ms}
 }
 \value{
-data set with 'line' column added
+data set with added columns `line`, `begin_line`, `end_line`
 }
 \description{
-Add lines
+This function adds columns to the dataset that adds a line ID, and a `begin_line` and
+`end_line` column for timestamps relative to the beginning of the line, so data can
+be visualized line-by-line.
 }
