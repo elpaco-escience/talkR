@@ -3,3 +3,4 @@
 ^LICENSE\.md$
 ^\.github$
 sonar.project.properties
+^working_example.R
