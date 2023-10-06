@@ -20,8 +20,9 @@
       |talk   | 13366|
       |NA     |    57|
       
-      ###  20 sources
+      
       Showing only the first 10 sources; use `allsources=T` to show all
+      ### 20 sources
       
       |source          | turns| translated| words| people| talkprop| minutes| hours|
       |:---------------|-----:|----------:|-----:|------:|--------:|-------:|-----:|
@@ -58,7 +59,7 @@
       |talk   | 13366|
       |NA     |    57|
       
-      ###  20 sources
+      ### 20 sources
       
       |source          | turns| translated| words| people| talkprop| minutes| hours|
       |:---------------|-----:|----------:|-----:|------:|--------:|-------:|-----:|

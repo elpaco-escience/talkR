@@ -5,9 +5,12 @@
 #' @param allsources print all sources
 #'
 #' @export
-report_summaries <- function(data, lang, allsources){
-  data <- data |>
-    dplyr::filter(.data$language==lang)
+report_summaries <- function(data, lang = NA, allsources = FALSE){
+  # select the requested language
+  if(!is.na(lang)){
+    data <- data |>
+      dplyr::filter(.data$language==lang)
+  }
 
   bylanguage <- summarize_source(data, lang)
   bysource <- summarize_language(data, lang)
@@ -15,7 +18,6 @@ report_summaries <- function(data, lang, allsources){
   nhours <- round(bylanguage$hours,1)
 
   nature <- summarize_nature(data)
-
 
   # To command line
   cat("\n")
@@ -26,33 +28,28 @@ report_summaries <- function(data, lang, allsources){
 
   cat("\n")
   cat("\n")
-  cat("### nature")
-  print(knitr::kable(nature))
+  print_summary(header = "nature", table = nature)
 
   cat("\n")
+
   nsources <- length(unique(bysource$source))
-  cat("### ",nsources,"sources")
+  source_header <- paste(nsources,"sources")
 
-  if(allsources) {
-    print(knitr::kable(bysource |>
-                         dplyr::select(-"start",
-                                       -"finish",
-                                       -"talktime",
-                                       -"totaltime")))
-  } else {
-    if(nsources > 10) {
-      cat("\n")
-      cat("Showing only the first 10 sources; use `allsources=T` to show all")
-    }
-    print(knitr::kable(bysource |>
-                         dplyr::select(-"start",
-                                       -"finish",
-                                       -"talktime",
-                                       -"totaltime") |>
-                         dplyr::slice(1:10)))
+  bysource <- bysource |>
+    dplyr::select(-"start",
+                  -"finish",
+                  -"talktime",
+                  -"totaltime")
+  if(!allsources) {
+    bysource <- bysource |>
+      dplyr::slice(1:10)
+    cat("\n")
+    cat("Showing only the first 10 sources; use `allsources=T` to show all")
+    cat("\n")
   }
-}
 
+  print_summary(header = source_header, table = bysource)
+}
 
 summarize_language <- function(data, lang){
   if(!"translation" %in% colnames(data)){
@@ -96,4 +93,9 @@ summarize_nature <- function(data){
     dplyr::group_by(nature) |>
     dplyr::summarise(n=dplyr::n())
   return(summary)
+}
+
+print_summary <- function(header, table){
+  cat(paste("###", header))
+  print(knitr::kable(table))
 }
