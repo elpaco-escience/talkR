@@ -6,13 +6,16 @@
 #'
 #' @export
 report_summaries <- function(data, lang, allsources){
-  bysource <- summarize_language_data(data, lang)
-  bylanguage <- summarize_source_data(data, lang)
+  data <- data |>
+    dplyr::filter(.data$language==lang)
+
+  bylanguage <- summarize_source(data, lang)
+  bysource <- summarize_language(data, lang)
 
   nhours <- round(bylanguage$hours,1)
-  nature <- data |>
-    dplyr::group_by(nature) |>
-    dplyr::summarise(n=dplyr::n())
+
+  nature <- summarize_nature(data)
+
 
   # To command line
   cat("\n")
@@ -51,7 +54,7 @@ report_summaries <- function(data, lang, allsources){
 }
 
 
-summarize_language_data <- function(data, lang){
+summarize_language <- function(data, lang){
   if(!"translation" %in% colnames(data)){
     data$translation <- NA
   }
@@ -73,9 +76,9 @@ summarize_language_data <- function(data, lang){
 }
 
 
-summarize_source_data <- function(data, lang){
+summarize_source <- function(data, lang){
   data |>
-    summarize_language_data(lang=lang) |> #TODO this uses another function?
+    summarize_language(lang=lang) |> #TODO this uses another function?
     dplyr::summarize(turns = sum(.data$turns),
                      translated=round(mean.na(.data$translated),2),
                      words = sum(.data$words),
@@ -85,4 +88,12 @@ summarize_source_data <- function(data, lang){
                      hours = round(sum(.data$hours),2),
                      turns_per_h = round(.data$turns/.data$hours)) |>
     dplyr::arrange(desc(.data$hours))
+}
+
+
+summarize_nature <- function(data){
+  summary <- data |>
+    dplyr::group_by(nature) |>
+    dplyr::summarise(n=dplyr::n())
+  return(summary)
 }
