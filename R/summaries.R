@@ -19,18 +19,11 @@ report_summaries <- function(data, lang = NA, allsources = FALSE){
 
   nature <- summarize_nature(data)
 
-  # To command line
-  cat("\n")
-  cat("\n")
   nhours <- round(bylanguage$hours,1)
-  cat("### ",nhours,"hours")
-  print(knitr::kable(bylanguage,label=lang))
+  language_header <- paste(nhours,"hours")
+  print_summary(header = language_header, table = bylanguage)
 
-  cat("\n")
-  cat("\n")
   print_summary(header = "nature", table = nature)
-
-  cat("\n")
 
   nsources <- length(unique(bysource$source))
   source_header <- paste(nsources,"sources")
@@ -74,7 +67,7 @@ summarize_language <- function(data, lang){
 
 
 summarize_source <- function(data, lang){
-  data |>
+  summary <- data |>
     summarize_language(lang=lang) |> #TODO this uses another function?
     dplyr::summarize(turns = sum(.data$turns),
                      translated=round(mean.na(.data$translated),2),
@@ -85,6 +78,7 @@ summarize_source <- function(data, lang){
                      hours = round(sum(.data$hours),2),
                      turns_per_h = round(.data$turns/.data$hours)) |>
     dplyr::arrange(desc(.data$hours))
+  return(summary)
 }
 
 
@@ -96,6 +90,8 @@ summarize_nature <- function(data){
 }
 
 print_summary <- function(header, table){
+  cat("\n")
   cat(paste("###", header))
   print(knitr::kable(table))
+  cat("\n")
 }
