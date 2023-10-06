@@ -15,16 +15,16 @@ report_summaries <- function(data, lang = NA, allsources = FALSE){
   bylanguage <- summarize_source(data, lang)
   bysource <- summarize_language(data, lang)
 
-  nhours <- round(bylanguage$hours,1)
-
-  nature <- summarize_nature(data)
-
+  ## Overall summary of the utterances
   nhours <- round(bylanguage$hours,1)
   language_header <- paste(nhours,"hours")
   print_summary(header = language_header, table = bylanguage)
 
+  ## Summarize nature of utterances
+  nature <- summarize_nature(data)
   print_summary(header = "nature", table = nature)
 
+  ## Summarize by source
   nsources <- length(unique(bysource$source))
   source_header <- paste(nsources,"sources")
 
@@ -50,7 +50,6 @@ summarize_language <- function(data, lang){
   }
 
   data |>
-    dplyr::filter(.data$language == lang) |>
     dplyr::group_by(.data$source) |>
     dplyr::mutate(translation = ifelse(is.na(.data$translation),0,1)) |>
     dplyr::summarize(start=min.na(.data$begin),finish=max.na(.data$end),
