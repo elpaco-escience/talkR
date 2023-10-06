@@ -15,6 +15,8 @@ report_summaries <- function(data, lang = NA, allsources = FALSE){
   if(!"translation" %in% colnames(data)){
     data$translation <- NA
   }
+  data <- data |>
+    dplyr::mutate(translation = ifelse(is.na(.data$translation),0,1))
 
   bylanguage <- summarize_stats(data)
   bysource <- summarize_bysource(data)
@@ -51,7 +53,12 @@ report_summaries <- function(data, lang = NA, allsources = FALSE){
 summarize_bysource <- function(data){
   summary <- data |>
     dplyr::group_by(.data$source) |>
-    dplyr::mutate(translation = ifelse(is.na(.data$translation),0,1)) |>
+    summarize_conversation()
+  return(summary)
+}
+
+summarize_conversation <- function(data){
+  summary <- data |>
     dplyr::summarize(start=min.na(.data$begin),finish=max.na(.data$end),
                      turns=dplyr::n_distinct(.data$uid),
                      translated=round(sum(.data$translation)/.data$turns,2),
@@ -62,6 +69,7 @@ summarize_bysource <- function(data){
                      talkprop = round(.data$talktime / .data$totaltime,1),
                      minutes = round((.data$totaltime/1000 / 60),1),
                      hours = round((.data$totaltime/1000) / 3600,2))
+  return(summary)
 }
 
 
@@ -79,7 +87,6 @@ summarize_stats <- function(data){
     dplyr::arrange(desc(.data$hours))
   return(summary)
 }
-
 
 summarize_nature <- function(data){
   summary <- data |>
