@@ -11,9 +11,13 @@ report_summaries <- function(data, lang = NA, allsources = FALSE){
     data <- data |>
       dplyr::filter(.data$language==lang)
   }
+  # ensure a translation column is present
+  if(!"translation" %in% colnames(data)){
+    data$translation <- NA
+  }
 
-  bylanguage <- summarize_source(data, lang)
-  bysource <- summarize_language(data, lang)
+  bylanguage <- summarize_stats(data)
+  bysource <- summarize_bysource(data)
 
   ## Overall summary of the utterances
   nhours <- round(bylanguage$hours,1)
@@ -44,12 +48,8 @@ report_summaries <- function(data, lang = NA, allsources = FALSE){
   print_summary(header = source_header, table = bysource)
 }
 
-summarize_language <- function(data, lang){
-  if(!"translation" %in% colnames(data)){
-    data$translation <- NA
-  }
-
-  data |>
+summarize_bysource <- function(data){
+  summary <- data |>
     dplyr::group_by(.data$source) |>
     dplyr::mutate(translation = ifelse(is.na(.data$translation),0,1)) |>
     dplyr::summarize(start=min.na(.data$begin),finish=max.na(.data$end),
@@ -65,9 +65,9 @@ summarize_language <- function(data, lang){
 }
 
 
-summarize_source <- function(data, lang){
+summarize_stats <- function(data){
   summary <- data |>
-    summarize_language(lang=lang) |> #TODO this uses another function?
+    summarize_bysource() |>
     dplyr::summarize(turns = sum(.data$turns),
                      translated=round(mean.na(.data$translated),2),
                      words = sum(.data$words),
