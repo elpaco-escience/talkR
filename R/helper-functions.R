@@ -17,8 +17,6 @@
 #' @import viridis
 #' @import tidyr
 #' @import ggrepel
-#' @import magrittr
-#' @import cowplot
 #' @import knitr
 inspect_corpus <- function(d, d.tokens, lang=NULL,saveplot=F,allsources=F) {
 
@@ -72,7 +70,7 @@ inspect_corpus <- function(d, d.tokens, lang=NULL,saveplot=F,allsources=F) {
                     direction="y",nudge_y = -0.2,size=3,
                     max.overlaps=Inf)
 
-  panel <- plot_grid(pA,pB,pC,labels=c("A","B","C"),rel_widths = c(1,1,2),nrow=1)
+  panel <- cowplot::plot_grid(pA,pB,pC,labels=c("A","B","C"),rel_widths = c(1,1,2),nrow=1)
   print(panel)
   cat("\n")
 
