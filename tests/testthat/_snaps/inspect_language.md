@@ -4,8 +4,7 @@
       cat(inspect_language(data, lang = "dutch"))
     Output
       
-      
-      ###  5 hours
+      ### 5 hours
       
       | turns| translated| words| turnduration| talkprop| people| hours| turns_per_h|
       |-----:|----------:|-----:|------------:|--------:|------:|-----:|-----------:|
@@ -20,8 +19,10 @@
       |talk   | 13366|
       |NA     |    57|
       
-      ###  20 sources
+      
       Showing only the first 10 sources; use `allsources=T` to show all
+      
+      ### 20 sources
       
       |source          | turns| translated| words| people| talkprop| minutes| hours|
       |:---------------|-----:|----------:|-----:|------:|--------:|-------:|-----:|
@@ -35,4 +36,5 @@
       |/dutch2/DVA17AC |   782|          0|  3888|      2|      1.0|      15|  0.25|
       |/dutch2/DVA19AG |   648|          0|  2957|      2|      0.9|      15|  0.25|
       |/dutch2/DVA1A   |   681|          0|  3432|      2|      1.0|      15|  0.25|
+      
 
