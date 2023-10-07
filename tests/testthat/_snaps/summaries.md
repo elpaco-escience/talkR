@@ -22,7 +22,7 @@
       
       Showing only the first 10 sources; use `allsources=T` to show all
       
-      ### 20 sources
+      ### 10 sources
       
       |source          | turns| translated| words| people| talkprop| minutes| hours|
       |:---------------|-----:|----------:|-----:|------:|--------:|-------:|-----:|

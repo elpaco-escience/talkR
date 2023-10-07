@@ -18,47 +18,43 @@ report_summaries <- function(data, lang = NA, allsources = FALSE){
   data <- data |>
     dplyr::mutate(translation = ifelse(is.na(.data$translation),0,1))
 
-  bylanguage <- summarize_stats(data)
-  bysource <- summarize_bysource(data)
-
   ## Overall summary of the utterances
-  nhours <- round(bylanguage$hours,1)
+  overall_stats <- summarize_overall(data)
+  nhours <- round(overall_stats$hours,1)
   language_header <- paste(nhours,"hours")
-  print_summary(header = language_header, table = bylanguage)
+  print_summary(header = language_header, table = overall_stats)
 
   ## Summarize nature of utterances
   nature <- summarize_nature(data)
   print_summary(header = "nature", table = nature)
 
   ## Summarize by source
+  bysource <- summarize_bysource(data, allsources)
   nsources <- length(unique(bysource$source))
   source_header <- paste(nsources,"sources")
+  print_summary(header = source_header, table = bysource)
+}
 
-  bysource <- bysource |>
+summarize_bysource <- function(data, allsources){
+  summary <- data |>
+    summarize_conversation() |>
     dplyr::select(-"start",
                   -"finish",
                   -"talktime",
                   -"totaltime")
   if(!allsources) {
-    bysource <- bysource |>
+    summary <- summary |>
       dplyr::slice(1:10)
     cat("\n")
     cat("Showing only the first 10 sources; use `allsources=T` to show all")
     cat("\n")
   }
-
-  print_summary(header = source_header, table = bysource)
-}
-
-summarize_bysource <- function(data){
-  summary <- data |>
-    dplyr::group_by(.data$source) |>
-    summarize_conversation()
   return(summary)
 }
 
 summarize_conversation <- function(data){
   summary <- data |>
+    dplyr::group_by(.data$source) |>
     dplyr::summarize(start=min.na(.data$begin),finish=max.na(.data$end),
                      turns=dplyr::n_distinct(.data$uid),
                      translated=round(sum(.data$translation)/.data$turns,2),
@@ -73,9 +69,9 @@ summarize_conversation <- function(data){
 }
 
 
-summarize_stats <- function(data){
+summarize_overall <- function(data){
   summary <- data |>
-    summarize_bysource() |>
+    summarize_conversation() |>
     dplyr::summarize(turns = sum(.data$turns),
                      translated=round(mean.na(.data$translated),2),
                      words = sum(.data$words),
