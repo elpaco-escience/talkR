@@ -33,16 +33,23 @@ report_summaries <- function(data, lang = NA, allsources = FALSE){
   nsources <- length(unique(bysource$source))
   source_header <- paste(nsources,"sources")
   print_summary(header = source_header, table = bysource)
+
+  ## Source quality check
+  for(source in bysource$source){
+    result <- check_quality(data, source)
+    print(paste(source, result))
+  }
 }
 
 summarize_bysource <- function(data, allsources){
   summary <- data |>
     summarize_conversation() |>
+    # dplyr::mutate(source_quality = check_quality(data, .data$source)) |>
     dplyr::select(-"start",
                   -"finish",
                   -"talktime",
                   -"totaltime")
-  if(!allsources) {
+  if(!allsources & nrow(summary) > 10) {
     summary <- summary |>
       dplyr::slice(1:10)
     cat("\n")
