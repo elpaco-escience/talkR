@@ -37,7 +37,6 @@ report_summaries <- function(data, lang = NA, allsources = FALSE){
   ## Source quality check
   for(source in bysource$source){
     result <- check_quality(data, source)
-    print(paste(source, result))
   }
 }
 
