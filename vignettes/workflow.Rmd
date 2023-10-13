@@ -1,0 +1,49 @@
+---
+title: "Basic workflow with talkr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(talkr)
+```
+
+## Data
+
+We will be using the IFADV corpus as example data for the workflow of `talkr`.
+A prepared dataset can be downloaded by installing the `ifadv` package:
+
+```{r install data package}
+# install.packages("devtools")
+devtools::install_github("elpaco-escience/ifadv")
+```
+
+We will load the ifadv dataset in the object `data`, as follows:
+
+```{r}
+data <- ifadv::ifadv
+```
+
+## Summaries
+
+The `report_summaries` function provides a summary of the data, including the
+total number of utterances, the total duration of the conversation, the number
+of speakers, and the number of sources.
+
+```{r}
+report_summaries(data)
+```
+
+## Visual quality checks
+
+The `plot_quality` function provides a visual check of the quality of the data.
