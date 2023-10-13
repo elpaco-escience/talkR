@@ -28,10 +28,19 @@ A prepared dataset can be downloaded by installing the `ifadv` package:
 devtools::install_github("elpaco-escience/ifadv")
 ```
 
-We will load the ifadv dataset in the object `data`, as follows:
+We will initialize the talkr dataset using the ifadv data, as follows:
 
 ```{r}
-data <- ifadv::ifadv
+data <- init(ifadv::ifadv)
+```
+
+For the `talkr` workflow, the columns named `begin`, `end`, `participant` and `utterance` are essential.
+The `init()` function can be used to rename columns if necessary.
+For example, if the column `participant` is named `speaker`, we can rename it as follows:
+
+```r
+talkr_data <- init(data,
+             participant = "speaker")
 ```
 
 ## Summaries
