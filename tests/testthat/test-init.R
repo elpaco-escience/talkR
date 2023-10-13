@@ -6,7 +6,6 @@ dummy_data <- data.frame(
 )
 
 
-
 test_that("talkr dataset initialized with minimal columns", {
   talkr_dataset <- init(dummy_data,
                         begin = "col1",
@@ -21,32 +20,14 @@ test_that("talkr dataset initialized with minimal columns", {
 })
 
 
-test_that("timestamps are converted to milliseconds", {
-  talkr_dataset <- init(dummy_data,
-                        begin = "col1",
-                        end = "col2",
-                        participant = "x",
-                        utterance = "y",
-                        timeunit = "s")
+test_that("necessary columns are checked in the dataset", {
+  expect_error(init(dummy_data),
+               "not found in the dataset")
 
-  expect_equal(talkr_dataset$begin, dummy_data$col1 * 1000)
-
-  talkr_dataset <- init(dummy_data,
-                        begin = "col1",
-                        end = "col2",
-                        participant = "x",
-                        utterance = "y",
-                        timeunit = "m")
-
-  expect_equal(talkr_dataset$end, dummy_data$col2 * 60000)
-})
-
-test_that("faulty inputs are dealt with", {
   expect_error(init(dummy_data,
                     begin = "col1",
-                    end = "col2",
+                    end = "does not exist",
                     participant = "x",
-                    utterance = "y",
-                    timeunit = "h"),
-               "timeunit must be one of 'ms', 's', or 'm'")
+                    utterance = "y"),
+               "`does not exist` was not found in the dataset")
 })

@@ -46,7 +46,7 @@ check_quality <- function(data, source){
 check_columns <- function(data, columns){
   for (column in columns){
     if(!column %in% colnames(data)){
-      stop(paste("Column",column,"not found in dataset."))
+      stop(paste0("Column `",column,"` was not found in the dataset."))
     }
   }
 }

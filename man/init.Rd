@@ -9,23 +9,19 @@ init(
   begin = "begin",
   end = "end",
   participant = "participant",
-  utterance = "utterance",
-  timeunit = "ms"
+  utterance = "utterance"
 )
 }
 \arguments{
 \item{data}{A dataframe object}
 
-\item{begin}{The column name with the begin time of the utterance}
+\item{begin}{The column name with the begin time of the utterance (in milliseconds)}
 
-\item{end}{The column name with the end time of the utterance}
+\item{end}{The column name with the end time of the utterance (in milliseconds)}
 
 \item{participant}{The column name with the participant who produced the utterance}
 
 \item{utterance}{The column name with the utterance itself}
-
-\item{timeunit}{The unit of time for the begin and end columns
-(default: "ms"; options: "ms" for milliseconds, "s" for seconds, "m" for minutes).}
 }
 \value{
 A dataframe object with columns needed for the talkr workflow
