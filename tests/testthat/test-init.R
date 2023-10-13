@@ -5,13 +5,15 @@ dummy_data <- data.frame(
   y = c("c","c","c","d","d")
 )
 
-talkr_dataset <- init(dummy_data,
-                      begin = "col1",
-                      end = "col2",
-                      participant = "x",
-                      utterance = "y")
+
 
 test_that("talkr dataset initialized with minimal columns", {
+  talkr_dataset <- init(dummy_data,
+                        begin = "col1",
+                        end = "col2",
+                        participant = "x",
+                        utterance = "y")
+
   expect_equal(talkr_dataset$begin, dummy_data$col1)
   expect_equal(talkr_dataset$end, dummy_data$col2)
   expect_equal(talkr_dataset$participant, dummy_data$x)
@@ -19,3 +21,32 @@ test_that("talkr dataset initialized with minimal columns", {
 })
 
 
+test_that("timestamps are converted to milliseconds", {
+  talkr_dataset <- init(dummy_data,
+                        begin = "col1",
+                        end = "col2",
+                        participant = "x",
+                        utterance = "y",
+                        timeunit = "s")
+
+  expect_equal(talkr_dataset$begin, dummy_data$col1 * 1000)
+
+  talkr_dataset <- init(dummy_data,
+                        begin = "col1",
+                        end = "col2",
+                        participant = "x",
+                        utterance = "y",
+                        timeunit = "m")
+
+  expect_equal(talkr_dataset$end, dummy_data$col2 * 60000)
+})
+
+test_that("faulty inputs are dealt with", {
+  expect_error(init(dummy_data,
+                    begin = "col1",
+                    end = "col2",
+                    participant = "x",
+                    utterance = "y",
+                    timeunit = "h"),
+               "timeunit must be one of 'ms', 's', or 'm'")
+})
