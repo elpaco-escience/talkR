@@ -4,7 +4,7 @@
 \alias{report_summaries}
 \title{Report summaries on data}
 \usage{
-report_summaries(data, lang, allsources)
+report_summaries(data, lang = NA, allsources = FALSE)
 }
 \arguments{
 \item{data}{dataset}

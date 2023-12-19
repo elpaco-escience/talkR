@@ -1,0 +1,58 @@
+---
+title: "Basic workflow with talkr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(talkr)
+```
+
+## Data
+
+We will be using the IFADV corpus as example data for the workflow of `talkr`.
+A prepared dataset can be downloaded by installing the `ifadv` package:
+
+```{r install data package}
+# install.packages("devtools")
+devtools::install_github("elpaco-escience/ifadv")
+```
+
+We will initialize the talkr dataset using the ifadv data, as follows:
+
+```{r}
+data <- init(ifadv::ifadv)
+```
+
+For the `talkr` workflow, the columns named `begin`, `end`, `participant` and `utterance` are essential.
+The `init()` function can be used to rename columns if necessary.
+For example, if the column `participant` is named `speaker`, we can rename it as follows:
+
+```r
+talkr_data <- init(data,
+             participant = "speaker")
+```
+
+## Summaries
+
+The `report_summaries` function provides a summary of the data, including the
+total number of utterances, the total duration of the conversation, the number
+of speakers, and the number of sources.
+
+```{r}
+report_summaries(data)
+```
+
+## Visual quality checks
+
+The `plot_quality` function provides a visual check of the quality of the data.

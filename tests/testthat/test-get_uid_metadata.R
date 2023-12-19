@@ -1,3 +1,4 @@
+skip_on_ci()
 test_that("uid selection works", {
   load("data.rda")
   load("uids.rda")

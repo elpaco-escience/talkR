@@ -6,8 +6,9 @@
 \usage{
 inspect_language(
   data_conv,
-  data_tokens,
-  lang,
+  data_tokens = NULL,
+  lang = NULL,
+  returnplots = FALSE,
   saveplot = FALSE,
   allsources = FALSE
 )
@@ -18,6 +19,8 @@ inspect_language(
 \item{data_tokens}{tokens dataset}
 
 \item{lang}{language}
+
+\item{returnplots}{boolean indicating whether plots should be made}
 
 \item{saveplot}{should the plot be saved}
 
