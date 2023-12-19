@@ -14,10 +14,11 @@ License: Apache License (>= 2)
 Encoding: UTF-8
 LazyData: true
 Suggests: 
+    devtools,
     rmarkdown,
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Imports: 
     cowplot,
     dplyr,
@@ -25,7 +26,6 @@ Imports:
     ggrepel,
     ggthemes,
     knitr,
-    magrittr,
     stats,
     stringx,
     tidyr,
