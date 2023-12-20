@@ -37,16 +37,4 @@ check_quality <- function(data, source){
 }
 
 
-#' Check the presence of necessary columns in a dataset
-#'
-#' @param data dataset to check
-#' @param columns a vector of column names that must be present
-#'
-#' @return nothing, but throws an error if a column is missing
-check_columns <- function(data, columns){
-  for (column in columns){
-    if(!column %in% colnames(data)){
-      stop(paste0("Column `",column,"` was not found in the dataset."))
-    }
-  }
-}
+
