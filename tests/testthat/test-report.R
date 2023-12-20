@@ -10,19 +10,9 @@ if (!requireNamespace("ifadv")){
 data <- ifadv::ifadv
 
 test_that("summary reports are accurate", {
-  expect_snapshot(cat(
-    report_summaries(
-      data,
-      lang="dutch",
-      allsources = FALSE
-    ))
-  )
-
-  expect_snapshot(cat(
-    report_summaries(
-      data,
-      lang="dutch",
-      allsources = TRUE
-    ))
+  expect_snapshot(
+    report_stats(
+      data
+    )
   )
 })
