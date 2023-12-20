@@ -29,5 +29,7 @@ Imports:
     stats,
     stringx,
     tidyr,
+    tidyselect,
+    tibble,
     viridis
 Config/testthat/edition: 3

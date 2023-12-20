@@ -50,9 +50,15 @@ total number of utterances, the total duration of the conversation, the number
 of speakers, and the number of sources.
 
 ```{r}
-report_summaries(data)
+report_stats(data)
 ```
 
 ## Visual quality checks
 
 The `plot_quality` function provides a visual check of the quality of the data.
+
+```{r}
+#plot_quality(data)
+
+```
+

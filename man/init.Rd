@@ -6,14 +6,18 @@
 \usage{
 init(
   data,
+  source = "source",
   begin = "begin",
   end = "end",
   participant = "participant",
-  utterance = "utterance"
+  utterance = "utterance",
+  format_timestamps = "ms"
 )
 }
 \arguments{
 \item{data}{A dataframe object}
+
+\item{source}{The column name identifying the conversation source (e.g. a filename; is used as unique conversation ID)}
 
 \item{begin}{The column name with the begin time of the utterance (in milliseconds)}
 
@@ -22,6 +26,8 @@ init(
 \item{participant}{The column name with the participant who produced the utterance}
 
 \item{utterance}{The column name with the utterance itself}
+
+\item{format_timestamps}{The format of the timestamps in the begin and end columns. Default is "ms", which expects milliseconds. `\%H:\%M:\%OS` will format eg. 00:00:00.010 to milliseconds (10). See `?strptime` for more format examples.}
 }
 \value{
 A dataframe object with columns needed for the talkr workflow
