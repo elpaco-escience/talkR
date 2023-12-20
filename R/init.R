@@ -11,7 +11,7 @@
 #' @param end The column name with the end time of the utterance (in milliseconds)
 #' @param participant The column name with the participant who produced the utterance
 #' @param utterance The column name with the utterance itself
-#' @param format_timestamps The format of the timestamps in the begin and end columns. Default is "ms", which expects milliseconds. %H:%M:%OS will format eg. 00:00:00.010 to milliseconds (10). See `?strptime` for more format examples.
+#' @param format_timestamps The format of the timestamps in the begin and end columns. Default is "ms", which expects milliseconds. `\%H:\%M:\%OS` will format eg. 00:00:00.010 to milliseconds (10). See `?strptime` for more format examples.
 #'
 #' @return A dataframe object with columns needed for the talkr workflow
 #' @export
@@ -28,11 +28,11 @@ init <- function(data,
   check_columns(data, names_required)
 
   data <- data |>
-    dplyr::rename(source = all_of(source),
-                  begin = all_of(begin),
-                  end = all_of(end),
-                  participant = all_of(participant),
-                  utterance = all_of(utterance))
+    dplyr::rename(source = tidyselect::all_of(source),
+                  begin = tidyselect::all_of(begin),
+                  end = tidyselect::all_of(end),
+                  participant = tidyselect::all_of(participant),
+                  utterance = tidyselect::all_of(utterance))
 
   # convert timestamps if necessary
   if (format_timestamps != "ms"){
