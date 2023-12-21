@@ -82,3 +82,34 @@ test_that("timestamp conversion is done with init", {
                         begin = "alt")
   expect_equal(talkr_dataset$begin, dummy_data_with_time$alt)
 })
+
+test_that("UIDs are generated correctly", {
+  talkr_dataset <- init(dummy_data,
+                        source = "src",
+                        begin = "col1",
+                        end = "col2",
+                        participant = "x",
+                        utterance = "y")
+
+  expected_UIDs <- c("Atxt-0001-1",
+                     "Atxt-0002-2",
+                     "Atxt-0003-3",
+                     "Atxt-0004-4",
+                     "Atxt-0005-5")
+  expect_equal(talkr_dataset$uid, expected_UIDs)
+})
+
+test_that("Warning is generated with existing UID column", {
+  dummy_data$uid = c("a", "b", "c", "d", "e")
+  expect_warning(
+    talkr_dataset <- init(dummy_data,
+                      source = "src",
+                      begin = "col1",
+                      end = "col2",
+                      participant = "x",
+                      utterance = "y"),
+                 "already exists in the dataset")
+
+  expect_true("original_uid" %in% names(talkr_dataset))
+
+})

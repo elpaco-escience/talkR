@@ -43,6 +43,13 @@ init <- function(data,
     data$end <- as.numeric(data$end)
   }
 
+  # generate UIDs
+  if("uid" %in% names(data)){
+    warning("Column 'uid' already exists in the dataset. This column will be renamed to `original_uid`.")
+    data$original_uid <- data$uid
+  }
+  data$uid <- generate_uid(data$source, data$begin)
+
   return(data)
 }
 
@@ -54,4 +61,13 @@ timestamp_to_milliseconds <- function(timestamp, format = "%H:%M:%OS"){
   hours <- as.numeric(strftime(timestamp, format = "%H"))
   time_in_ms <- (seconds + minutes*60 + hours*60*60) * 1000
   return(time_in_ms)
+}
+
+
+generate_uid <- function(source, begin){
+  sourcecount <- stats::ave(seq_along(source), source, FUN = seq_along)
+  sourcecount <- sprintf("%04d", sourcecount)
+  sourceclean <- gsub("[./]", "", source)
+  uid <- paste(sourceclean, sourcecount, begin, sep = "-")
+  return(uid)
 }
