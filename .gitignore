@@ -3,6 +3,6 @@
 .RData
 .Ruserdata
 inst/doc
-*.rda
 *.wav
 .DS_Store
+notepad.R

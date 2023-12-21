@@ -16,4 +16,8 @@ Uses check_columns() to check for:
 - participant
 - utterance
 - source
+- uid
+}
+\details{
+Verifies that begin and end columns are numeric, and likely indicate milliseconds.
 }
