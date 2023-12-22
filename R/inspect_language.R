@@ -55,7 +55,7 @@ inspect_language <- function(data_conv,
   }
 
   # print summary stats
-  report_summaries(data_conv, lang, allsources)
+  report_stats(data_conv)
 }
 
 

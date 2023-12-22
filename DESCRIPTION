@@ -19,6 +19,8 @@ Suggests:
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
 RoxygenNote: 7.2.3
+Depends: 
+    R (>= 3.5.0)
 Imports: 
     cowplot,
     dplyr,
@@ -29,5 +31,9 @@ Imports:
     stats,
     stringx,
     tidyr,
-    viridis
+    tidyselect,
+    tibble,
+    viridis,
+    stringr,
+    purrr
 Config/testthat/edition: 3

@@ -1,7 +1,7 @@
-# language inspection yields stats
+# summary reports are accurate
 
     Code
-      cat(inspect_language(data, lang = "dutch"))
+      report_stats(data)
     Output
       ### Corpus-level statistics 
       
