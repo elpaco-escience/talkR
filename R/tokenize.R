@@ -16,7 +16,7 @@
 #' function. Spaces are used to separate words.
 #'
 #' @param data a talkr dataset
-#' @param utterance the name of the column containing the clean utterance (defaults to "utterance")
+#' @param utterancecol the name of the column containing the clean utterance (defaults to "utterance")
 #'
 #' @return
 #' @export

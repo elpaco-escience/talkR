@@ -9,7 +9,7 @@ tokenize(data, utterancecol = "utterance")
 \arguments{
 \item{data}{a talkr dataset}
 
-\item{utterance}{the name of the column containing the clean utterance (defaults to "utterance")}
+\item{utterancecol}{the name of the column containing the clean utterance (defaults to "utterance")}
 }
 \description{
 From a dataframe with utterances, generate a dataframe that separates tokens
