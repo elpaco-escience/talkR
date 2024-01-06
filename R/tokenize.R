@@ -13,25 +13,42 @@
 #' The input column provided with the argument `utterancecol` is used to generate
 #' the tokens. It is advised to provide a version of the utterance that has been
 #' cleaned and stripped of special characters. Cleaning is not performed in this
-#' function. Spaces are used to separate words.
+#' function. Spaces are used to separate tokens.
 #'
 #' @param data a talkr dataset
 #' @param utterancecol the name of the column containing the clean utterance (defaults to "utterance")
 #'
-#' @return
+#' @return a dataframe with details about each token in the utterance
 #' @export
 tokenize <- function(data, utterancecol = "utterance") {
   check_columns(data, utterancecol)
   check_talkr(data)
 
+  # split utterances into tokens
   data <- data |>
     dplyr::mutate(utterance_list = stringr::str_split(.data[[utterancecol]], " ")) |>
-    dplyr::mutate(nwords = purrr::map_int(utterance_list, length)) |>
-    dplyr::mutate(time_per_token = (.data$end - .data$begin) / nwords) |>
     tidyr::unnest(cols = "utterance_list") |>
     dplyr::rename(token = "utterance_list") |>
-    dplyr::mutate(tokenorder = stats::ave(seq_along(uid), uid, FUN = seq_along)) |>
-    dplyr::mutate(relative_time = round(begin + (tokenorder - 1) * time_per_token, 0)) |>
-    dplyr::select(source, uid, participant, nwords, token, relative_time)
+    dplyr::filter(token != "") |>
+    dplyr::mutate(tokenorder = stats::ave(seq_along(uid), uid, FUN = seq_along))
+
+  # count tokens per utterance
+  count <- data |>
+    dplyr::group_by(uid) |>
+    dplyr::summarise(nwords = dplyr::n())
+
+  # merge timing data with token data and calculate timing
+  data <- data |>
+    dplyr::left_join(count, by = "uid") |>
+    dplyr::mutate(time_per_token = (end - begin) / nwords,
+                  starttime = begin + (0.5 * time_per_token),
+                  relative_time = round(starttime + (tokenorder - 1) * time_per_token, 0),
+                  order = dplyr::case_when(
+                    tokenorder == 1 & nwords == 1 ~ "only",
+                    tokenorder == 1 ~ "first",
+                    tokenorder == nwords ~ "last",
+                    TRUE ~ "middle")) |>
+    dplyr::select(source, uid, participant, nwords, token, order, relative_time)
+
   return(data)
 }

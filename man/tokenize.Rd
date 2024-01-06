@@ -11,6 +11,9 @@ tokenize(data, utterancecol = "utterance")
 
 \item{utterancecol}{the name of the column containing the clean utterance (defaults to "utterance")}
 }
+\value{
+a dataframe with details about each token in the utterance
+}
 \description{
 From a dataframe with utterances, generate a dataframe that separates tokens
 in utterances, and assesses their relative timing.
@@ -26,5 +29,5 @@ the first token in the utterance beginning at the beginning of the utterance.
 The input column provided with the argument `utterancecol` is used to generate
 the tokens. It is advised to provide a version of the utterance that has been
 cleaned and stripped of special characters. Cleaning is not performed in this
-function. Spaces are used to separate words.
+function. Spaces are used to separate tokens.
 }
