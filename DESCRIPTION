@@ -29,11 +29,10 @@ Imports:
     ggthemes,
     knitr,
     stats,
+    stringr,
     stringx,
     tidyr,
     tidyselect,
     tibble,
-    viridis,
-    stringr,
-    purrr
+    viridis
 Config/testthat/edition: 3
