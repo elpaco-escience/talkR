@@ -29,26 +29,26 @@ tokenize <- function(data, utterancecol = "utterance") {
     dplyr::mutate(utterance_list = stringr::str_split(.data[[utterancecol]], " ")) |>
     tidyr::unnest(cols = "utterance_list") |>
     dplyr::rename(token = "utterance_list") |>
-    dplyr::filter(token != "") |>
-    dplyr::mutate(tokenorder = stats::ave(seq_along(uid), uid, FUN = seq_along))
+    dplyr::filter(.data$token != "") |>
+    dplyr::mutate(tokenorder = stats::ave(seq_along(.data$uid), .data$uid, FUN = seq_along))
 
   # count tokens per utterance
   count <- data |>
-    dplyr::group_by(uid) |>
+    dplyr::group_by(.data$uid) |>
     dplyr::summarise(nwords = dplyr::n())
 
   # merge timing data with token data and calculate timing
   data <- data |>
     dplyr::left_join(count, by = "uid") |>
-    dplyr::mutate(time_per_token = (end - begin) / nwords,
-                  starttime = begin + (0.5 * time_per_token),
-                  relative_time = round(starttime + (tokenorder - 1) * time_per_token, 0),
+    dplyr::mutate(time_per_token = (.data$end - .data$begin) / .data$nwords,
+                  starttime = .data$begin + (0.5 * .data$time_per_token),
+                  relative_time = round(.data$starttime + (.data$tokenorder - 1) * .data$time_per_token, 0),
                   order = dplyr::case_when(
-                    tokenorder == 1 & nwords == 1 ~ "only",
-                    tokenorder == 1 ~ "first",
-                    tokenorder == nwords ~ "last",
+                    .data$tokenorder == 1 & .data$nwords == 1 ~ "only",
+                    .data$tokenorder == 1 ~ "first",
+                    .data$tokenorder == .data$nwords ~ "last",
                     TRUE ~ "middle")) |>
-    dplyr::select(source, uid, participant, nwords, token, order, relative_time)
+    dplyr::select(.data$source, .data$uid, .data$participant, .data$nwords, .data$token, .data$order, .data$relative_time)
 
   return(data)
 }
