@@ -2,18 +2,30 @@
 % Please edit documentation in R/plot_turns_tokens.R
 \name{plot_turns_tokens}
 \alias{plot_turns_tokens}
-\title{Plot conversation}
+\title{Plot a stretch of conversation}
 \usage{
-plot_turns_tokens(data, sourcecount = 1)
+plot_turns_tokens(
+  data,
+  time_start = 0,
+  time_end = 60,
+  maxrank = 10,
+  source = 1
+)
 }
 \arguments{
 \item{data}{a talkr dataset}
 
-\item{sourcecount}{number of the source to plot (defaults to 1)}
+\item{time_start}{start time of the plot in seconds (defaults to 0)}
+
+\item{time_end}{end time of the plot in seconds (defaults to 60)}
+
+\item{maxrank}{maximum rank of tokens to plot (defaults to 10)}
+
+\item{source}{name or number of the source to plot (defaults to 1, plotting the first source in the data)}
 }
 \value{
 plot object
 }
 \description{
-Plot conversation
+Utterances are plotted as grey boxes, with frequently occurring tokens overlaid as colored dots.
 }
