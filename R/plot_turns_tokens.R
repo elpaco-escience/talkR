@@ -1,7 +1,7 @@
 #' Plot conversation
 #'
 #' @param data a talkr dataset
-#' @param source a sourcename to extract; default is NULL, then the first source will be picked
+#' @param sourcecount number of the source to plot (defaults to 1)
 #'
 #' @return plot object
 #' @export

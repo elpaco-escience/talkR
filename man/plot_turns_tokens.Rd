@@ -9,7 +9,7 @@ plot_turns_tokens(data, sourcecount = 1)
 \arguments{
 \item{data}{a talkr dataset}
 
-\item{source}{a sourcename to extract; default is NULL, then the first source will be picked}
+\item{sourcecount}{number of the source to plot (defaults to 1)}
 }
 \value{
 plot object
