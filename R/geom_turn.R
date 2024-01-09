@@ -36,7 +36,7 @@ geom_turn <- function(mapping = NULL, data = NULL,
 #' @export
 GeomTurn <- ggproto(
   "GeomTurn", Geom,
-  required_aes = c("begin", "end", "participant"),
+  required_aes = c("begin", "end"),
 
   default_aes = aes(
     fill = "grey80",
@@ -47,9 +47,12 @@ GeomTurn <- ggproto(
   extra_params = c("na.rm", "height"),
 
   setup_data = function(data, params) {
-    data$participant_int <- as.integer(as.factor(data$participant))
-    data$ymin <- data$participant_int - (0.5*params$height)
-    data$ymax <- data$participant_int + (0.5*params$height)
+
+    data$height <- params$height
+
+    data <- transform(data,
+                      ymin = y - 0.5*height,
+                      ymax = y + 0.5*height)
 
     data
   },
