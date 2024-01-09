@@ -11,6 +11,7 @@ geom_turn(
   position = "identity",
   ...,
   na.rm = FALSE,
+  height = 0.8,
   show.legend = NA,
   inherit.aes = TRUE
 )
@@ -27,6 +28,8 @@ geom_turn(
 \item{...}{Other arguments passed on to layer(). These are often aesthetics, used to set an aesthetic to a fixed value, like colour = "red" or size = 3. They may also be parameters to the paired geom/stat.}
 
 \item{na.rm}{If FALSE, the default, missing values are removed with a warning. If TRUE, missing values are silently removed.}
+
+\item{height}{The height of the rectangles representing turns}
 
 \item{show.legend}{logical. Should this layer be included in the legends? NA, the default, includes if any aesthetics are mapped. FALSE never includes, and TRUE always includes. It can also be a named logical vector to finely select the aesthetics to display.}
 
