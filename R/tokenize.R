@@ -39,7 +39,7 @@ tokenize <- function(data, utterancecol = "utterance") {
 
   # merge timing data with token data and calculate timing
   data <- data |>
-    dplyr::left_join(count, by = "uid") |>
+    dplyr::left_join(count, by = "uid", suffix = c("_orig","")) |>
     dplyr::mutate(time_per_token = (.data$end - .data$begin) / .data$nwords,
                   starttime = .data$begin + (0.5 * .data$time_per_token),
                   relative_time = round(.data$starttime + (.data$tokenorder - 1) * .data$time_per_token, 0),

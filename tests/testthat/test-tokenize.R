@@ -15,3 +15,9 @@ test_that("token columns are created, dataset matches", {
   expect_equal(tx$token[1:5], c("high", "level", "eh?", "sí", "que"))
   expect_equal(tx$order[1:4], c("first", "middle", "last", "only"))
 })
+
+test_that("no issues arise with dataset containing existing nwords column", {
+  data$nwords <- 1
+  tx <- tokenize(data)
+  expect_equal(tx$nwords[1:5], c(3, 3, 3, 1, 6))
+})
