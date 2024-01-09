@@ -37,6 +37,14 @@ tokenize <- function(data, utterancecol = "utterance") {
     dplyr::group_by(.data$uid) |>
     dplyr::summarise(nwords = dplyr::n())
 
+  nwordstotal <- sum(count$nwords)
+
+  rank <- data |>
+    dplyr::group_by(.data$token) |>
+    dplyr::summarise(frequency = dplyr::n()/nwordstotal) |>
+    dplyr::arrange(dplyr::desc(.data$frequency)) |>
+    dplyr::mutate(rank = dplyr::row_number())
+
   # merge timing data with token data and calculate timing
   data <- data |>
     dplyr::left_join(count, by = "uid", suffix = c("_orig","")) |>
@@ -49,6 +57,9 @@ tokenize <- function(data, utterancecol = "utterance") {
                     .data$tokenorder == .data$nwords ~ "last",
                     TRUE ~ "middle")) |>
     dplyr::select(.data$source, .data$uid, .data$participant, .data$nwords, .data$token, .data$order, .data$relative_time)
+
+  data <- data |>
+    dplyr::left_join(rank, by = "token")
 
   return(data)
 }

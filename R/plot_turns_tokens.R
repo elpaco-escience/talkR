@@ -10,7 +10,7 @@ plot_turns_tokens <- function(data, sourcecount = 1){
 
   window_length = 60 * 1000 # one minute, in milliseconds. The duration of a single line.
 
-  sourcecount <- max(sourcecount, length(unique(data$source)))
+  sourcecount <- min(sourcecount, length(unique(data$source)))
   source <- unique(data$source)[sourcecount]
 
   data <- data[data$source == source,]
@@ -19,6 +19,8 @@ plot_turns_tokens <- function(data, sourcecount = 1){
   tokens <- data |>
     tokenize()
 
+  tokens <- tokens[tokens$rank < 10,]
+
   p <- data |>
     ggplot2::ggplot(aes(x = end, y = participant)) +
     talkr::geom_turn(aes(
@@ -26,7 +28,8 @@ plot_turns_tokens <- function(data, sourcecount = 1){
       end = end)) +
     talkr::geom_token(data = tokens,
                       aes(x = relative_time,
-                          y = participant)) +
+                          y = participant,
+                          color = rank)) +
     talkr::theme_turnPlot() +
     ggplot2::xlab("time (ms)") +
     ggplot2::ggtitle(source)
