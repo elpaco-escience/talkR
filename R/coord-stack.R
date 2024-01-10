@@ -1,22 +1,26 @@
 #' Coordinate system that stacks a wide plot to multiple layers
 #'
+#' @param width Width of the stacked layers in seconds
 #' @export
 #' @inheritParams ggplot2::coord_trans
-coord_stack <- function(...) {
-  ggplot2::coord_trans(x = "stackx", ...) # y and x probably with different transformation objects
+coord_stack <- function(width, ...) {
+  width <- width * 1000 # convert to ms
+  ggplot2::coord_trans(x = stacking_x_axis(width), ...)
 }
 
-#' Transformation function for x axis stacking
-#'
-#' @export
-stackx_trans <- function(){
+
+stacking_x_axis <- function(width){
+  force(width)
+  trans <- function(x) {
+    x <- ifelse(x < width, x, x %% width)
+    x
+  }
+
   scales::trans_new(
     name = "stackx",
-    transform = function(x){
-      -x
-    },
+    transform = trans,
     inverse = function(x){
-      -x
+      x/width
     }
   )
 }

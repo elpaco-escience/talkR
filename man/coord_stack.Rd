@@ -4,7 +4,10 @@
 \alias{coord_stack}
 \title{Coordinate system that stacks a wide plot to multiple layers}
 \usage{
-coord_stack(...)
+coord_stack(width, ...)
+}
+\arguments{
+\item{width}{Width of the stacked layers in seconds}
 }
 \description{
 Coordinate system that stacks a wide plot to multiple layers
