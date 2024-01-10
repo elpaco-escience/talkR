@@ -11,10 +11,12 @@ coord_stack <- function(width, expand = TRUE, clip = "on") {
   )
 }
 
-#' @rdname ggplot2-ggproto
-#' @format NULL
-#' @usage NULL
+#' CoordStack
+#'
+#' @rdname ggproto
+#' @importFrom ggplot2 ggproto CoordCartesian
 #' @export
 CoordStack <- ggproto("CoordStack", CoordCartesian,
+                      required = "width",
 
 )

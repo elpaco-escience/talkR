@@ -26,9 +26,8 @@ geom_token <- function(data, mapping = NULL,
 
 #' GeomToken
 #'
-#' @rdname ggplot2-ggproto
-#' @format NULL
-#' @usage NULL
+#' @rdname ggproto
+#' @importFrom ggplot2 ggproto Geom
 #' @export
 GeomToken <- ggproto(
   "GeomToken", Geom,
