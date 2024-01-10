@@ -96,10 +96,12 @@ For more control over the plot, two specific geometries are available: `geom_tur
 In addition, there is a `talkr`-specific theme provided.
 
 ```{r}
+library(ggplot2)
+
 p <- data |>
   dplyr::filter(source == "/dutch2/DVA9M") |>
   dplyr::filter(end < 60000) |>
-  ggplot2::ggplot(aes(x = end, y = participant)) +
+  ggplot(aes(x = end, y = participant)) +
   geom_turn(aes(
     begin = begin,
     end = end)) +
