@@ -73,3 +73,79 @@ plot_quality(data, source = "/dutch2/DVA9M")
 
 ```
 
+## Plot conversations
+
+Individual conversations can be plotted quickly using `plot_turns_tokens()`.
+The default setting is to plot the first 60 seconds of the first source in the data,
+overlaying the 10 most frequent tokens.
+
+```{r}
+plot_turns_tokens(data)
+```
+
+We can set other defaults; e.g. a specific source, a different time window, and a different number of tokens:
+
+```{r}
+plot_turns_tokens(data, source = "/dutch2/DVA9M",
+                  begin = 120,
+                  duration = 120,
+                  maxrank = 20)
+```
+
+For more control over the plot, two specific geometries are available: `geom_turn` and `geom_token`.
+In addition, there is a `talkr`-specific theme provided.
+
+```{r}
+p <- data |>
+  dplyr::filter(source == "/dutch2/DVA9M") |>
+  dplyr::filter(end < 60000) |>
+  ggplot2::ggplot(aes(x = end, y = participant)) +
+  geom_turn(aes(
+    begin = begin,
+    end = end)) +
+  xlab("Time (ms)") +
+  ylab("") +
+  theme_turnPlot()
+
+p
+```
+
+This plot can be overlayed with plotted occurrences of tokens.
+
+To do so, we first need to calculate the token frequencies:
+
+```{r}
+tokens <- tokenize(data)
+
+tokens
+```
+
+Token frequencies are calculated over the entire dataset. For source-specific data, it is recommended to filter
+the source prior to tokenization:
+
+```{r}
+tokens <- data |>
+  dplyr::filter(source == "/dutch2/DVA9M") |>
+  tokenize()
+
+tokens
+```
+
+Before we plot the tokens over the turns, we need to select the tokens we want to plot (e.g. the top 10 ranked), and the time window they occur in:
+
+```{r}
+tokenselection <- tokens |>
+  dplyr::filter(relative_time < 60000) |>
+  dplyr::filter(rank <= 10)
+```
+
+We can plot the tokens over the turns.
+
+```{r}
+p +
+geom_token(data = tokenselection,
+           aes(x = relative_time,
+               y = participant,
+               color = rank)) +
+  viridis::scale_color_viridis(option = "plasma", direction = -1, begin = 0.2, end = 0.8)
+```
