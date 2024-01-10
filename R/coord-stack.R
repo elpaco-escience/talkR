@@ -1,22 +1,22 @@
 #' Coordinate system that stacks a wide plot to multiple layers
 #'
-#' @param width the length of a single layer
 #' @export
-#' @inheritParams ggplot2::coord_cartesian
-coord_stack <- function(width, expand = TRUE, clip = "on") {
-  ggproto(NULL, CoordStack,
-          width,
-          expand = expand,
-          clip = clip
-  )
+#' @inheritParams ggplot2::coord_trans
+coord_stack <- function(...) {
+  ggplot2::coord_trans(x = "stackx", ...) # y and x probably with different transformation objects
 }
 
-#' CoordStack
+#' Transformation function for x axis stacking
 #'
-#' @rdname ggproto
-#' @importFrom ggplot2 ggproto CoordCartesian
 #' @export
-CoordStack <- ggproto("CoordStack", CoordCartesian,
-                      required = "width",
-
-)
+stackx_trans <- function(){
+  scales::trans_new(
+    name = "stackx",
+    transform = function(x){
+      -x
+    },
+    inverse = function(x){
+      -x
+    }
+  )
+}
