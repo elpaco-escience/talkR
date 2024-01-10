@@ -4,20 +4,14 @@
 \alias{plot_turns_tokens}
 \title{Plot a stretch of conversation}
 \usage{
-plot_turns_tokens(
-  data,
-  time_start = 0,
-  time_end = 60,
-  maxrank = 10,
-  source = 1
-)
+plot_turns_tokens(data, begin = 0, duration = 60, maxrank = 10, source = 1)
 }
 \arguments{
 \item{data}{a talkr dataset}
 
-\item{time_start}{start time of the plot in seconds (defaults to 0)}
+\item{begin}{start time of the plot in seconds (defaults to 0)}
 
-\item{time_end}{end time of the plot in seconds (defaults to 60)}
+\item{duration}{duration of the plot in seconds (defaults to 60)}
 
 \item{maxrank}{maximum rank of tokens to plot (defaults to 10)}
 
