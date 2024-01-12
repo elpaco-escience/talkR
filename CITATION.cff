@@ -1,0 +1,25 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: talkr
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Barbara
+    family-names: Vreede
+    email: b.vreede@gmail.com
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.10497139
+repository-code: 'https://github.com/elpaco-escience/talkr'
+keywords:
+  - turn-taking
+  - conversation
+  - talk
+  - visualization
+license: Apache-2.0
+version: 0.0.1
+date-released: '2024-01-12'
