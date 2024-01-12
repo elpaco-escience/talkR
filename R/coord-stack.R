@@ -12,7 +12,7 @@ coord_stack <- function(width, ...) {
 stacking_x_axis <- function(width){
   force(width)
   trans <- function(x) {
-    x <- ifelse(x < width, x, x %% width)
+    x <- x %% width
     x
   }
 
