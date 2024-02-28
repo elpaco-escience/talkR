@@ -56,7 +56,7 @@ tokenize <- function(data, utterancecol = "utterance") {
                     .data$tokenorder == 1 ~ "first",
                     .data$tokenorder == .data$nwords ~ "last",
                     TRUE ~ "middle")) |>
-    dplyr::select(.data$source, .data$uid, .data$participant, .data$nwords, .data$token, .data$order, .data$relative_time)
+    dplyr::select("source", "uid", "participant", "nwords", "token", "order", "relative_time")
 
   data <- data |>
     dplyr::left_join(rank, by = "token")
