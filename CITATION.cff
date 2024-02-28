@@ -1,0 +1,35 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: talkr
+message: "If you use this software, please cite the original paper DOI:10.18653/v1/2021.sigdial-1.26"
+type: software
+authors:
+  - given-names: Barbara
+    family-names: Vreede
+    orcid: "https://orcid.org/0000-0002-5023-4601"
+  -
+    family-names: Dingemanse
+    given-names: Mark
+    orcid: "https://orcid.org/0000-0002-3290-5723"
+  -
+    family-names: Liesenfeld
+    given-names: Andreas
+    orcid: "https://orcid.org/0000-0001-6076-4406"
+  -
+    family-names: Viviani
+    given-names: Eva
+    orcid: "https://orcid.org/0000-0002-1330-0585"
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.10497139
+repository-code: 'https://github.com/elpaco-escience/talkr'
+keywords:
+  - turn-taking
+  - conversation
+  - talk
+  - visualization
+license: Apache-2.0
+version: 0.0.2
+date-released: '2024-01-12'
