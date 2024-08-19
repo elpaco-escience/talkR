@@ -14,10 +14,6 @@ Description: Functions to plot elements of conversations.
 License: Apache License (>= 2)
 Encoding: UTF-8
 LazyData: true
-Suggests: 
-    devtools,
-    rmarkdown,
-    testthat (>= 3.0.0)
 VignetteBuilder: knitr
 RoxygenNote: 7.3.2
 Depends: 
@@ -36,4 +32,8 @@ Imports:
     tidyselect,
     tibble,
     viridis
+Suggests: 
+    devtools,
+    rmarkdown,
+    testthat (>= 3.0.0)
 Config/testthat/edition: 3
