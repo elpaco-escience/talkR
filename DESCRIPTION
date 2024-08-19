@@ -1,6 +1,6 @@
 Package: talkr
 Type: Package
-Title: Plotting conversation data
+Title: Plotting Conversation Data
 Version: 0.1.0
 Authors@R: c(
   person("Mark", "Dingemanse", email = "mark.dingemanse@ru.nl", role = c("aut", "cre")),
