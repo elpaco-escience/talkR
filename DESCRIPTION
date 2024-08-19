@@ -4,8 +4,9 @@ Title: Plotting conversation data
 Version: 0.1.0
 Authors@R: c(
   person("Mark", "Dingemanse", email = "mark.dingemanse@ru.nl", role = c("aut", "cre")),
-  person("Barbara", "Vreede", email = "b.vreede@esciencecenter.nl", role = "aut"),
+  person("Barbara", "Vreede", email = "b.vreede@gmail.com", role = "aut"),
   person("Eva", "Viviani", email = "e.viviani@esciencecenter.nl", role = "aut"),
+  person("Pablo", "Rodríguez-Sánchez", email = "p.rodriguez-sanchez@esciencecenter.nl", role = "aut"),
   person("Andreas", "Liesenfeld", email = "andreas.liesenfeld@ru.nl", role = "ctb"),
   person("Netherlands eScience Center", role = c("cph", "fnd"))
   )
