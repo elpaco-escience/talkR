@@ -35,5 +35,7 @@ Imports:
 Suggests: 
     devtools,
     rmarkdown,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    ifadv
+Remotes: git::https://github.com/elpaco-escience/ifadv.git
 Config/testthat/edition: 3
