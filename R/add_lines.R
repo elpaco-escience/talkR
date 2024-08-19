@@ -11,24 +11,25 @@
 #' @export
 #'
 add_lines <- function(data,line_duration=60000) {
-  
-  # total length of the selected data
-  extract_begin <- min(data$begin,na.rm=T)
-  extract_end <- end(data$end,na.rm=T) 
-  extract_length <- extract_end - extract_begin
 
   # define line breaks as a range of multiples of line_duration that starts from extract_begin
-  line_breaks <- as.integer(c(extract_begin:round(extract_length/line_duration)) * line_duration)
+  line_breaks <- seq(from = min(data$begin,na.rm=T),
+                     to = max(data$end,na.rm=T) ,
+                     by = line_duration)
 
   # add line numbers
   data <- data |>
-    dplyr::mutate(line = cut(begin,line_breaks,right=F,labels=F)) |>
-    tidyr::drop_na(line) |> # TODO: do we need this and why?
+    dplyr::mutate(line_id = cut(begin,line_breaks,right=F,labels=F)) |>
     #group by line and reset timestamps to start at 0 for each new line
-    dplyr::group_by(line) |>
-    dplyr::mutate(begin_line = begin - min(begin),
-           end_line = end - min(begin)) |>
+    dplyr::group_by(line_id) |>
+    dplyr::mutate(line_begin = begin - min(begin),
+           line_end = end - min(begin)) |>
     dplyr::ungroup()
+
+  # add participant combined with line ID
+  data <- data |>
+    tidyr::unite("line_participant",c("line_id","participant"),sep="_")
 
   return(data)
 }
+
