@@ -6,3 +6,4 @@ sonar.project.properties
 ^working_example.R
 
 notepad.R
+CITATION.cff
