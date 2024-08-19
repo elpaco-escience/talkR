@@ -37,15 +37,15 @@ report <- function(data) {
   summary <- data |>
     dplyr::mutate(XXX_turn_duration = .data$end - .data$begin) |>
     dplyr::group_by(.data$source) |>
-    dplyr::summarize(start=min.na(.data$begin),
-                     end=max.na(.data$end),
+    dplyr::summarize(start=min_na(.data$begin),
+                     end=max_na(.data$end),
                      n_turns=dplyr::n(),
                      shortest_turn=min_na(.data$XXX_turn_duration),
                      longest_turn=max_na(.data$XXX_turn_duration),
                      avg_turn=mean_na(.data$XXX_turn_duration),
                      n_participants=dplyr::n_distinct(.data$participant),
                      totaltime = .data$end - .data$start,
-                     total_speaking = sum.na(.data$XXX_turn_duration)
+                     total_speaking = sum_na(.data$XXX_turn_duration)
     )
   return(summary)
 }
@@ -55,7 +55,7 @@ report_combined <- function(summary) {
   combined <- summary |>
     dplyr::summarize(`nr of sources` = dplyr::n(),
                      `nr of participants` = sum_na(.data$n_participants),
-                     `nr of turns` = sum.na(.data$n_turns),
+                     `nr of turns` = sum_na(.data$n_turns),
                      `mean turn duration (ms)` = round(sum_na(.data$total_speaking) / sum_na(.data$n_turns), 0),
                      `turns per hour` = round(sum_na(.data$n_turns) / (sum_na(.data$totaltime) / (60 * 60 * 1000)), 0),
                      `total recording (min)` = round((sum_na(.data$totaltime) / (60 * 1000)), 1),
