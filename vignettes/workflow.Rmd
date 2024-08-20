@@ -25,7 +25,7 @@ library(talkr)
 
 We will be using the IFADV corpus as example data for the workflow of `talkr`. This is a corpus consisting of 20 dyadic conversations in Dutch, published by the Nederlandse Taalunie in 2007 ([source](https://fon.hum.uva.nl/IFA-SpokenLanguageCorpora/IFADVcorpus/)). A prepared dataset can be downloaded by installing the `ifadv` package:
 
-```{r install data package}
+```{r install_data_package}
 # install.packages("devtools")
 devtools::install_github("elpaco-escience/ifadv")
 ```
@@ -42,7 +42,7 @@ The `init()` function takes these minimal fields and generates a few more based 
 
 The `init()` function can be used to rename columns if necessary. For example, if the column `participant` is named `speaker`, we can rename it as follows:
 
-``` r
+```{r init_demo}
 talkr_data <- init(data,
              participant = "speaker")
 ```
@@ -55,17 +55,17 @@ A dataset can contain additional fields. For instance, the IFADV sample dataset 
 
 The `report_stats` function provides a simple summary of a dataset, including the total number of utterances, the total duration of the conversation, the number of participants, and the number of sources.
 
-```{r}
+```{r report_stats}
 report_stats(data)
 ```
 
 ### Visual quality checks
 
-The `plot_quality` function provides a visual check of the quality of the data, by visualizing the distribution of turn duration, and transition timing.
+The `plot_quality` function provides a visual check of the nature of the data, by visualizing the distribution of turn durations, and transition timing.
 
 Transition timing is similar to FTO, but calculated without additional quality checks: transitions are identified when the participant changes from one turn to the next. The transition time is then calculated as the difference between the beginning of the turn of the new participant, and the end of the turn of the previous one.
 
-By default, `plot_quality()` will plot the quality of the entire dataset:
+By default, `plot_quality()` will plot the entire dataset:
 
 ```{r}
 plot_quality(data)
@@ -75,9 +75,14 @@ plot_quality(data)
 Quality plots can also be run for a specific source:
 
 ```{r}
-plot_quality(data, source = "/dutch2/DVA9M")
-
+plot_quality(data, source = "/dutch2/DVA8K")
 ```
+
+A quality plot consists of three separate visualizations, all designed to allow rapid visual inspection and spotting oddities:
+1. A density plot of turn durations. This is normally expected to look like a distribution that has a peak around 2000ms (2 seconds) and maximum lengths that do not far exceed 10000ms (10 seconds) (Liesenfeld & Dingemanse 2022). The goal of this plot is to allow eyeballing of oddities like turns of extreme durations or sets of turns with the exact same duration (unlikely in carefully segmented conversational data).
+2. A density plot of turn transition times. A plot like this is expected to look like a normal distribution centered around 0-200ms (Stivers et al. 2009). Deviations from this may signal problems in the dataset, for instance due to imprecise or automated annotation methods.
+3. A scatterplot of turn transition (x) by turn duration. This combines both distributions and is expected to look like a cloud of datapoints that is thickest in the middle region. Any standout patterns (for instance, turns whose duration is equal to their transition time) are indicative of problems in the segmentation or timing data.
+
 
 ## Workflow 2: Plot conversations
 
