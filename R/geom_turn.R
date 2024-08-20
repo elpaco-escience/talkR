@@ -9,7 +9,7 @@
 #' @export
 geom_turn <- function(mapping = NULL, data = NULL,
                       stat = "identity", position = "identity",
-                      ..., na.rm = FALSE, height = 0.8, show.legend = NA, inherit.aes = TRUE) {
+                      ..., na.rm = FALSE, height = 0.5, show.legend = NA, inherit.aes = TRUE) {
   layer(
     data = data,
     mapping = mapping,
