@@ -1,14 +1,16 @@
 #' Add information for line-by-line visualization
 #'
-#' This function adds columns to the dataset that adds a line ID, and a `begin_line` and
-#' `end_line` column for timestamps relative to the beginning of the line, so data can
+#' This function adds columns to the dataset that adds a line ID, and changes columns
+#' with timestamps relative to the beginning of the line, so data can
 #' be visualized line-by-line.
+#' The participant column is also adjusted to create a Y-coordinate for each speaker.
 #'
 #' @param data dataset to divide into lines
-#' @param time_columns columns with timestamps; either "begin" and "end" or a single column
-#' @param line_duration length of line in ms
+#' @param time_columns columns with timestamps that need to be adjusted to line-relative time
+#' @param line_duration length of line (in ms)
 #'
-#' @return data set with added columns `line`, `begin_line`, `end_line`
+#' @return data set with added columns: `line_id`, `line_participant`, and
+#'        `line_column` for every column in `time_columns`
 #' @export
 #'
 add_lines <- function(data, time_columns = c("begin", "end"), line_duration=60000) {
@@ -41,8 +43,4 @@ add_lines <- function(data, time_columns = c("begin", "end"), line_duration=6000
   data$line_participant <- (data$participant_int/n_participants) + data$line_id
 
   return(data)
-}
-
-update_time_col <- function(data, colname){
-
 }
