@@ -20,5 +20,9 @@ test_that("No errors with specific durations", {
 })
 
 test_that("add_lines can work with a tokenized data frame", {
-  df_token_lines <- add_lines(df_token, time_columns = "relative_time", line_duration = 1500)
+  df_token_lines <- add_lines(df_token,
+                              time_columns = "relative_time",
+                              line_duration = 1500)
+  expect_equal(df_token_lines$relative_time,
+               c(500, 1500, 2500, 3500, 300251, 300750))
 })
