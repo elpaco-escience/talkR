@@ -33,7 +33,6 @@ Imports:
     tibble,
     viridis
 Suggests: 
-    devtools,
     rmarkdown,
     testthat (>= 3.0.0),
     ifadv
