@@ -86,24 +86,27 @@ A quality plot consists of three separate visualizations, all designed to allow 
 
 ## Workflow 2: Plot conversations
 
-Another key use of `talkr` is to visualize conversational patterns.
+Another key use of `talkr` is to visualize conversational patterns. A first key way to do so is `geom_turn()`, a ggplot2-compatible geom that visualizes the timing and duration of turns in a conversation.
 
-Individual conversations can be plotted quickly using `plot_turns_tokens()`. The default setting is to plot the first 60 seconds of the first source in the data, overlaying the 10 most frequent tokens.
+```{r geom_turn_demo_1}
+library(ggplot2)
 
-```{r}
-plot_turns_tokens(data)
+p <- data |>
+  dplyr::filter(source == "/dutch2/DVA9M") |>
+  dplyr::filter(end < 60000) |>
+  ggplot(aes(x = end, y = participant)) +
+  geom_turn(aes(
+    begin = begin,
+    end = end)) +
+  xlab("Time (ms)") +
+  ylab("") +
+  theme_turnPlot()
+
+p
 ```
 
-We can set other defaults; e.g. a specific source, a different time window, and a different number of tokens:
 
-```{r}
-plot_turns_tokens(data, source = "/dutch2/DVA9M",
-                  begin = 120,
-                  duration = 120,
-                  maxrank = 20)
-```
-
-For more control over the plot, two specific geometries are available: `geom_turn` and `geom_token`. In addition, there is a `talkr`-specific theme provided.
+two specific geometries are available: `geom_turn` and `geom_token`. In addition, there is a `talkr`-specific theme provided.
 
 ```{r}
 library(ggplot2)
