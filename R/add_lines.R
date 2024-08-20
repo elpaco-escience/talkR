@@ -19,11 +19,11 @@ add_lines <- function(data,line_duration=60000) {
 
   # add line numbers
   data <- data |>
-    dplyr::mutate(line_id = cut(begin,line_breaks,right=F,labels=F)) |>
+    dplyr::mutate(line_id = cut(.data$begin,line_breaks,right=F,labels=F)) |>
     #group by line and reset timestamps to start at 0 for each new line
-    dplyr::group_by(line_id) |>
-    dplyr::mutate(line_begin = begin - min(begin),
-           line_end = end - min(begin)) |>
+    dplyr::group_by(.data$line_id) |>
+    dplyr::mutate(line_begin = .data$begin - min(.data$begin),
+           line_end = .data$end - min(.data$begin)) |>
     dplyr::ungroup()
 
   # add participant combined with line ID
