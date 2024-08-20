@@ -40,7 +40,7 @@ add_lines <- function(data, time_columns = c("begin", "end"), line_duration=6000
   # create Y coordinates for speakers
   data$participant_int <- as.integer(as.factor(data$participant))
   n_participants <- length(unique(data$participant_int)) + 1
-  data$line_participant <- (data$participant_int/n_participants) + data$line_id
+  data$line_participant <- (data$participant_int/n_participants) + data$line_id - 0.5
 
   return(data)
 }
