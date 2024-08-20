@@ -103,13 +103,13 @@ convplot <- function(data, uids=NULL,lang=NULL,n_uid=10,
     if(dyads) { extracts <- extracts.dyadic }
 
     p <- extracts |>
-      dplyr::mutate(striplength = case_when(duration < 300 ~ 3,
+      dplyr::mutate(striplength = dplyr::case_when(duration < 300 ~ 3,
                                      duration >= 300 ~ round(duration/90)),
              uttshort = ifelse(nchar <= striplength | nchar <= 4,
                                utterance,
                                paste0(stringx::strtrim(utterance,striplength),'~'))) |>
       ggplot(aes(y=participant_int)) +
-      theme_tufte() + theme(legend.position = "none",
+      ggthemes::theme_tufte() + theme(legend.position = "none",
                             strip.placement = "outside",
                             strip.text = element_text(hjust=0,color="grey50")) +
       ylab("") + xlab("time (ms)") +

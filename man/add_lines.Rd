@@ -4,18 +4,22 @@
 \alias{add_lines}
 \title{Add information for line-by-line visualization}
 \usage{
-add_lines(data, line_duration = 60000)
+add_lines(data, time_columns = c("begin", "end"), line_duration = 60000)
 }
 \arguments{
 \item{data}{dataset to divide into lines}
 
-\item{line_duration}{length of line in ms}
+\item{time_columns}{columns with timestamps that need to be adjusted to line-relative time}
+
+\item{line_duration}{length of line (in ms)}
 }
 \value{
-data set with added columns `line`, `begin_line`, `end_line`
+data set with added columns: `line_id`, `line_participant`, and
+       `line_column` for every column in `time_columns`
 }
 \description{
-This function adds columns to the dataset that adds a line ID, and a `begin_line` and
-`end_line` column for timestamps relative to the beginning of the line, so data can
+This function adds columns to the dataset that adds a line ID, and changes columns
+with timestamps relative to the beginning of the line, so data can
 be visualized line-by-line.
+The participant column is also adjusted to create a Y-coordinate for each speaker.
 }
