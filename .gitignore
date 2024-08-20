@@ -5,7 +5,6 @@
 inst/doc
 *.wav
 .DS_Store
-notepad.R
 
 ## Build and check files
 *.tar.gz
