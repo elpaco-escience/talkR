@@ -1,11 +1,12 @@
 Package: talkr
 Type: Package
-Title: Plotting conversation data
+Title: Plotting Conversation Data
 Version: 0.1.0
 Authors@R: c(
   person("Mark", "Dingemanse", email = "mark.dingemanse@ru.nl", role = c("aut", "cre")),
-  person("Barbara", "Vreede", email = "b.vreede@esciencecenter.nl", role = "aut"),
+  person("Barbara", "Vreede", email = "b.vreede@gmail.com", role = "aut"),
   person("Eva", "Viviani", email = "e.viviani@esciencecenter.nl", role = "aut"),
+  person("Pablo", "Rodríguez-Sánchez", email = "p.rodriguez-sanchez@esciencecenter.nl", role = "aut"),
   person("Andreas", "Liesenfeld", email = "andreas.liesenfeld@ru.nl", role = "ctb"),
   person("Netherlands eScience Center", role = c("cph", "fnd"))
   )
@@ -13,12 +14,8 @@ Description: Functions to plot elements of conversations.
 License: Apache License (>= 2)
 Encoding: UTF-8
 LazyData: true
-Suggests: 
-    devtools,
-    rmarkdown,
-    testthat (>= 3.0.0)
 VignetteBuilder: knitr
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Depends: 
     R (>= 3.5.0)
 Imports: 
@@ -35,4 +32,9 @@ Imports:
     tidyselect,
     tibble,
     viridis
+Suggests: 
+    rmarkdown,
+    testthat (>= 3.0.0),
+    ifadv
+Remotes: git::https://github.com/elpaco-escience/ifadv.git
 Config/testthat/edition: 3

@@ -39,7 +39,10 @@ prior_by <- function(data) {
 
 transition_time <- function(data) {
   data$prior_by <- prior_by(data)
+  data$prior_source <- dplyr::lag(data$source, 1)
   data$transition_time <- data$begin - dplyr::lag(data$end, 1)
 
-  return(ifelse(data$prior_by == "other", data$transition_time, NA))
+  return(ifelse(data$prior_source == data$source &
+                  data$prior_by == "other",
+                data$transition_time, NA))
 }

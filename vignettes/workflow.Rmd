@@ -21,14 +21,9 @@ library(talkr)
 ## Data
 
 We will be using the IFADV corpus as example data for the workflow of `talkr`.
-A prepared dataset can be downloaded by installing the `ifadv` package:
+The snippet below initializes the talkr dataset using the ifadv data.
 
-```{r install data package}
-# install.packages("devtools")
-devtools::install_github("elpaco-escience/ifadv")
-```
-
-We will initialize the talkr dataset using the ifadv data, as follows:
+For more information about the IFADV dataset, see the [repository link](https://github.com/elpaco-escience/ifadv).
 
 ```{r}
 data <- init(ifadv::ifadv)
