@@ -13,7 +13,7 @@
       7   catalan1file01cha-0007-320534           320              NA
       8   catalan1file01cha-0008-320882          1924              28
       9   catalan1file01cha-0009-323184          4310              NA
-      10  catalan1file02cha-0001-307450           266          -20044
+      10  catalan1file02cha-0001-307450           266              NA
       11  catalan1file02cha-0002-308048          1220              NA
       12  catalan1file02cha-0003-309970          1292             702
       13  catalan1file02cha-0004-310162          1402           -1100
@@ -23,7 +23,7 @@
       17  catalan1file02cha-0008-317434          4021             173
       18  catalan1file02cha-0009-321769           756              NA
       19  catalan1file02cha-0010-323138           676             613
-      20  catalan1file03cha-0001-303584          3126          -20230
+      20  catalan1file03cha-0001-303584          3126              NA
       21  catalan1file03cha-0002-308802          4964            2092
       22  catalan1file03cha-0003-314402          2920              NA
       23  catalan1file03cha-0004-317310           440             -12
@@ -32,14 +32,14 @@
       26  catalan1file03cha-0007-319874          1942             188
       27  catalan1file03cha-0008-322066           420             250
       28  catalan1file03cha-0009-322832          4535             346
-      29    dutch2file01eaf-0001-310268           931          -17099
+      29    dutch2file01eaf-0001-310268           931              NA
       30    dutch2file01eaf-0002-311338          1408              NA
       31    dutch2file01eaf-0003-313264          2500              NA
       32    dutch2file01eaf-0004-316427          1508              NA
       33    dutch2file01eaf-0005-318388          2397              NA
       34    dutch2file01eaf-0006-320785          2686              NA
       35    dutch2file01eaf-0007-321936           931           -1535
-      36    dutch2file02eaf-0001-305405           205          -17462
+      36    dutch2file02eaf-0001-305405           205              NA
       37    dutch2file02eaf-0002-305610          3222              NA
       38    dutch2file02eaf-0003-308468          2162            -364
       39    dutch2file02eaf-0004-308832          2072           -1798
@@ -47,14 +47,14 @@
       41    dutch2file02eaf-0006-311017          1927            -718
       42    dutch2file02eaf-0007-312944          1161              NA
       43    dutch2file02eaf-0008-314105           285               0
-      44    dutch2file03eaf-0001-313106          2456           -1284
+      44    dutch2file03eaf-0001-313106          2456              NA
       45    dutch2file03eaf-0002-315483          1419             -79
       46    dutch2file03eaf-0003-317849           712             947
       47    dutch2file03eaf-0004-318561          1442              NA
       48    dutch2file03eaf-0005-320615           563             612
       49    dutch2file03eaf-0006-320623           642            -555
       50    dutch2file03eaf-0007-321561          1555              NA
-      51  english3file01txt-0001-307452           992          -15664
+      51  english3file01txt-0001-307452           992              NA
       52  english3file01txt-0002-308636           768             192
       53  english3file01txt-0003-309436           544              32
       54  english3file01txt-0004-309756          1120            -224
@@ -65,7 +65,7 @@
       59  english3file01txt-0009-318398          2979             367
       60  english3file01txt-0010-322364           608             987
       61  english3file01txt-0011-323196           640             224
-      62  english3file02txt-0001-303260           576          -20576
+      62  english3file02txt-0001-303260           576              NA
       63  english3file02txt-0002-303788           512             -48
       64  english3file02txt-0003-304300          1088               0
       65  english3file02txt-0004-305340           304             -48
@@ -74,20 +74,20 @@
       68  english3file02txt-0007-307292           320              NA
       69  english3file02txt-0008-307293          1647            -319
       70  english3file02txt-0009-309020           480              80
-      71  english3file03txt-0001-311058          1616            1558
+      71  english3file03txt-0001-311058          1616              NA
       72  english3file03txt-0002-315690           700            3016
       73  english3file03txt-0003-316390           650               0
       74  english3file03txt-0004-317040           850               0
       75  english3file03txt-0005-317890          2866               0
       76  english3file03txt-0006-321373           516             617
       77  english3file03txt-0007-321889           934               0
-      78   korean4file01xml-0001-315190          1400           -7633
+      78   korean4file01xml-0001-315190          1400              NA
       79   korean4file01xml-0002-316370           570            -220
       80   korean4file01xml-0003-316640          1770            -300
       81   korean4file01xml-0004-318180         11800            -230
       82   korean4file01xml-0005-318410          1490          -11570
       83   korean4file01xml-0006-320430           720              NA
-      84   korean4file02xml-0001-306020           900          -15130
+      84   korean4file02xml-0001-306020           900              NA
       85   korean4file02xml-0002-307550          1600              NA
       86   korean4file02xml-0003-309020           450            -130
       87   korean4file02xml-0004-309230          1900            -240
@@ -97,7 +97,7 @@
       91   korean4file02xml-0008-318250          1040             -10
       92   korean4file02xml-0009-319090          1650            -200
       93   korean4file02xml-0010-321270           440             530
-      94   korean4file03xml-0001-307650          3790          -14060
+      94   korean4file03xml-0001-307650          3790              NA
       95   korean4file03xml-0002-308890           480           -2550
       96   korean4file03xml-0003-311710          2810            2340
       97   korean4file03xml-0004-314550          1470              30
@@ -105,7 +105,7 @@
       99   korean4file03xml-0006-317440           380           -2660
       100  korean4file03xml-0007-319960           470              NA
       101  korean4file03xml-0008-320560          3050             130
-      102    siwu5file01prt-0001-313110           580          -10500
+      102    siwu5file01prt-0001-313110           580              NA
       103    siwu5file01prt-0002-314499           864             809
       104    siwu5file01prt-0003-315526           681              NA
       105    siwu5file01prt-0004-316560           700             353
@@ -114,7 +114,7 @@
       108    siwu5file01prt-0007-322608          2976             718
       109    siwu5file01prt-0008-315500          3360          -10084
       110    siwu5file01prt-0009-318910          3630              NA
-      111    siwu5file02prt-0001-313040           850           -9500
+      111    siwu5file02prt-0001-313040           850              NA
       112    siwu5file02prt-0002-315630          1230              NA
       113    siwu5file02prt-0003-315650           830           -1210
       114    siwu5file02prt-0004-316680          2060             200
@@ -123,7 +123,7 @@
       117    siwu5file02prt-0007-319570          1620             830
       118    siwu5file02prt-0008-319800          1890           -1390
       119    siwu5file02prt-0009-321840          1650             150
-      120    yeli6file01csv-0001-305080           400          -18410
+      120    yeli6file01csv-0001-305080           400              NA
       121    yeli6file01csv-0002-306020          1050              NA
       122    yeli6file01csv-0003-307110          1350              NA
       123    yeli6file01csv-0004-308498          1752              NA
@@ -131,14 +131,14 @@
       125    yeli6file01csv-0006-312242          1158              NA
       126    yeli6file01csv-0007-314204           990              NA
       127    yeli6file01csv-0008-315960           240              NA
-      128    yeli6file02csv-0001-308210          1060           -7990
+      128    yeli6file02csv-0001-308210          1060              NA
       129    yeli6file02csv-0002-310780           760              NA
       130    yeli6file02csv-0003-318000          1010              NA
       131    yeli6file02csv-0004-321180           350              NA
       132    yeli6file02csv-0005-306360          1640          -15170
       133    yeli6file02csv-0006-309265          1500              NA
       134    yeli6file02csv-0007-319740          1584              NA
-      135    yeli6file03csv-0001-317565          1233           -3759
+      135    yeli6file03csv-0001-317565          1233              NA
       136    yeli6file03csv-0002-319110           520              NA
       137    yeli6file03csv-0003-320471          1265              NA
       138    yeli6file03csv-0004-306450           850          -15286
