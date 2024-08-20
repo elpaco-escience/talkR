@@ -36,7 +36,8 @@ GeomTurn <- ggproto(
 
   default_aes = aes(
     fill = "grey80",
-    linewidth = 0,
+    color = "white",
+    linewidth = 0.2,
     alpha = 1
   ),
 
