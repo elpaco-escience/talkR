@@ -11,7 +11,7 @@ geom_turn(
   position = "identity",
   ...,
   na.rm = FALSE,
-  height = 0.8,
+  height = 0.5,
   show.legend = NA,
   inherit.aes = TRUE
 )

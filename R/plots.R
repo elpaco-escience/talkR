@@ -117,7 +117,7 @@ group_and_slice <- function(data) {
 prepare_convplot <- function(data, lang) {
   data <- dplyr::filter(data, language==lang) # this is already done when the function is used in workflow
 
-  if(max_na(data$participants) > 1) {
+  if(max(data$participants, na.rm=TRUE) > 1) {
     uids <- sample(data[data$participants=="2",]$uid,7)
     if (sum(is.na(uids)) == length(uids)) {
       cat("\n","Random sample didn't catch dyads; perhaps check if moving window averages are present.")

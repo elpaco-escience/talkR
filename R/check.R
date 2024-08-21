@@ -7,7 +7,7 @@
 check_columns <- function(data, columns){
   for (column in columns){
     if(!column %in% colnames(data)){
-      stop(paste0("Column `",column,"` was not found in the dataset."))
+      stop("Column `",column,"` was not found in the dataset. Did you run `talkr::init()` on your data?")
     }
   }
 }
@@ -23,7 +23,7 @@ check_time <- function(column, name){
   if(!is.numeric(column)){
     stop("Column `",name,"` must be numeric.")
   }
-  if(max_na(column) < 5*60*1000){ # expected conversation duration is more than 5 minutes, corresponding to 5*60*1000 milliseconds
+  if(max(column, na.rm=TRUE) < 5*60*1000){ # expected conversation duration is more than 5 minutes, corresponding to 5*60*1000 milliseconds
     warning("Verify that column `",name,"` is in milliseconds.")
   }
 }
