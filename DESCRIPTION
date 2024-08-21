@@ -31,9 +31,9 @@ Imports:
 Suggests: 
     rmarkdown,
     testthat (>= 3.0.0),
-    kableExtra,
+    ifadv,
     pkgdown,
     viridis,
-    ifadv
+    ggrepel
 Remotes: git::https://github.com/elpaco-escience/ifadv.git
 Config/testthat/edition: 3
