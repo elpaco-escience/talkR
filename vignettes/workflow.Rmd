@@ -131,12 +131,12 @@ So what we do is cut up the conversation into lines using `add_lines()`. By defa
 ```{r geom_turn_demo_3}
 
 conv |>
-  add_lines() |>
+  add_lines() |> # add lines
   dplyr::filter(source == "/dutch2/DVA12S",
-                line_id < 6) |> # let's look at the first five lines
+                line_id < 6) |> # limit to the first five lines
   ggplot(aes(x = line_end, y = line_participant)) +
   geom_turn(aes(
-    begin = line_begin,
+    begin = line_begin, # the begin and end aesthetics are now line-relative
     end = line_end)) +
   scale_y_reverse(breaks = seq(1, max(conv_token$line_id))) +  
   xlab("Time (ms)") +
@@ -152,15 +152,31 @@ We can style a plot like this using any available variables For instance, let's 
 ```{r step9}
 
 p +
+  ggtitle("Turns coloured by duration") +
   geom_turn(aes(
     begin = line_begin,
     end = line_end,
     fill=duration
   )) +
-  viridis::scale_fill_viridis(option="A")
+  viridis::scale_fill_viridis(option="A",direction=-1)
 
 ```
 
+Or we can highlight turns that are produced in overlap:
+
+```{r step10}
+
+p +
+  ggtitle("Turns produced in overlap") +
+  geom_turn(aes(
+    begin = line_begin,
+    end = line_end,
+    fill=overlap,
+    colour=overlap
+  )) 
+
+
+```
 So far we have just visualized the temporal structure. But conversational turns typically consist of words and other elements. 
 
 We can start looking into the internal structure of turns by plotting occurrence of tokens. 
@@ -178,15 +194,16 @@ With information about tokens in hand, we can start asking questions. For instan
 
 ```{r}
 
-p <- conv |>
-  add_lines() |>
+conv |>
+  add_lines(line_duration=15000) |>
   dplyr::filter(source == "/dutch2/DVA12S",
-                line_id < 4) |> # let's look at the first five lines
+                line_id < 4) |> # let's look at the first three lines
   ggplot(aes(x = line_end, y = line_participant)) +
+  scale_y_reverse(breaks = seq(1, max(conv_token$line_id))) +  
   geom_turn(aes(
     begin = line_begin,
-    end = line_end)) +
-  scale_y_reverse(breaks = seq(1, max(conv_token$line_id))) +  
+    end = line_end,
+    fill = nwords)) +
   xlab("Time (ms)") +
   ylab("") +
   theme_turnPlot()
