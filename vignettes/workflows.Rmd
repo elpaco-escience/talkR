@@ -24,13 +24,15 @@ library(talkr)
 # Introduction
 `talkr` is a package designed for working with conversational data in R. 
 
-## Loading the data
+## Loading some data
 
 We will be using the IFADV corpus as example data for the workflow of `talkr`. This is a corpus consisting of 20 dyadic conversations in Dutch, published by the Nederlandse Taalunie in 2007 ([source](https://fon.hum.uva.nl/IFA-SpokenLanguageCorpora/IFADVcorpus/))
 
 The snippet below initializes the talkr dataset using the ifadv data. For more information about the IFADV dataset, see the [repository link](https://github.com/elpaco-escience/ifadv).
 
+
 ```{r}
+
 data <- init(ifadv::ifadv) 
 
 ```
@@ -133,15 +135,16 @@ So what we do is cut up the conversation into lines using `add_lines()`. By defa
 
 ```{r geom_turn_demo_3}
 
+conv <- conv |> add_lines(line_duration = 60000) # adding lines to the dataset
+
 conv |>
-  add_lines() |> # add lines
   dplyr::filter(source == "/dutch2/DVA12S",
                 line_id < 6) |> # limit to the first five lines
   ggplot(aes(x = line_end, y = line_participant)) +
   geom_turn(aes(
     begin = line_begin, # the begin and end aesthetics are now line-relative
     end = line_end)) +
-  scale_y_reverse(breaks = seq(1, max(conv_token$line_id))) +  
+  scale_y_reverse(breaks = seq(1, max(conv$line_id))) +  
   xlab("Time (ms)") +
   ylab("") +
   theme_turnPlot()
@@ -184,12 +187,13 @@ So far we have just visualized the temporal structure. But conversational turns 
 
 We can start looking into the internal structure of turns by plotting occurrence of tokens. 
 
-To do so, we first need to calculate the token frequencies:
+To do so, we first need to calculate the token frequencies. 
 
 ```{r}
-conv_tokens <- tokenize(conv)
 
-conv_tokens
+conv_tokens <- conv |> tokenize() 
+
+
 ```
 
 
@@ -197,24 +201,30 @@ With information about tokens in hand, we can start asking questions. For instan
 
 ```{r}
 
-conv |>
+this_conv <- conv |>
   add_lines(line_duration=15000) |>
   dplyr::filter(source == "/dutch2/DVA12S",
-                line_id < 4) |> # let's look at the first three lines
+                line_id < 4) # let's look at the first three lines
+these_tokens <- conv_tokens |>
+  add_lines(line_duration=15000, time_columns = "relative_time") |>
+  dplyr::filter(source == "/dutch2/DVA12S",
+                line_id < 4,
+                rank < 10)
+
+
+this_conv |>
   ggplot(aes(x = line_end, y = line_participant)) +
-  scale_y_reverse(breaks = seq(1, max(conv_token$line_id))) + # we reverse the axis because lines run top to bottom
+  scale_y_reverse() + # we reverse the axis because lines run top to bottom
   geom_turn(aes(
     begin = line_begin,
-    end = line_end,
-    fill = nwords)) +
+    end = line_end)) +
+  geom_label(data = these_tokens |> dplyr::filter(order=="first"),
+            aes(x = line_relative_time,
+                y=line_participant,
+                label=token)) +
   xlab("Time (ms)") +
   ylab("") +
   theme_turnPlot()
-
-p + 
-  geom_token(aes(data=conv_tokens |> filter(source == "/dutch2/DVA12S"),
-    begin=line_begin,
-    end = line_end))
 
 
 ```
