@@ -1,3 +1,6 @@
+# This is legacy code.
+# It will be ignored on build for now.
+
 #' convplot
 #'
 #' Note: slightly more up to date forks in convplot-dev repository
