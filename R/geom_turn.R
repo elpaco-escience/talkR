@@ -6,6 +6,7 @@
 #' @inheritParams ggplot2::layer
 #' @inheritParams ggplot2::geom_rect
 #' @param height The height of the turn-taking rectangles
+#' @importFrom ggplot2 aes Geom layer
 #' @export
 geom_turn <- function(mapping = NULL, data = NULL,
                       stat = "identity", position = "identity",
