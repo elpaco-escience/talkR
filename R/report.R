@@ -66,7 +66,7 @@ report_combined <- function(summary) {
 }
 
 report_basics <- function(summary) {
-  basics <- tibble::tibble(source = summary$source)
+  basics <- data.frame(source = summary$source)
   basics$`nr of participants` = summary$n_participants
   basics$`total recording (ms)` = summary$totaltime
   basics$`total recording (min)` = round(summary$totaltime / (60 * 1000), 1)
@@ -76,7 +76,7 @@ report_basics <- function(summary) {
 }
 
 report_turns <- function(summary) {
-  turns <- tibble::tibble(source = summary$source)
+  turns <- data.frame(source = summary$source)
   turns$`nr of turns` = summary$n_turns
   turns$`mean turn duration (ms)` = round(summary$avg_turn, 0)
   turns$`shortest turn (ms)` = summary$shortest_turn
