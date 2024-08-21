@@ -2,6 +2,7 @@
 # talkr
 
 <!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/talkr)](https://cran.r-project.org/package=talkr)
 [![github license badge](https://img.shields.io/github/license/elpaco-escience/talkr)](git@github.com:elpaco-escience/talkr)
 [![R-CMD-check](https://github.com/elpaco-escience/talkr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/elpaco-escience/talkr/actions/workflows/R-CMD-check.yaml)  [![codecov](https://codecov.io/github/elpaco-escience/talkr/graph/badge.svg?token=MTA2S1LLGH)](https://codecov.io/github/elpaco-escience/talkr)
 [![documentation badge](https://img.shields.io/badge/pkgdown-documentation-red)](https://elpaco-escience.github.io/talkr/)
