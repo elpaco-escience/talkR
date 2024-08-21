@@ -113,3 +113,20 @@ test_that("Warning is generated with existing UID column", {
   expect_true("original_uid" %in% names(talkr_dataset))
 
 })
+
+test_that("init works with source = NULL", {
+  expect_no_error(talkr_dataset <- init(dummy_data,
+                        source = NULL,
+                        begin = "col1",
+                        end = "col2",
+                        participant = "x",
+                        utterance = "y"))
+  expect_false("source" %in% names(dummy_data))
+  expect_true("source" %in% names(talkr_dataset))
+  expected_UIDs <- c("talkr-0001-1",
+                     "talkr-0002-2",
+                     "talkr-0003-3",
+                     "talkr-0004-4",
+                     "talkr-0005-5")
+  expect_equal(talkr_dataset$uid, expected_UIDs)
+})

@@ -6,7 +6,9 @@
 #' Initializing a talkr dataset is the first step in the talkr workflow.
 #'
 #' @param data A dataframe object
-#' @param source The column name identifying the conversation source (e.g. a filename; is used as unique conversation ID)
+#' @param source The column name identifying the conversation source
+#'  (e.g. a filename; is used as unique conversation ID). If there are no different
+#'  sources in the data, set this parameter to `NULL`.
 #' @param begin The column name with the begin time of the utterance (in milliseconds)
 #' @param end The column name with the end time of the utterance (in milliseconds)
 #' @param participant The column name with the participant who produced the utterance
@@ -41,6 +43,11 @@ init <- function(data,
   } else {
     data$begin <- as.numeric(data$begin)
     data$end <- as.numeric(data$end)
+  }
+
+  # ensure a `source` column exists; if it does not exist, create one
+  if(!"source" %in% names(data)){
+    data$source <- "talkr"
   }
 
   # generate UIDs
