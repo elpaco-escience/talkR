@@ -11,7 +11,7 @@
 geom_token <- function(data, mapping = NULL,
                           stat = "identity", position = "identity",
                           ..., na.rm = FALSE, show.legend = NA, inherit.aes = TRUE) {
-  layer(
+  ggplot2::layer(
     data = data,
     mapping = mapping,
     geom = GeomToken,
@@ -33,10 +33,10 @@ geom_token <- function(data, mapping = NULL,
 #'
 #' @export
 GeomToken <- ggplot2::ggproto(
-  "GeomToken", Geom,
+  "GeomToken", ggplot2::Geom,
   required_aes = c("x", "y"),
 
-  default_aes = aes(
+  default_aes = ggplot2::aes(
     fill = "grey90",
     colour = "grey40",
     alpha = 1,
