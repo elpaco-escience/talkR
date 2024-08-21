@@ -28,7 +28,8 @@ We will be using the IFADV corpus as example data for the workflow of `talkr`. T
 The snippet below initializes the talkr dataset using the ifadv data. For more information about the IFADV dataset, see the [repository link](https://github.com/elpaco-escience/ifadv).
 
 ```{r}
-data <- init(ifadv::ifadv)
+data <- init(ifadv::ifadv) 
+
 ```
 
 Essential to any `talkr` workflow is a minimal set of data fields. These are the following: \* `source`: the source conversation (a corpus can consist of multiple sources) \* `begin`: begin time (in ms) of an utterance \* `end`: end time (in ms) of an utterance \* `utterance`: content of an utterance \* `participant`: the person who produced the utterance
@@ -81,14 +82,40 @@ A quality plot consists of three separate visualizations, all designed to allow 
 
 ## Workflow 2: Plot conversations
 
-Another key use of `talkr` is to visualize conversational patterns. A first key way to do so is `geom_turn()`, a ggplot2-compatible geom that visualizes the timing and duration of turns in a conversation.
+Another key use of `talkr` is to visualize conversational patterns. A first way to do so is `geom_turn()`, a ggplot2-compatible geom that visualizes the timing and duration of turns in a conversation.
 
-```{r geom_turn_demo_1}
+We can start by simply visualizing some of the conversations in the dataset. Here we sample the first four and plot the first minute of each. We display them together using `facet_wrap()` by `source`.
+
+```{r geom_turn_demon1}
 library(ggplot2)
 
-p <- data |>
-  dplyr::filter(source == "/dutch2/DVA9M") |>
-  dplyr::filter(end < 60000) |>
+# we simplify participant names
+conv <- data |>
+  dplyr::group_by(source) |>
+  dplyr::mutate(participant = as.character(factor(participant, labels=c("A","B"))))
+
+# select first four conversations
+these_sources <- unique(data$source)[1:4]
+
+conv |>
+  dplyr::filter(end < 60000, # select first 60 seconds
+                source %in% these_sources) |> # filter to keep only these conversations
+  ggplot(aes(x = end, y = participant)) +
+  geom_turn(aes(
+    begin = begin,
+    end = end)) +
+  xlab("Time (ms)") +
+  ylab("") +
+  theme_turnPlot() +
+  facet_wrap(~source) # facet to show the conversations side by side
+```
+
+More often, we will want to plot a single conversation and explore it in some more detail. Let's zoom in on one of these first four. If we plot it without further tweaking, it is not the most helpful: the conversation is 15 minutes long and it is hard to appreciate its structure when we put it all on a single line.
+
+```{r geom_turn_demo_2}
+
+conv |>
+  dplyr::filter(source == "/dutch2/DVA12S") |>
   ggplot(aes(x = end, y = participant)) +
   geom_turn(aes(
     begin = begin,
@@ -97,64 +124,89 @@ p <- data |>
   ylab("") +
   theme_turnPlot()
 
-p
 ```
 
+So what we do is cut up the conversation into lines using `add_lines()`. By default, this will cut the conversation into lines of 60000ms each (1 minute), creating as many lines as needed. For now, let's focus on the first 5 minutes, which we can do by filtering for `line_id < 6` after we've added lines.
 
-two specific geometries are available: `geom_turn` and `geom_token`. In addition, there is a `talkr`-specific theme provided.
+```{r geom_turn_demo_3}
 
-```{r}
-library(ggplot2)
-
-p <- data |>
-  dplyr::filter(source == "/dutch2/DVA9M") |>
-  dplyr::filter(end < 60000) |>
-  ggplot(aes(x = end, y = participant)) +
+conv |>
+  add_lines() |>
+  dplyr::filter(source == "/dutch2/DVA12S",
+                line_id < 6) |> # let's look at the first five lines
+  ggplot(aes(x = line_end, y = line_participant)) +
   geom_turn(aes(
-    begin = begin,
-    end = end)) +
+    begin = line_begin,
+    end = line_end)) +
+  scale_y_reverse(breaks = seq(1, max(conv_token$line_id))) +  
   xlab("Time (ms)") +
   ylab("") +
   theme_turnPlot()
 
-p
+p <- last_plot()
+
 ```
 
-This plot can be overlayed with plotted occurrences of tokens.
+We can style a plot like this using any available variables For instance, let's add a `fill` that corresponds to `duration`:
+
+```{r step9}
+
+p +
+  geom_turn(aes(
+    begin = line_begin,
+    end = line_end,
+    fill=duration
+  )) +
+  viridis::scale_fill_viridis(option="A")
+
+```
+
+So far we have just visualized the temporal structure. But conversational turns typically consist of words and other elements. 
+
+We can start looking into the internal structure of turns by plotting occurrence of tokens. 
 
 To do so, we first need to calculate the token frequencies:
 
 ```{r}
-tokens <- tokenize(data)
+conv_tokens <- tokenize(conv)
 
-tokens
+conv_tokens
 ```
 
-Token frequencies are calculated over the entire dataset. For source-specific data, it is recommended to filter the source prior to tokenization:
+
+With information about tokens in hand, we can start asking questions. For instance, what are words that are quite frequent and that appear in utterance-initial position?
 
 ```{r}
-tokens <- data |>
+
+p <- conv |>
+  add_lines() |>
+  dplyr::filter(source == "/dutch2/DVA12S",
+                line_id < 4) |> # let's look at the first five lines
+  ggplot(aes(x = line_end, y = line_participant)) +
+  geom_turn(aes(
+    begin = line_begin,
+    end = line_end)) +
+  scale_y_reverse(breaks = seq(1, max(conv_token$line_id))) +  
+  xlab("Time (ms)") +
+  ylab("") +
+  theme_turnPlot()
+
+p + 
+  geom_token(aes(data=conv_tokens |> filter(source == "/dutch2/DVA12S"),
+    begin=line_begin,
+    end = line_end))
+
+
+```
+
+### Notes & orphaned text
+
+Token frequencies are calculated over the entire dataset. If you want source-specific data, you can filter the source prior to tokenization:
+
+```{r}
+tokens_DVA9M <- data |>
   dplyr::filter(source == "/dutch2/DVA9M") |>
   tokenize()
 
-tokens
-```
-
-Before we plot the tokens over the turns, we need to select the tokens we want to plot (e.g. the top 10 ranked), and the time window they occur in:
-
-```{r}
-tokenselection <- tokens |>
-  dplyr::filter(relative_time < 60000) |>
-  dplyr::filter(rank <= 10)
-```
-
-We can plot the tokens over the turns.
-
-```{r}
-p +
-geom_token(data = tokenselection,
-           aes(x = relative_time,
-               y = participant,
-               color = rank)) +
-  viridis::scale_color_viridis(option = "plasma", direction = -1, begin = 0.2, end = 0.8)
+tokens_DVA9M
 ```
