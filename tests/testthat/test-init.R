@@ -130,3 +130,13 @@ test_that("init works with source = NULL", {
                      "talkr-0005-5")
   expect_equal(talkr_dataset$uid, expected_UIDs)
 })
+
+test_that("init does not overwrite existing columns when source = NULL", {
+  data <- data.frame(begin = 1:4,
+                     end = 5:8,
+                     participant = "Person1",
+                     utterance = "HelloWorld",
+                     source = "A.txt")
+  talkr_dataset <- init(data, source = NULL)
+  expect_equal(talkr_dataset$source, data$source)
+})
