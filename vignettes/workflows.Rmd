@@ -1,5 +1,5 @@
 ---
-title: "Basic workflow with talkr"
+title: "Basic workflows for talkr"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{workflow}
@@ -20,6 +20,9 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(talkr)
 ```
+
+# Introduction
+`talkr` is a package designed for working with conversational data in R. 
 
 ## Loading the data
 
