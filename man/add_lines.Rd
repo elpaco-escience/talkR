@@ -22,4 +22,10 @@ This function adds columns to the dataset that adds a line ID, and changes colum
 with timestamps relative to the beginning of the line, so data can
 be visualized line-by-line.
 The participant column is also adjusted to create a Y-coordinate for each speaker.
+The line duration is set to 60 seconds by default.
+}
+\details{
+This transformation can be done for multiple columns with time-stamped data.
+Use the `time_columns` argument to supply the names of one or more columns
+that should be transformed.
 }
