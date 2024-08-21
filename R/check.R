@@ -7,7 +7,7 @@
 check_columns <- function(data, columns){
   for (column in columns){
     if(!column %in% colnames(data)){
-      stop(paste0("Column `",column,"` was not found in the dataset."))
+      stop("Column `",column,"` was not found in the dataset. Did you run `talkr::init()` on your data?")
     }
   }
 }
