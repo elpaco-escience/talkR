@@ -5,10 +5,7 @@
 [![R-CMD-check](https://github.com/elpaco-escience/talkr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/elpaco-escience/talkr/actions/workflows/R-CMD-check.yaml)  [![codecov](https://codecov.io/github/elpaco-escience/talkr/graph/badge.svg?token=MTA2S1LLGH)](https://codecov.io/github/elpaco-escience/talkr)
 <!-- badges: end -->
 
-## Note
 
-This package is under development, and not ready for use.
-Interact with us in the [issues](https://github.com/elpaco-escience/talkr/issues) if you have any questions or suggestions.
 
 ## Overview
 
@@ -25,6 +22,11 @@ You can install the development version of `talkr` from GitHub with:
 devtools::install_github("elpaco-escience/talkr", build_vignettes = TRUE)
 ```
 
+`talkr` has been submitted to CRAN, and will soon be installable with:
+```r
+install.packages("talkr")
+```
+
 ## Workflow
 
 The main workflow for `talkr` is described in the workflow vignette.
@@ -34,3 +36,7 @@ You can access the vignette by running:
 vignette("workflow", package = "talkr")
 ```
 
+## Contact
+
+Questions? Comments? They are more than welcome!
+Interact with us in the [issues](https://github.com/elpaco-escience/talkr/issues) if you have any questions or suggestions.
