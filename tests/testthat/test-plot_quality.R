@@ -1,5 +1,4 @@
 load("testdata.Rda")
-testdata <- init(testdata)
 
 test_that("density plot yields plot", {
   data <- calculate_timing(testdata)

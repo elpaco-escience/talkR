@@ -1,8 +1,7 @@
 load("testdata.Rda")
-data <- init(testdata)
 
 test_that("token columns are created, dataset matches", {
-  tx <- tokenize(data)
+  tx <- tokenize(testdata)
   expect_true("token" %in% colnames(tx))
   expect_true("uid" %in% colnames(tx))
   expect_true("nwords" %in% colnames(tx))
@@ -19,7 +18,7 @@ test_that("token columns are created, dataset matches", {
 })
 
 test_that("no issues arise with dataset containing existing nwords column", {
-  data$nwords <- 1
-  tx <- tokenize(data)
+  testdata$nwords <- 1
+  tx <- tokenize(testdata)
   expect_equal(tx$nwords[1:5], c(3, 3, 3, 1, 6))
 })

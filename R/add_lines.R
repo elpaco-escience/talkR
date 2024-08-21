@@ -4,6 +4,11 @@
 #' with timestamps relative to the beginning of the line, so data can
 #' be visualized line-by-line.
 #' The participant column is also adjusted to create a Y-coordinate for each speaker.
+#' The line duration is set to 60 seconds by default.
+#'
+#' This transformation can be done for multiple columns with time-stamped data.
+#' Use the `time_columns` argument to supply the names of one or more columns
+#' that should be transformed.
 #'
 #' @param data dataset to divide into lines
 #' @param time_columns columns with timestamps that need to be adjusted to line-relative time
