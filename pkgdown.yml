@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   original_demo: original_demo.html
   workflow: workflow.html
-last_built: 2024-08-21T09:15Z
+last_built: 2024-08-21T10:18Z
 urls:
   reference: https://github.io/elpaco-escience/talkr/reference
   article: https://github.io/elpaco-escience/talkr/articles
