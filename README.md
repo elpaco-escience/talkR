@@ -7,8 +7,7 @@
 
 ## Note
 
-This package is under development, and not ready for use.
-Interact with us in the [issues](https://github.com/elpaco-escience/talkr/issues) if you have any questions or suggestions.
+This package is under active development and still has some rough edges. Interact with us in the [issues](https://github.com/elpaco-escience/talkr/issues) if you have any questions or suggestions.
 
 ## Overview
 
