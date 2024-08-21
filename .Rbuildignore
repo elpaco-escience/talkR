@@ -4,3 +4,6 @@
 ^\.github$
 sonar.project.properties
 CITATION.cff
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

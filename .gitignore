@@ -9,3 +9,4 @@ inst/doc
 ## Build and check files
 *.tar.gz
 *Rcheck
+docs
