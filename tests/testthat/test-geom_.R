@@ -1,12 +1,11 @@
 load("testdata.Rda")
-data <- init(testdata)
 
 test_that("applying geometries yields expected datasets", {
-  p0 <- data |>
+  p0 <- testdata |>
     ggplot2::ggplot(aes(x = end, y = participant))
 
   d0 <- ggplot2::layer_data(p0)
-  expect_equal(d0$x, data$end)
+  expect_equal(d0$x, testdata$end)
   expect_equal(max(d0$y), 23)
 
   p1 <- p0 +
@@ -15,11 +14,11 @@ test_that("applying geometries yields expected datasets", {
       end = end))
 
   d1 <- ggplot2::layer_data(p1)
-  expect_equal(d1$end, data$end)
-  expect_equal(d1$begin, data$begin)
+  expect_equal(d1$end, testdata$end)
+  expect_equal(d1$begin, testdata$begin)
   expect_equal(max(d1$y), 23)
 
-  tokens <- tokenize(data)
+  tokens <- tokenize(testdata)
 
   p2 <- p1 +
   geom_token(data = tokens,
