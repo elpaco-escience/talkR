@@ -22,21 +22,18 @@ Imports:
     cowplot,
     dplyr,
     ggplot2,
-    ggrepel,
     ggthemes,
     knitr,
     stats,
     stringr,
-    stringx,
     tidyr,
-    tidyselect,
-    tibble,
-    viridis
+    tidyselect
 Suggests: 
     rmarkdown,
     testthat (>= 3.0.0),
     kableExtra,
     pkgdown,
+    viridis,
     ifadv
 Remotes: git::https://github.com/elpaco-escience/ifadv.git
 Config/testthat/edition: 3

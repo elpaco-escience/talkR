@@ -10,7 +10,7 @@
 geom_turn <- function(mapping = NULL, data = NULL,
                       stat = "identity", position = "identity",
                       ..., na.rm = FALSE, height = 0.5, show.legend = NA, inherit.aes = TRUE) {
-  layer(
+  ggplot2::layer(
     data = data,
     mapping = mapping,
     geom = GeomTurn,
@@ -30,11 +30,11 @@ geom_turn <- function(mapping = NULL, data = NULL,
 #' @format NULL
 #' @usage NULL
 #' @export
-GeomTurn <- ggproto(
-  "GeomTurn", Geom,
+GeomTurn <- ggplot2::ggproto(
+  "GeomTurn", ggplot2::Geom,
   required_aes = c("begin", "end"),
 
-  default_aes = aes(
+  default_aes = ggplot2::aes(
     fill = "grey80",
     color = "white",
     linewidth = 0.2,
