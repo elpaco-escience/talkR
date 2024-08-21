@@ -48,12 +48,13 @@ with_save <- function(plot_function, path, width=800, height=350) {
 
 test_that("Plot quality", {
   path <- "plot_quality.png"
-  plot_quality_with_save <- with_save(plot_quality, path)
+  plot_with_save <- with_save(plot_quality, path)
 
   expect_snapshot_file(
-    plot_quality_with_save(testdata),
+    plot_with_save(testdata),
     path
   )
 
   on.exit(file.remove(path)) # Clean afterwards
 })
+
