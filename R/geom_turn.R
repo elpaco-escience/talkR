@@ -30,7 +30,7 @@ geom_turn <- function(mapping = NULL, data = NULL,
 #' @format NULL
 #' @usage NULL
 #' @export
-GeomTurn <- ggproto(
+GeomTurn <- ggplot2::ggproto(
   "GeomTurn", Geom,
   required_aes = c("begin", "end"),
 

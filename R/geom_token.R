@@ -29,8 +29,10 @@ geom_token <- function(data, mapping = NULL,
 #' @rdname ggplot2-ggproto
 #' @format NULL
 #' @usage NULL
+#'
+#'
 #' @export
-GeomToken <- ggproto(
+GeomToken <- ggplot2::ggproto(
   "GeomToken", Geom,
   required_aes = c("x", "y"),
 
