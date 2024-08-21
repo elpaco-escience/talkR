@@ -15,7 +15,7 @@ theme_turnPlot <- function(base_size = 11, base_family = "serif", ticks = TRUE) 
     theme(
       legend.position = "none",
       axis.text.y = element_text(),
-      strip.text = element_blank(),
+      strip.text.x = element_text(hjust = 0, margin=margin(l=0)),
       axis.ticks.y = element_blank(),
       plot.title.position = "plot",
       complete = TRUE)
