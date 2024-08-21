@@ -26,9 +26,8 @@ geom_turn <- function(mapping = NULL, data = NULL,
 
 #' GeomTurn
 #'
-#' @rdname ggplot2-ggproto
-#' @format NULL
-#' @usage NULL
+#' @rdname ggproto
+#' @importFrom ggplot2 ggproto Geom
 #' @export
 GeomTurn <- ggproto(
   "GeomTurn", Geom,
