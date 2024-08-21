@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 library(talkr)
 ```
 
-# Introduction
+## Introduction
 `talkr` is a package designed for working with conversational data in R. 
 
 ## Loading some data
@@ -80,9 +80,23 @@ plot_quality(data, source = "/dutch2/DVA8K")
 ```
 
 A quality plot consists of three separate visualizations, all designed to allow rapid visual inspection and spotting oddities:
+
 1. A density plot of turn durations. This is normally expected to look like a distribution that has a peak around 2000ms (2 seconds) and maximum lengths that do not far exceed 10000ms (10 seconds) (Liesenfeld & Dingemanse 2022). The goal of this plot is to allow eyeballing of oddities like turns of extreme durations or sets of turns with the exact same duration (unlikely in carefully segmented conversational data).
+
 2. A density plot of turn transition times. A plot like this is expected to look like a normal distribution centered around 0-200ms (Stivers et al. 2009). Deviations from this may signal problems in the dataset, for instance due to imprecise or automated annotation methods.
-3. A scatterplot of turn transition (x) by turn duration. This combines both distributions and is expected to look like a cloud of datapoints that is thickest in the middle region. Any standout patterns (for instance, turns whose duration is equal to their transition time) are indicative of problems in the segmentation or timing data.
+
+3. A scatterplot of turn transition (x) by turn duration (y). This combines both distributions and is expected to look like a cloud of datapoints that is thickest in the middle region. Any standout patterns (for instance, turns whose duration is equal to their transition time) are indicative of problems in the segmentation or timing data.
+
+Each of the three plots can also be generated separately:
+```r
+
+plot_density(data, colname="duration", title="Turn durations",xlab="duration (ms)")
+
+plot_density(data, colname="FTO", title="Turn transitions (FTO)",xlab="FTO (ms)")
+
+plot_scatter(data, colname_x="FTO",colname_y="duration",title="Turn transitions and durations",xlab="transition (ms)", ylab="duration (ms)")
+
+```
 
 
 ## Workflow 2: Plot conversations
@@ -97,7 +111,7 @@ library(ggplot2)
 # we simplify participant names
 conv <- data |>
   dplyr::group_by(source) |>
-  dplyr::mutate(participant = as.character(factor(participant, labels=c("A","B"))))
+  dplyr::mutate(participant = as.character(factor(participant, labels=c("A","B"),ordered=T)))
 
 # select first four conversations
 these_sources <- unique(data$source)[1:4]
@@ -112,16 +126,16 @@ conv |>
   xlab("Time (ms)") +
   ylab("") +
   theme_turnPlot() +
-  facet_wrap(~source) # facet to show the conversations side by side
+  facet_wrap(~source) # let's facet to show the conversations side by side
 ```
 
 More often, we will want to plot a single conversation and explore it in some more detail. Let's zoom in on one of these first four. If we plot it without further tweaking, it is not the most helpful: the conversation is 15 minutes long and it is hard to appreciate its structure when we put it all on a single line.
 
-```{r geom_turn_demo_2}
+```r
 
 conv |>
   dplyr::filter(source == "/dutch2/DVA12S") |>
-  ggplot(aes(x = end, y = participant)) +
+  ggplot(aes(x = begin, y = participant)) +
   geom_turn(aes(
     begin = begin,
     end = end)) +
@@ -131,16 +145,19 @@ conv |>
 
 ```
 
-So what we do is cut up the conversation into lines using `add_lines()`. By default, this will cut the conversation into lines of 60000ms each (1 minute), creating as many lines as needed. For now, let's focus on the first 5 minutes, which we can do by filtering for `line_id < 6` after we've added lines.
+So what we do is similar to conversational transcripts: we present the conversation in a left-to-right, top-to-bottom grid. To do so, we first need to divide the long conversation into a number of shorter lines. We do this using `add_lines()`. By default, this will divide the conversation into lines of 60000ms each (1 minute), creating as many lines as needed. 
 
-```{r geom_turn_demo_3}
+For now, let's focus on the first 4 minutes, which we can do by filtering for `line_id < 5` after we've added lines.
+
+```{r geom_turn_demo_3, fig.height=2.5}
 
 conv <- conv |> add_lines(line_duration = 60000) # adding lines to the dataset
 
 conv |>
   dplyr::filter(source == "/dutch2/DVA12S",
-                line_id < 6) |> # limit to the first five lines
+                line_id < 5) |> # limit to the first five lines
   ggplot(aes(x = line_end, y = line_participant)) +
+  ggtitle("The first four minutes from DVA12S") +
   geom_turn(aes(
     begin = line_begin, # the begin and end aesthetics are now line-relative
     end = line_end)) +
@@ -153,24 +170,9 @@ p <- last_plot()
 
 ```
 
-We can style a plot like this using any available variables For instance, let's add a `fill` that corresponds to `duration`:
+We can style a plot like this using any available variables. For instance, we can highlight turns that are produced in overlap:
 
-```{r step9}
-
-p +
-  ggtitle("Turns coloured by duration") +
-  geom_turn(aes(
-    begin = line_begin,
-    end = line_end,
-    fill=duration
-  )) +
-  viridis::scale_fill_viridis(option="A",direction=-1)
-
-```
-
-Or we can highlight turns that are produced in overlap:
-
-```{r step10}
+```{r step10, fig.height=2.5}
 
 p +
   ggtitle("Turns produced in overlap") +
@@ -178,12 +180,29 @@ p +
     begin = line_begin,
     end = line_end,
     fill=overlap,
-    colour=overlap
-  )) 
+    colour=overlap)) +
+  scale_fill_discrete(na.translate=F) + # stop NA value from showing up in legend
+  scale_colour_discrete(na.translate=F) # stop NA value from showing up in legend
 
 
 ```
 So far we have just visualized the temporal structure. But conversational turns typically consist of words and other elements. 
+
+```{r step11, fig.height=2.5}
+
+p +
+  ggtitle("Turns produced in overlap") +
+  geom_turn(aes(
+    begin = line_begin,
+    end = line_end,
+    fill=overlap,
+    colour=overlap)) +
+  scale_fill_discrete(na.translate=F) + # stop NA value from showing up in legend
+  scale_colour_discrete(na.translate=F) # stop NA value from showing up in legend
+
+
+```
+### Looking into tokens
 
 We can start looking into the internal structure of turns by plotting occurrence of tokens. 
 
@@ -197,46 +216,77 @@ conv_tokens <- conv |> tokenize()
 ```
 
 
-With information about tokens in hand, we can start asking questions. For instance, what are words that are quite frequent and that appear in utterance-initial position?
+With information about tokens in hand, we can start asking questions. For instance, how does the relative frequency of words relate to their position in the turn?
+
+To explore this question, let's look at a shorter excerpt: 1 minute in total, divided over 4 lines. To do this, we create a dataframe `this_conv`, dividing it into 4 lines of 15 seconds each. We also create a dataframe `these_tokens` with tokenized turn elements for the same conversation, divided up in the same way.
 
 ```{r}
 
 this_conv <- conv |>
   add_lines(line_duration=15000) |>
   dplyr::filter(source == "/dutch2/DVA12S",
-                line_id < 4) # let's look at the first three lines
+                line_id < 5) # let's look at the first three lines
+
 these_tokens <- conv_tokens |>
   add_lines(line_duration=15000, time_columns = "relative_time") |>
   dplyr::filter(source == "/dutch2/DVA12S",
-                line_id < 4,
-                rank < 10)
-
+                line_id < 5)
 
 this_conv |>
   ggplot(aes(x = line_end, y = line_participant)) +
+  ggtitle("Relative frequency of elements within turns") +
   scale_y_reverse() + # we reverse the axis because lines run top to bottom
   geom_turn(aes(
     begin = line_begin,
     end = line_end)) +
-  geom_label(data = these_tokens |> dplyr::filter(order=="first"),
-            aes(x = line_relative_time,
-                y=line_participant,
-                label=token)) +
+  geom_token(data=these_tokens,
+             aes(x=line_relative_time,
+                 size=frequency)) +
   xlab("Time (ms)") +
   ylab("") +
   theme_turnPlot()
 
+p <- last_plot()
 
 ```
 
-### Notes & orphaned text
+
+Finally, we can also print the content of some of the elements. Here, we pick the most frequent turn-initial elements for plotting, highlight them with another layer of `geom_token()` and plot the text using `geom_label_repel()`:
+
+```{r}
+
+these_tokens_first <- these_tokens |>
+  dplyr::filter(order=="first",
+                rank < 10)
+
+p +
+  ggtitle("Some frequent turn-initial elements") +
+  geom_token(data=these_tokens_first,
+             aes(x=line_relative_time),
+             color="red") +
+  ggrepel::geom_label_repel(data=these_tokens_first,
+                            aes(x=line_relative_time,
+                                label=token),
+                            direction="y")
+
+```
+
+
+
+
+### Notes 
 
 Token frequencies are calculated over the entire dataset. If you want source-specific data, you can filter the source prior to tokenization:
 
-```{r}
+```r
 tokens_DVA9M <- data |>
   dplyr::filter(source == "/dutch2/DVA9M") |>
   tokenize()
 
 tokens_DVA9M
 ```
+
+## References
+
+* Liesenfeld, Andreas, and Mark Dingemanse. 2022. ‘Building and Curating Conversational Corpora for Diversity-Aware Language Science and Technology’. In Proceedings of the 13th Conference on Language Resources and Evaluation (LREC 2022), 1178–92. Marseille. doi:10.48550/arXiv.2203.03399.
+* Stivers, Tanya, N. J. Enfield, Penelope Brown, C. Englert, Makoto Hayashi, Trine Heinemann, Gertie Hoymann, Federico Rossano, J. P. de Ruiter, Kyung-Eun Yoon, and Stephen C. Levinson. 2009. ‘Universals and Cultural Variation in Turn-Taking in Conversation’. Proceedings of the National Academy of Sciences 106 (26): 10587–92. doi:10.1073/pnas.0903616106.
