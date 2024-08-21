@@ -199,7 +199,7 @@ conv |>
   dplyr::filter(source == "/dutch2/DVA12S",
                 line_id < 4) |> # let's look at the first three lines
   ggplot(aes(x = line_end, y = line_participant)) +
-  scale_y_reverse(breaks = seq(1, max(conv_token$line_id))) +  
+  scale_y_reverse(breaks = seq(1, max(conv_token$line_id))) + # we reverse the axis because lines run top to bottom
   geom_turn(aes(
     begin = line_begin,
     end = line_end,
