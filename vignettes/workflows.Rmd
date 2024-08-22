@@ -113,17 +113,18 @@ We can start by simply visualizing some of the conversations in the dataset. Her
 
 ```{r geom_turn_demon1}
 library(ggplot2)
+library(dplyr)
 
 # we simplify participant names
 conv <- data |>
-  dplyr::group_by(source) |>
-  dplyr::mutate(participant = as.character(factor(participant, labels=c("A","B"),ordered=T)))
+  group_by(source) |>
+  mutate(participant = as.character(factor(participant, labels=c("A","B"),ordered=T)))
 
 # select first four conversations
 these_sources <- unique(data$source)[1:4]
 
 conv |>
-  dplyr::filter(end < 60000, # select first 60 seconds
+  filter(end < 60000, # select first 60 seconds
                 source %in% these_sources) |> # filter to keep only these conversations
   ggplot(aes(x = end, y = participant)) +
   geom_turn(aes(
@@ -140,7 +141,7 @@ More often, we will want to plot a single conversation and explore it in some mo
 ```r
 
 conv |>
-  dplyr::filter(source == "/dutch2/DVA12S") |>
+  filter(source == "/dutch2/DVA12S") |>
   ggplot(aes(x = begin, y = participant)) +
   geom_turn(aes(
     begin = begin,
@@ -160,7 +161,7 @@ For now, let's focus on the first 4 minutes, which we can do by filtering for `l
 conv <- conv |> add_lines(line_duration = 60000)
 
 conv |>
-  dplyr::filter(source == "/dutch2/DVA12S",
+  filter(source == "/dutch2/DVA12S",
                 line_id < 5) |> # limit to the first five lines
   ggplot(aes(x = line_end, y = line_participant)) +
   ggtitle("The first four minutes from DVA12S") +
@@ -230,12 +231,12 @@ To explore this question, let's look at a shorter excerpt: 1 minute in total, di
 
 this_conv <- conv |>
   add_lines(line_duration=15000) |>
-  dplyr::filter(source == "/dutch2/DVA12S",
+  filter(source == "/dutch2/DVA12S",
                 line_id < 5) # let's look at the first three lines
 
 these_tokens <- conv_tokens |>
   add_lines(line_duration=15000, time_columns = "relative_time") |>
-  dplyr::filter(source == "/dutch2/DVA12S",
+  filter(source == "/dutch2/DVA12S",
                 line_id < 5)
 
 this_conv |>
@@ -262,7 +263,7 @@ Finally, we can also print the content of some of the elements. Here, we pick th
 ```{r}
 
 these_tokens_first <- these_tokens |>
-  dplyr::filter(order=="first",
+  filter(order=="first",
                 rank < 10)
 
 p +
@@ -292,7 +293,7 @@ Token frequencies are calculated over the entire dataset. If you want source-spe
 
 ```r
 tokens_DVA9M <- data |>
-  dplyr::filter(source == "/dutch2/DVA9M") |>
+  filter(source == "/dutch2/DVA9M") |>
   tokenize()
 
 tokens_DVA9M
