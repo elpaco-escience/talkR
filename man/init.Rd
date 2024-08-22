@@ -17,7 +17,9 @@ init(
 \arguments{
 \item{data}{A dataframe object}
 
-\item{source}{The column name identifying the conversation source (e.g. a filename; is used as unique conversation ID)}
+\item{source}{The column name identifying the conversation source
+(e.g. a filename; is used as unique conversation ID). If there are no different
+sources in the data, set this parameter to `NULL`.}
 
 \item{begin}{The column name with the begin time of the utterance (in milliseconds)}
 
