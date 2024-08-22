@@ -13,6 +13,10 @@ authors:
     family-names: Dingemanse
     given-names: Mark
     orcid: "https://orcid.org/0000-0002-3290-5723"
+  - 
+    family-names: Rodríguez-Sánchez
+    given-names: Pablo
+    orcid: 'https://orcid.org/0000-0002-2855-940X'
   -
     family-names: Liesenfeld
     given-names: Andreas
@@ -30,6 +34,6 @@ keywords:
   - conversation
   - talk
   - visualization
+version: 0.1.0
 license: Apache-2.0
-version: 0.0.2
-date-released: '2024-01-12'
+date-released: '2024-08-22'
