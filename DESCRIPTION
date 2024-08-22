@@ -33,7 +33,6 @@ Suggests:
     testthat (>= 3.0.0),
     ifadv,
     pkgdown,
-    viridis,
     ggrepel
 Remotes: git::https://github.com/elpaco-escience/ifadv.git
 Config/testthat/edition: 3
