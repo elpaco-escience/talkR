@@ -213,7 +213,10 @@ p +
 
 We can start looking into the internal structure of turns by plotting occurrence of tokens. 
 
-To do so, we first need to calculate the token frequencies. 
+To do so, we first need to generate a token-specific dataframe with `tokenize()`.
+This calculate token frequencies for all tokens in the selected dataset (all data by default). 
+It also calculates relative positions in time for individual tokens in a turn. 
+Finally, it provides a simple positional classification in to `only` (the token appears on its own), `first` (the token is turn-initial), `last` (the token is utterance-final), and `middle` (the token is not first nor last).
 
 ```{r}
 
