@@ -13,7 +13,6 @@ theme_turnPlot <- function(base_size = 11, base_family = "serif", ticks = TRUE) 
     ticks = ticks
   ) %+replace%
     theme(
-#      legend.position = "none",
       axis.text.y = element_text(),
       strip.text.x = element_text(hjust = 0, margin=margin(l=0)),
       axis.ticks.y = element_blank(),
