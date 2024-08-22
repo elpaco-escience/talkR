@@ -142,7 +142,7 @@ More often, we will want to plot a single conversation and explore it in some mo
 
 conv |>
   filter(source == "/dutch2/DVA12S") |>
-  ggplot(aes(x = begin, y = participant)) +
+  ggplot(aes(x = end, y = participant)) +
   geom_turn(aes(
     begin = begin,
     end = end)) +
