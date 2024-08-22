@@ -157,7 +157,7 @@ For now, let's focus on the first 4 minutes, which we can do by filtering for `l
 
 ```{r geom_turn_demo_3, fig.height=2.5}
 
-conv <- conv |> add_lines(line_duration = 60000) # adding lines to the dataset
+conv <- conv |> add_lines(line_duration = 60000)
 
 conv |>
   dplyr::filter(source == "/dutch2/DVA12S",
