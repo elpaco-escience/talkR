@@ -8,7 +8,7 @@
 # reference image. If the new and the reference image are identical, the test
 # passes. Otherwise, it fails.
 #
-# When fail, testthat provides some useful tools to visualy compare the differences
+# When fail, testthat provides some useful tools to visually compare the differences
 # between new and reference image. They are clickable from the test menu.
 
 # Load the test data
@@ -28,17 +28,32 @@ testdata <- ifadv::ifadv
 #'
 #' @param plot_function The plotting function to be tested
 #' @param path The output filename
-#' @param width (optional)
-#' @param height (optional)
 #'
-#' @return The output filename
+#' @return The plot_function, decorated with save to path functionality
 #'
-with_save <- function(plot_function, path, width=800, height=350) {
+#' @examples
+#' \dontrun{
+#' # Consider these lines
+#' plot_quality(data) # Plots the data
+#'
+#' path <- "~/Desktop/myplot.png"
+#' plot_quality_and_save <- with_save(plot_quality, path)
+#' plot_quality_and_save(data) # Plots the data, saves it to the given path, and returns the string "~/Desktop/myplot.png"
+#' }
+with_save <- function(plot_function, path) {
 
+  force(plot_function) # Evaluate now and avoid problems with lazy evaluation
+
+  #' Decorated ploting function
+  #'
+  #' Original plotting functionality + save to path
+  #'
+  #' @param ... Any parameters for the original plotting function
+  #'
+  #' @return The output filename
   decorated <- function(...) {
-    png(path, width, height) # Create a file placeholder for the plot,
-    p <- plot_function(...) # generate the plot...
-    dev.off() # ... export it as png and close connection
+    p <- plot_function(...) # Plot as usual ...
+    ggplot2::ggsave(path) # ... and save
 
     return(path)
   }
@@ -48,10 +63,34 @@ with_save <- function(plot_function, path, width=800, height=350) {
 
 test_that("Plot quality", {
   path <- "plot_quality.png"
-  plot_quality_with_save <- with_save(plot_quality, path)
+  plot_and_save <- with_save(plot_quality, path)
 
   expect_snapshot_file(
-    plot_quality_with_save(testdata),
+    plot_and_save(testdata),
+    path
+  )
+
+  on.exit(file.remove(path)) # Clean afterwards
+})
+
+test_that("Plot density", {
+  path <- "plot_density.png"
+  plot_and_save <- with_save(plot_density, path)
+
+  expect_snapshot_file(
+    plot_and_save(testdata, colname="freq"),
+    path
+  )
+
+  on.exit(file.remove(path)) # Clean afterwards
+})
+
+test_that("Plot scatter", {
+  path <- "plot_scatter.png"
+  plot_and_save <- with_save(plot_scatter, path)
+
+  expect_snapshot_file(
+    plot_and_save(testdata, colname_x="begin", colname_y="end"),
     path
   )
 
