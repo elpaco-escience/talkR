@@ -30,15 +30,15 @@ devtools::install_github("elpaco-escience/talkr", build_vignettes = TRUE)
 install.packages("talkr")
 ```
 
-## Workflow
+## Workflows
 
-The main workflow for `talkr` is described in [the workflow vignette](https://elpaco-escience.github.io/talkr/articles/workflow.html).
+Two workflows for `talkr` are described in [the workflows vignette](https://elpaco-escience.github.io/talkr/articles/workflows.html).
 
 
 You can also access the vignette from RStudio, by running:
 
 ``` r
-vignette("workflow", package = "talkr")
+vignette("workflows", package = "talkr")
 ```
 
 ## Contact
