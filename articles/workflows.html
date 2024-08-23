@@ -358,8 +358,10 @@ conversational turns typically consist of words and other elements.</p>
 <span>    colour<span class="op">=</span><span class="va">overlap</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_colour_discrete.html" class="external-link">scale_fill_discrete</a></span><span class="op">(</span>na.translate<span class="op">=</span><span class="cn">F</span><span class="op">)</span> <span class="op">+</span> <span class="co"># stop NA value from showing up in legend</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_colour_discrete.html" class="external-link">scale_colour_discrete</a></span><span class="op">(</span>na.translate<span class="op">=</span><span class="cn">F</span><span class="op">)</span> <span class="co"># stop NA value from showing up in legend</span></span></code></pre></div>
-<p><img src="workflows_files/figure-html/step11-1.png" width="768">
-### Looking into tokens</p>
+<p><img src="workflows_files/figure-html/step11-1.png" width="768"></p>
+<div class="section level3">
+<h3 id="looking-into-tokens">Looking into tokens<a class="anchor" aria-label="anchor" href="#looking-into-tokens"></a>
+</h3>
 <p>We can start looking into the internal structure of turns by plotting
 occurrence of tokens.</p>
 <p>To do so, we first need to generate a token-specific dataframe with
@@ -430,6 +432,7 @@ using <code>geom_label_repel()</code>:</p>
 <span>                                label<span class="op">=</span><span class="va">token</span><span class="op">)</span>,</span>
 <span>                            direction<span class="op">=</span><span class="st">"y"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="workflows_files/figure-html/unnamed-chunk-7-1.png" width="768"></p>
+</div>
 <div class="section level3">
 <h3 id="notes">Notes<a class="anchor" aria-label="anchor" href="#notes"></a>
 </h3>
