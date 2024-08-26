@@ -36,7 +36,7 @@ plot_quality <- function(data, source = "all", saveplot = FALSE){
   plot_duration_transition <- plot_scatter(timing,
                                            colname_x = "transition_time",
                                            colname_y = "turn_duration",
-                                           title = "",
+                                           title = source,
                                            xlab = "transition (ms)",
                                            ylab = "turn duration (ms)")
 
@@ -44,7 +44,7 @@ plot_quality <- function(data, source = "all", saveplot = FALSE){
     plot_duration,
     plot_transition,
     plot_duration_transition,
-    labels = c("", "", source),
+    labels = c("A", "B","C"),
     hjust = 0,
     nrow=1
   )
