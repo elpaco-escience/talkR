@@ -74,14 +74,14 @@ Transition timing is similar to FTO, but calculated without additional quality c
 
 By default, `plot_quality()` will plot the entire dataset:
 
-```{r}
+```{r, fig.height=3}
 plot_quality(data)
 
 ```
 
 Quality plots can also be run for a specific source:
 
-```{r}
+```{r, fig.height=3}
 plot_quality(data, source = "/dutch2/DVA8K")
 ```
 
