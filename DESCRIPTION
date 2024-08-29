@@ -31,7 +31,6 @@ Imports:
 Suggests: 
     rmarkdown,
     testthat (>= 3.0.0),
-    devtools,
     pkgdown,
     ggrepel
 Config/testthat/edition: 3

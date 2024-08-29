@@ -4,10 +4,15 @@
 \alias{get_ifadv}
 \title{Get IFADV data}
 \usage{
-get_ifadv()
+get_ifadv(destfile = "data/ifadv.rda", clean_after = TRUE)
+}
+\arguments{
+\item{destfile}{(default = "data/ifadv.rda") Destination file}
+
+\item{clean_after}{(default = TRUE) Cleans the downloaded file after using it}
 }
 \value{
-A tibble containing the data
+Nothing, but it loads the data into the global environment
 }
 \description{
 IFA Dialog Video corpus data
