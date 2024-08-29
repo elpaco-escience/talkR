@@ -1,5 +1,5 @@
 
-# talkr
+# talkr <a href="https://elpaco-escience.github.io/talkr/"><img src="man/figures/logo.png" align="right" height="138" /></a>
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/talkr)](https://cran.r-project.org/package=talkr)
