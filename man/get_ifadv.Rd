@@ -4,18 +4,21 @@
 \alias{get_ifadv}
 \title{Get IFADV data}
 \usage{
-get_ifadv(destfile = "ifadv.rda", clean_after = TRUE)
+get_ifadv(
+  source = "https://raw.githubusercontent.com/elpaco-escience/ifadv/csv/data/ifadv.csv"
+)
 }
 \arguments{
-\item{destfile}{(default = "data/ifadv.rda") Destination file}
-
-\item{clean_after}{(default = TRUE) Cleans the downloaded file after using it}
+\item{source}{(default = "https://raw.githubusercontent.com/elpaco-escience/ifadv/csv/data/ifadv.csv")}
 }
 \value{
-Nothing, but it loads the data into the global environment
+A data frame containing the IFADV dataset
 }
 \description{
 IFA Dialog Video corpus data
 Available in the public repository:
 https://github.com/elpaco-escience/ifadv
+}
+\details{
+This function requires an internet connection
 }
