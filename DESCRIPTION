@@ -32,5 +32,6 @@ Suggests:
     rmarkdown,
     testthat (>= 3.0.0),
     pkgdown,
-    ggrepel
+    ggrepel,
+    utils
 Config/testthat/edition: 3

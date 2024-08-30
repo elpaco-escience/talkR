@@ -33,8 +33,8 @@ The snippet below initializes the talkr dataset using the ifadv data. For more i
 
 ```{r}
 
-data <- init(get_ifadv(destfile = "../data/ifadv.rda")) 
-
+data <- get_ifadv()
+data <- init(data)
 ```
 
 Essential to any `talkr` workflow is a minimal set of data fields. These are the following:

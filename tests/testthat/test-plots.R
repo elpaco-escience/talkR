@@ -12,8 +12,7 @@
 # between new and reference image. They are clickable from the test menu.
 
 # Load the test data
-get_ifadv(destfile = "../../data/ifadv.rda")
-testdata <- ifadv
+testdata <- get_ifadv()
 
 #' Auxiliary decorator
 #'

@@ -4,7 +4,7 @@
 \alias{get_ifadv}
 \title{Get IFADV data}
 \usage{
-get_ifadv(destfile = "data/ifadv.rda", clean_after = TRUE)
+get_ifadv(destfile = "ifadv.rda", clean_after = TRUE)
 }
 \arguments{
 \item{destfile}{(default = "data/ifadv.rda") Destination file}
