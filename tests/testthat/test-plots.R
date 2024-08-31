@@ -12,7 +12,7 @@
 # between new and reference image. They are clickable from the test menu.
 
 # Load the test data
-testdata <- ifadv::ifadv
+testdata <- get_ifadv()
 
 #' Auxiliary decorator
 #'
