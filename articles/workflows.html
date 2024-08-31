@@ -81,9 +81,10 @@ conversations in Dutch, published by the Nederlandse Taalunie in 2007
 For more information about the IFADV dataset, see the <a href="https://github.com/elpaco-escience/ifadv" class="external-link">repository link</a>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/init.html">init</a></span><span class="op">(</span><span class="fu">ifadv</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/ifadv/man/ifadv.html" class="external-link">ifadv</a></span><span class="op">)</span> </span>
-<span><span class="co">#&gt; Warning in init(ifadv::ifadv): Column 'uid' already exists in the dataset. This</span></span>
-<span><span class="co">#&gt; column will be renamed to `original_uid`.</span></span></code></pre></div>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_ifadv.html">get_ifadv</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/init.html">init</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in init(data): Column 'uid' already exists in the dataset. This column</span></span>
+<span><span class="co">#&gt; will be renamed to `original_uid`.</span></span></code></pre></div>
 <p>Essential to any <code>talkr</code> workflow is a minimal set of data
 fields. These are the following:</p>
 <ul>
