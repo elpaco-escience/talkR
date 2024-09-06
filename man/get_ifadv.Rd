@@ -20,5 +20,5 @@ Available in the public repository:
 https://github.com/elpaco-escience/ifadv
 }
 \details{
-This function requires an internet connection
+This function requires an internet connection.
 }
