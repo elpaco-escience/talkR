@@ -1,10 +1,10 @@
-## set up the test environment
-data <- ifadv::ifadv
+## Load the test data
+testdata <- get_ifadv()
 
 test_that("summary reports are accurate", {
   expect_snapshot(
     report_stats(
-      data
+      testdata
     )
   )
 })
