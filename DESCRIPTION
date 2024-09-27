@@ -33,5 +33,6 @@ Suggests:
     testthat (>= 3.0.0),
     pkgdown,
     ggrepel,
-    utils
+    utils,
+    ragg
 Config/testthat/edition: 3

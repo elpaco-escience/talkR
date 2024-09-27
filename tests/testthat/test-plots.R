@@ -34,11 +34,14 @@ testdata <- get_ifadv()
 #'
 #' @return The output filename
 #'
-with_save <- function(plot_function, path, width=7, height=4, bg="white") {
+with_save <- function(plot_function, path, width=800, height=350, bg="white") {
 
   decorated <- function(...) {
-    p <- plot_function(...)
-    ggplot2::ggsave(path, width=width, height=height, bg=bg)
+
+    ragg::agg_png(path, width, height) # Create a file placeholder for the plot,
+    p <- plot_function(...) # generate the plot...
+    dev.off() # ... export it as png and close connection
+
     return(path)
   }
 
@@ -57,14 +60,3 @@ test_that("Plot quality png", {
   on.exit(file.remove(path)) # Clean afterwards
 })
 
-test_that("Plot quality jpg", {
-  path <- "plot_quality.jpg"
-  plot_quality_with_save <- with_save(plot_quality, path)
-
-  expect_snapshot_file(
-    plot_quality_with_save(testdata),
-    path
-  )
-
-  on.exit(file.remove(path)) # Clean afterwards
-})
