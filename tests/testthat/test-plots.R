@@ -30,24 +30,35 @@ testdata <- get_ifadv()
 #' @param path The output filename
 #' @param width (optional)
 #' @param height (optional)
+#' @param bg (optional)
 #'
 #' @return The output filename
 #'
-with_save <- function(plot_function, path, width=800, height=350) {
+with_save <- function(plot_function, path, width=7, height=4, bg="white") {
 
   decorated <- function(...) {
-    png(path, width, height, type = "cairo-png") # Create a file placeholder for the plot,
-    p <- plot_function(...) # generate the plot...
-    dev.off() # ... export it as png and close connection
-
+    p <- plot_function(...)
+    ggplot2::ggsave(path, width=width, height=height, bg=bg)
     return(path)
   }
 
   return(decorated)
 }
 
-test_that("Plot quality", {
+test_that("Plot quality png", {
   path <- "plot_quality.png"
+  plot_quality_with_save <- with_save(plot_quality, path)
+
+  expect_snapshot_file(
+    plot_quality_with_save(testdata),
+    path
+  )
+
+  on.exit(file.remove(path)) # Clean afterwards
+})
+
+test_that("Plot quality jpg", {
+  path <- "plot_quality.jpg"
   plot_quality_with_save <- with_save(plot_quality, path)
 
   expect_snapshot_file(
