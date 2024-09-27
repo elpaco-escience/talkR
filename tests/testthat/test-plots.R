@@ -36,7 +36,7 @@ testdata <- get_ifadv()
 with_save <- function(plot_function, path, width=800, height=350) {
 
   decorated <- function(...) {
-    png(path, width, height, type = "cairo") # Create a file placeholder for the plot,
+    png(path, width, height, type = "cairo-png") # Create a file placeholder for the plot,
     p <- plot_function(...) # generate the plot...
     dev.off() # ... export it as png and close connection
 
