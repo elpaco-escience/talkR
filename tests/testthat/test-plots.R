@@ -59,7 +59,7 @@ skip_if_not_linux <- function() {
   if(Sys.info()["sysname"] == "Linux") {
     # Do nothing
   } else {
-    skip("This is design to run on Linux machines only")
+    skip("This test is designed to run on Linux machines only")
   }
 }
 
