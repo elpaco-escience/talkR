@@ -30,11 +30,10 @@ testdata <- get_ifadv()
 #' @param path The output filename
 #' @param width (optional)
 #' @param height (optional)
-#' @param bg (optional)
 #'
 #' @return The output filename
 #'
-with_save <- function(plot_function, path, width=800, height=350, bg="white") {
+with_save <- function(plot_function, path, width=800, height=350) {
 
   decorated <- function(...) {
 
@@ -63,7 +62,7 @@ skip_if_not_linux <- function() {
   }
 }
 
-test_that("Plot quality png", {
+test_that("Plot quality", {
   skip_if_not_linux()
 
   path <- "plot_quality.png"
