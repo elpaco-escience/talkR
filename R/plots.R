@@ -59,6 +59,7 @@ plot_quality <- function(data, source = "all", saveplot = FALSE){
     message("Saved plot to ", paste0(getwd(), "/", filename))
   }
 
+  return(panel)
 }
 
 

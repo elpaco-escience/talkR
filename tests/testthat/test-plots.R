@@ -28,19 +28,19 @@ testdata <- get_ifadv()
 #'
 #' @param plot_function The plotting function to be tested
 #' @param path The output filename
-#' @param width (optional)
-#' @param height (optional)
-#' @param bg (optional)
 #'
 #' @return The output filename
 #'
-with_save <- function(plot_function, path, width=800, height=350, bg="white") {
+with_save <- function(plot_function, path) {
 
   decorated <- function(...) {
 
-    ragg::agg_png(path, width, height) # Create a file placeholder for the plot,
-    p <- plot_function(...) # generate the plot...
-    dev.off() # ... export it as png and close connection
+    p <- plot_function(...) # Generate the plot...
+    save(p, file = path) # ... and save it as .Rdata
+
+    # Why .Rdata and not png/pdf/jpg/...?
+    # Because otherwise the result is OS-dependent,
+    # causing a lot of test problems
 
     return(path)
   }
@@ -48,8 +48,8 @@ with_save <- function(plot_function, path, width=800, height=350, bg="white") {
   return(decorated)
 }
 
-test_that("Plot quality png", {
-  path <- "plot_quality.png"
+test_that("Plot quality", {
+  path <- "plot_quality.Rdata"
   plot_quality_with_save <- with_save(plot_quality, path)
 
   expect_snapshot_file(
