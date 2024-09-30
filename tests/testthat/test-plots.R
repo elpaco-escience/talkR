@@ -28,19 +28,19 @@ testdata <- get_ifadv()
 #'
 #' @param plot_function The plotting function to be tested
 #' @param path The output filename
+#' @param width (optional)
+#' @param height (optional)
+#' @param bg (optional)
 #'
 #' @return The output filename
 #'
-with_save <- function(plot_function, path) {
+with_save <- function(plot_function, path, width=800, height=350, bg="white") {
 
   decorated <- function(...) {
 
-    p <- plot_function(...) # Generate the plot...
-    save(p, file = path) # ... and save it as .Rdata
-
-    # Why .Rdata and not png/pdf/jpg/...?
-    # Because otherwise the result is OS-dependent,
-    # causing a lot of test problems
+    png(path, width, height) # Create a file placeholder for the plot,
+    p <- plot_function(...) # generate the plot...
+    dev.off() # ... export it as png and close connection
 
     return(path)
   }
@@ -48,8 +48,25 @@ with_save <- function(plot_function, path) {
   return(decorated)
 }
 
-test_that("Plot quality", {
-  path <- "plot_quality.Rdata"
+#' Skip if not linux
+#'
+#' Plot saving is OS dependent. For the sake of sanity, we'll test the plot
+#' snapshots only in Linux
+#'
+#' @return Nothing
+#'
+skip_if_not_linux <- function() {
+  if(Sys.info()["sysname"] == "Linux") {
+    # Do nothing
+  } else {
+    skip("This is design to run on Linux machines only")
+  }
+}
+
+test_that("Plot quality png", {
+  skip_if_not_linux()
+
+  path <- "plot_quality.png"
   plot_quality_with_save <- with_save(plot_quality, path)
 
   expect_snapshot_file(
