@@ -26,7 +26,7 @@ library(talkr)
 
 ## Loading some data
 
-We will be using the IFADV corpus as example data for the workflow of `talkr`. This is a corpus consisting of 20 dyadic conversations in Dutch, published by the Nederlandse Taalunie in 2007 ([source](https://wwww.fon.hum.uva.nl/IFA-SpokenLanguageCorpora/IFADVcorpus/))
+We will be using the IFADV corpus as example data for the workflow of `talkr`. This is a corpus consisting of 20 dyadic conversations in Dutch, published by the Nederlandse Taalunie in 2007 ([source](https://www.fon.hum.uva.nl/IFA-SpokenLanguageCorpora/IFADVcorpus/))
 
 The snippet below initializes the talkr dataset using the ifadv data. For more information about the IFADV dataset, see the [repository link](https://github.com/elpaco-escience/ifadv).
 
