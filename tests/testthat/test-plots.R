@@ -36,6 +36,7 @@ testdata <- get_ifadv()
 with_save <- function(plot_function, path, width=800, height=350) {
 
   decorated <- function(...) {
+
     png(path, width, height) # Create a file placeholder for the plot,
     p <- plot_function(...) # generate the plot...
     dev.off() # ... export it as png and close connection
@@ -46,7 +47,24 @@ with_save <- function(plot_function, path, width=800, height=350) {
   return(decorated)
 }
 
+#' Skip if not linux
+#'
+#' Plot saving is OS dependent. For the sake of sanity, we'll test the plot
+#' snapshots only in Linux
+#'
+#' @return Nothing
+#'
+skip_if_not_linux <- function() {
+  if(Sys.info()["sysname"] == "Linux") {
+    # Do nothing
+  } else {
+    skip("This test is designed to run on Linux machines only")
+  }
+}
+
 test_that("Plot quality", {
+  skip_if_not_linux()
+
   path <- "plot_quality.png"
   plot_quality_with_save <- with_save(plot_quality, path)
 
@@ -57,3 +75,4 @@ test_that("Plot quality", {
 
   on.exit(file.remove(path)) # Clean afterwards
 })
+
