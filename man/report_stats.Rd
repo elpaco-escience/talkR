@@ -9,6 +9,9 @@ report_stats(data)
 \arguments{
 \item{data}{talkr dataset}
 }
+\value{
+No return, just prints a summary to the console
+}
 \description{
 Basic conversation statistics are reported to the console:
 - Corpus-level statistics, reporting on the dataset as a whole;

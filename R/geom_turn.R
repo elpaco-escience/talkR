@@ -6,6 +6,8 @@
 #' @inheritParams ggplot2::layer
 #' @inheritParams ggplot2::geom_rect
 #' @param height The height of the turn-taking rectangles
+#' 
+#' @return A ggplot2 layer corresponding to a turn-taking rectangle
 #' @export
 geom_turn <- function(mapping = NULL, data = NULL,
                       stat = "identity", position = "identity",

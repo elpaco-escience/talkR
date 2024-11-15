@@ -2,7 +2,7 @@
 % Please edit documentation in R/theme_turnPlot.R
 \name{theme_turnPlot}
 \alias{theme_turnPlot}
-\title{theme for the turn plot}
+\title{T  heme for the turn plot}
 \usage{
 theme_turnPlot(base_size = 11, base_family = "serif", ticks = TRUE)
 }
@@ -13,6 +13,9 @@ theme_turnPlot(base_size = 11, base_family = "serif", ticks = TRUE)
 
 \item{ticks}{bool}
 }
+\value{
+ggplot2 custom theme for turn plots
+}
 \description{
-theme for the turn plot
+T  heme for the turn plot
 }

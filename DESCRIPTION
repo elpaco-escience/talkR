@@ -1,7 +1,7 @@
 Package: talkr
 Type: Package
 Title: Plotting Conversation Data
-Version: 0.1.2
+Version: 0.1.3
 Authors@R: c(
   person("Mark", "Dingemanse", email = "mark.dingemanse@ru.nl", role = c("aut", "cre")),
   person("Barbara", "Vreede", email = "b.vreede@gmail.com", role = "aut"),
@@ -10,7 +10,11 @@ Authors@R: c(
   person("Andreas", "Liesenfeld", email = "andreas.liesenfeld@ru.nl", role = "ctb"),
   person("Netherlands eScience Center", role = c("cph", "fnd"))
   )
-Description: Functions to plot elements of conversations.
+Description: Visualisation, analysis and quality control of conversational data.
+             Rapid and visual insights into the nature, timing and quality of
+             time-aligned annotations in conversational corpora.
+             For more details, see 
+             Dingemanse et al., (2022) <doi:10.18653/v1/2022.acl-long.385>.
 License: Apache License (>= 2)
 Encoding: UTF-8
 LazyData: true
