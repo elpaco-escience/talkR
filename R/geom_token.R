@@ -7,6 +7,8 @@
 #' @param data A tokenized data frame (see `tokenize()`).
 #' @inheritParams ggplot2::layer
 #' @inheritParams ggplot2::geom_point
+#' 
+#' @return A ggplot2 layer corresponding to a token
 #' @export
 geom_token <- function(data, mapping = NULL,
                           stat = "identity", position = "identity",

@@ -1,12 +1,13 @@
-#' theme for the turn plot
+#' T  heme for the turn plot
 #'
 #' @param base_size int
 #' @param base_family chr
 #' @param ticks bool
 #'
 #' @importFrom ggplot2 %+replace%
+#' 
+#' @return ggplot2 custom theme for turn plots
 #' @export
-#'
 theme_turnPlot <- function(base_size = 11, base_family = "serif", ticks = TRUE) {
   ggthemes::theme_tufte(
     base_size = base_size,

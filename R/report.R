@@ -11,6 +11,7 @@
 #'
 #' @param data talkr dataset
 #'
+#' @return No return, just prints a summary to the console
 #' @export
 report_stats <- function(data) {
   summary <- report(data)
