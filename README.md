@@ -18,22 +18,23 @@ Note: `talkr` plays well with its companion python package [`scikit-talk`](https
 
 ## Installation
 
-You can install the development version of `talkr` from GitHub with:
+This package is available on CRAN and can be installed in R with
+
+```r
+install.packages("talkr")
+```
+
+Development continues on GitHub, and you can install the development version of `talkr` with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("elpaco-escience/talkr", build_vignettes = TRUE)
 ```
 
-`talkr` has been submitted to CRAN, and will soon be installable with:
-```r
-install.packages("talkr")
-```
 
 ## Workflows
 
 Two workflows for `talkr` are described in [the workflows vignette](https://elpaco-escience.github.io/talkr/articles/workflows.html).
-
 
 You can also access the vignette from RStudio, by running:
 
